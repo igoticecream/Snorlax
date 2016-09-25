@@ -27,7 +27,6 @@ import rx.Observable;
 import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
 import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public final class MitmRelay {
 
 	private static volatile MitmRelay sInstance = null;

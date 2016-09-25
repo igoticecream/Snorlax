@@ -22,6 +22,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.icecream.snorlax.module.feature.mitm.MitmRelay;
+
 import dagger.Module;
 import dagger.Provides;
 import de.robv.android.xposed.XSharedPreferences;
@@ -50,13 +52,24 @@ final class SnorlaxModule {
 	}
 
 	@Provides
+	Application provideAppliction() {
+		return mApplication;
+	}
+
+	@Provides
 	@Singleton
-	Context provideContext() {
+	Context provideContext(Application application) {
 		try {
-			return SnorlaxContext.create(mApplication);
+			return SnorlaxContext.create(application);
 		}
 		catch (PackageManager.NameNotFoundException exception) {
 			throw new RuntimeException("Snorlax package not found... Cannot continue");
 		}
+	}
+
+	@Provides
+	@Singleton
+	MitmRelay provideMitmRelay() {
+		return MitmRelay.getInstance();
 	}
 }

@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.mitm;
+package com.icecream.snorlax.module.util;
 
-import com.google.auto.value.AutoValue;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
-import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
-import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+public final class RxFuncitons {
 
-@AutoValue
-@SuppressWarnings("WeakerAccess")
-public abstract class MitmEnvelope {
-
-	static MitmEnvelope create(RequestEnvelope request, ResponseEnvelope response) {
-		return new AutoValue_MitmEnvelope(request, response);
+	public static void unsubscribe(Subscription subscription) {
+		if (subscription != null && !subscription.isUnsubscribed()) {
+			subscription.unsubscribe();
+		}
 	}
 
-	public abstract RequestEnvelope getRequest();
+	public static void unsubscribe(CompositeSubscription subscription) {
+		if (subscription != null && !subscription.isUnsubscribed()) {
+			subscription.unsubscribe();
+		}
+	}
 
-	public abstract ResponseEnvelope getResponse();
+	private RxFuncitons() {
+		throw new AssertionError("No instances");
+	}
 }

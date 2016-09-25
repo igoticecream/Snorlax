@@ -24,10 +24,9 @@ import com.icecream.snorlax.module.util.Log;
 import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
 import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 final class MitmProvider {
 
-	public static ByteBuffer processOutboundPackage(ByteBuffer roData, boolean connectionOk) {
+	static ByteBuffer processOutboundPackage(ByteBuffer roData, boolean connectionOk) {
 		if (!connectionOk)
 			return null;
 
@@ -51,7 +50,7 @@ final class MitmProvider {
 		return null;
 	}
 
-	public static ByteBuffer processInboundPackage(ByteBuffer roData, boolean connectionOk) {
+	static ByteBuffer processInboundPackage(ByteBuffer roData, boolean connectionOk) {
 		if (!connectionOk)
 			return null;
 

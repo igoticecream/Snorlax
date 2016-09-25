@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 final class MitmOutputStream extends ByteArrayOutputStream {
 
 	private final OutputStream mOutputStream;
@@ -42,6 +41,7 @@ final class MitmOutputStream extends ByteArrayOutputStream {
 		super.close();
 	}
 
+	@SuppressWarnings("unused")
 	private void mitmStream() {
 		ByteBuffer fromMitm = MitmProvider.processOutboundPackage(
 			ByteBuffer.wrap(buf, 0, count).asReadOnlyBuffer(),

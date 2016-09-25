@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import de.robv.android.xposed.XposedBridge;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public final class Log {
 
 	public static void d(String format, Object... args) {

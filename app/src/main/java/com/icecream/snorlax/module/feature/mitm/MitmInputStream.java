@@ -23,7 +23,6 @@ import java.nio.ByteBuffer;
 
 import android.support.annotation.NonNull;
 
-@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 final class MitmInputStream extends InputStream {
 
 	private static final int sAverageSize = 4096;
@@ -91,7 +90,8 @@ final class MitmInputStream extends InputStream {
 		return mByteBuffer.remaining();
 	}
 
-	protected void mitmStream() {
+	@SuppressWarnings("unused")
+	private void mitmStream() {
 		if (mMitmDone)
 			return;
 

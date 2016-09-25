@@ -23,6 +23,7 @@ import android.app.Application;
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.app.SnorlaxApp;
 import com.icecream.snorlax.module.feature.FeatureHelper;
+import com.icecream.snorlax.module.feature.capture.Capture;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
 
@@ -40,6 +41,8 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	Mock mMock;
 	@Inject
 	Mitm mMitm;
+	@Inject
+	Capture mCapture;
 
 	private XSharedPreferences mXSharedPreferences;
 
@@ -68,13 +71,13 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				getComponent((Application) param.thisObject, classLoader, mXSharedPreferences).inject(Snorlax.this);
 
-				FeatureHelper.subscribe(mMitm, mMock);
+				FeatureHelper.subscribe(mMitm, mMock, mCapture);
 			}
 		});
 		XposedHelpers.findAndHookMethod(Application.class, "onTerminate", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				FeatureHelper.unsubscribe(mMitm, mMock);
+				FeatureHelper.unsubscribe(mMitm, mMock, mCapture);
 			}
 		});
 	}

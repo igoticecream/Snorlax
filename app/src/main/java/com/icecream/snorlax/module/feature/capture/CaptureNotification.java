@@ -14,22 +14,27 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.mitm;
+package com.icecream.snorlax.module.feature.capture;
 
-import com.google.auto.value.AutoValue;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
-import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;
+import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
-@AutoValue
-@SuppressWarnings("WeakerAccess")
-public abstract class MitmEnvelope {
+@Singleton
+final class CaptureNotification {
 
-	static MitmEnvelope create(RequestEnvelope request, ResponseEnvelope response) {
-		return new AutoValue_MitmEnvelope(request, response);
+	private final Application mApplication;
+
+	@Inject
+	CaptureNotification(Application application) {
+		mApplication = application;
 	}
 
-	public abstract RequestEnvelope getRequest();
-
-	public abstract ResponseEnvelope getResponse();
+	void show(final String message) {
+		new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(mApplication, message, Toast.LENGTH_SHORT).show());
+	}
 }
