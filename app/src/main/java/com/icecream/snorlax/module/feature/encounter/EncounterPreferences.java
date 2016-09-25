@@ -19,10 +19,10 @@ package com.icecream.snorlax.module.feature.encounter;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 import com.icecream.snorlax.R;
+import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import de.robv.android.xposed.XSharedPreferences;
 import rx.Observable;
@@ -34,8 +34,8 @@ final class EncounterPreferences {
 	private final XSharedPreferences mPreferences;
 
 	@Inject
-	EncounterPreferences(Context context, XSharedPreferences preferences) {
-		mResources = context.getResources();
+	EncounterPreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
+		mResources = resources;
 		mPreferences = preferences;
 	}
 

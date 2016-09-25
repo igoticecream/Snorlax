@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.capture;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+package com.icecream.snorlax.module.context.pokemongo;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
+import android.content.ContextWrapper;
 
-import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+final class PokemonGoContext extends ContextWrapper {
 
-@Singleton
-final class CaptureNotification {
-
-	private final Context mContext;
-
-	@Inject
-	CaptureNotification(@PokemonGo Context context) {
-		mContext = context;
+	PokemonGoContext(Context base) {
+		super(base);
 	}
 
-	void show(final String message) {
-		new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show());
+	@Override
+	public Context getApplicationContext() {
+		return this;
 	}
 }

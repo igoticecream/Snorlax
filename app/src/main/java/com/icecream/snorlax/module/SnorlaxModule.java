@@ -19,8 +19,6 @@ package com.icecream.snorlax.module;
 import javax.inject.Singleton;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.pm.PackageManager;
 
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 
@@ -54,17 +52,6 @@ final class SnorlaxModule {
 	@Provides
 	Application provideAppliction() {
 		return mApplication;
-	}
-
-	@Provides
-	@Singleton
-	Context provideContext(Application application) {
-		try {
-			return SnorlaxContext.create(application);
-		}
-		catch (PackageManager.NameNotFoundException exception) {
-			throw new RuntimeException("Snorlax package not found... Cannot continue");
-		}
 	}
 
 	@Provides

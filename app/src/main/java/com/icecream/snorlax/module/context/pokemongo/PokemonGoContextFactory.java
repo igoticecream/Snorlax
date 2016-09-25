@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module;
+package com.icecream.snorlax.module.context.pokemongo;
 
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
 
-import com.icecream.snorlax.BuildConfig;
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+final class PokemonGoContextFactory {
 
-@SuppressWarnings({"unused", "FieldCanBeLocal"})
-final class SnorlaxContext extends ContextWrapper {
-
-	static SnorlaxContext create(Context from) throws PackageManager.NameNotFoundException {
-		return new SnorlaxContext(from.createPackageContext(BuildConfig.SNORLAX_ID, Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE), from);
+	static PokemonGoContext create(Context from) throws PackageManager.NameNotFoundException {
+		return new PokemonGoContext(from);
 	}
 
-	private final Context mPokemonGoContext;
-
-	private SnorlaxContext(Context snorlax, Context pokemonGo) {
-		super(snorlax);
-		mPokemonGoContext = pokemonGo;
-	}
-
-	@Override
-	public Context getApplicationContext() {
-		return this;
+	private PokemonGoContextFactory() {
+		throw new AssertionError("No instances");
 	}
 }

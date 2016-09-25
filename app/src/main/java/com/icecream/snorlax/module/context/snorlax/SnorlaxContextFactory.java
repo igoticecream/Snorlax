@@ -14,29 +14,21 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.capture;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+package com.icecream.snorlax.module.context.snorlax;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
+import android.content.pm.PackageManager;
 
-import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
+import com.icecream.snorlax.BuildConfig;
 
-@Singleton
-final class CaptureNotification {
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+final class SnorlaxContextFactory {
 
-	private final Context mContext;
-
-	@Inject
-	CaptureNotification(@PokemonGo Context context) {
-		mContext = context;
+	static SnorlaxContext create(Context from) throws PackageManager.NameNotFoundException {
+		return new SnorlaxContext(from.createPackageContext(BuildConfig.SNORLAX_ID, Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE));
 	}
 
-	void show(final String message) {
-		new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show());
+	private SnorlaxContextFactory() {
+		throw new AssertionError("No instances");
 	}
 }

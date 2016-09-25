@@ -18,10 +18,17 @@ package com.icecream.snorlax.module;
 
 import javax.inject.Singleton;
 
+import com.icecream.snorlax.module.context.pokemongo.PokemonGoContextModule;
+import com.icecream.snorlax.module.context.snorlax.SnorlaxContextModule;
+
 import dagger.Component;
 
 @Singleton
-@Component(modules = {SnorlaxModule.class})
+@Component(modules = {
+	SnorlaxModule.class,
+	SnorlaxContextModule.class,
+	PokemonGoContextModule.class
+})
 interface SnorlaxComponent {
 
 	void inject(Snorlax snorlax);

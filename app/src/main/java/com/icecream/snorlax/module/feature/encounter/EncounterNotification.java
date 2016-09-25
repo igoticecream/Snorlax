@@ -19,7 +19,6 @@ package com.icecream.snorlax.module.feature.encounter;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -39,6 +38,8 @@ import android.view.View;
 
 import com.icecream.snorlax.R;
 import com.icecream.snorlax.common.Strings;
+import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
+import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 @Singleton
 final class EncounterNotification {
@@ -48,10 +49,10 @@ final class EncounterNotification {
 	private final NotificationManager mNotificationManager;
 
 	@Inject
-	EncounterNotification(Context context, Application application) {
+	EncounterNotification(@Snorlax Context context, @Snorlax Resources resources, @PokemonGo NotificationManager notificationManager) {
 		mContext = context;
-		mResources = context.getResources();
-		mNotificationManager = (NotificationManager) application.getSystemService(Context.NOTIFICATION_SERVICE);
+		mResources = resources;
+		mNotificationManager = notificationManager;
 	}
 
 	@SuppressWarnings("deprecation")

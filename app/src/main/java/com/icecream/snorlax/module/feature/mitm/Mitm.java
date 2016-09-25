@@ -54,6 +54,7 @@ public final class Mitm implements Feature {
 		mUnhookInputStream = XposedHelpers.findAndHookMethod(http, "getInputStream", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				// TODO factory
 				param.setResult(new MitmInputStream((InputStream) param.getResult()));
 			}
 		});
@@ -61,6 +62,7 @@ public final class Mitm implements Feature {
 		mUnhookOutputStream = XposedHelpers.findAndHookMethod(http, "getOutputStream", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				// TODO factory
 				param.setResult(new MitmOutputStream((OutputStream) param.getResult()));
 			}
 		});

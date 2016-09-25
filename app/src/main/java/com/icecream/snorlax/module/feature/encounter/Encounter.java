@@ -70,7 +70,9 @@ public final class Encounter implements Feature {
 	}
 
 	private void onEncounter(PokemonData data, CaptureProbability probability) {
+		// TODO factory
 		Pokemons pokemons = new Pokemons(data);
+		// TODO factory
 		EncounterProbability encounterProbability = new EncounterProbability(probability);
 
 		mEncounterNotification.show(
