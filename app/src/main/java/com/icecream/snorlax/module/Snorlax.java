@@ -19,6 +19,12 @@ package com.icecream.snorlax.module;
 import javax.inject.Inject;
 
 import android.app.Application;
+import android.content.ContextWrapper;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.app.SnorlaxApp;
@@ -83,6 +89,26 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter);
 			}
 		});
+		//~~~~~~~~~~~~~~~~~~~~~~
+		XposedHelpers.findAndHookConstructor("com.unity3d.player.UnityPlayer", classLoader, ContextWrapper.class, new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				FrameLayout frameLayout = (FrameLayout) param.thisObject;
+
+				TextView textView = new TextView(frameLayout.getContext());
+				textView.setText("HOLAAAA");
+				textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20.0f);
+
+				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					ViewGroup.LayoutParams.WRAP_CONTENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT
+				);
+				params.gravity = Gravity.CENTER;
+
+				frameLayout.addView(textView, params);
+			}
+		});
+		//~~~~~~~~~~~~~~~~~~~~~~
 	}
 
 	private void handleSnorlaxLoadPackage(final ClassLoader classLoader) {
