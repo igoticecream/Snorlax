@@ -118,12 +118,16 @@ dependencies {
     compile libraries.rxJava
     compile libraries.rxAndroid
     compile libraries.rxBinding
+    compile libraries.rxRelay
 
     compile libraries.butterknife
     apt libraries.butterknifeCompiler
 
     compile libraries.dagger
     apt libraries.daggerCompiler
+
+    apt libraries.autoValue
+    provided libraries.autoValueAnnotations
 
     provided libraries.xposed
 }
