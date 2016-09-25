@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.util;
+package com.icecream.snorlax.module.feature.encounter;
 
 import java.util.Locale;
 
@@ -22,19 +22,19 @@ import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public final class Pokemons {
+final class EncounterPokemon {
 
 	private PokemonData mPokemon;
 
-	public Pokemons(PokemonData pokemon) {
+	EncounterPokemon(PokemonData pokemon) {
 		mPokemon = pokemon;
 	}
 
-	public int getNumber() {
+	int getNumber() {
 		return mPokemon.getPokemonId().getNumber();
 	}
 
-	public String getName() {
+	String getName() {
 		StringBuilder builder = new StringBuilder();
 		for (String part : mPokemon.getPokemonId().name().split("_")) {
 			builder
@@ -45,7 +45,7 @@ public final class Pokemons {
 		return builder.toString().trim();
 	}
 
-	public float getLevel() {
+	float getLevel() {
 		float level;
 		float combinedCpMultiplier = getCombinedCpMultiplier();
 
@@ -58,51 +58,51 @@ public final class Pokemons {
 		return Math.round((level) * 2) / 2.0f;
 	}
 
-	public float getCombinedCpMultiplier() {
+	float getCombinedCpMultiplier() {
 		return getCpMultiplier() + getAdditionalCpMultiplier();
 	}
 
-	public float getCpMultiplier() {
+	float getCpMultiplier() {
 		return mPokemon.getCpMultiplier();
 	}
 
-	public float getAdditionalCpMultiplier() {
+	float getAdditionalCpMultiplier() {
 		return mPokemon.getAdditionalCpMultiplier();
 	}
 
-	public int getCp() {
+	int getCp() {
 		return mPokemon.getCp();
 	}
 
-	public int getStamina() {
+	int getStamina() {
 		return mPokemon.getStaminaMax();
 	}
 
-	public PokemonMove getMove1() {
+	PokemonMove getMove1() {
 		return mPokemon.getMove1();
 	}
 
-	public PokemonMove getMove2() {
+	PokemonMove getMove2() {
 		return mPokemon.getMove2();
 	}
 
-	public double getIvPercentage() {
+	double getIvPercentage() {
 		return ((Math.floor((getIvRatio() * 100) * 100)) / 100);
 	}
 
-	public double getIvRatio() {
+	double getIvRatio() {
 		return ((double) (getIndividualAttack() + getIndividualDefense() + getIndividualStamina())) / 45.0;
 	}
 
-	public int getIndividualAttack() {
+	int getIndividualAttack() {
 		return mPokemon.getIndividualAttack();
 	}
 
-	public int getIndividualDefense() {
+	int getIndividualDefense() {
 		return mPokemon.getIndividualDefense();
 	}
 
-	public int getIndividualStamina() {
+	int getIndividualStamina() {
 		return mPokemon.getIndividualStamina();
 	}
 }

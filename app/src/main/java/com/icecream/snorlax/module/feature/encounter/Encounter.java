@@ -29,7 +29,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
-import com.icecream.snorlax.module.util.Pokemons;
 import com.icecream.snorlax.module.util.RxFuncitons;
 
 import rx.Observable;
@@ -49,13 +48,17 @@ public final class Encounter implements Feature {
 	private final MitmRelay mMitmRelay;
 	private final EncounterPreferences mPreferences;
 	private final EncounterNotification mEncounterNotification;
+	private final EncounterPokemonFactory mEncounterPokemonFactory;
+	private final EncounterProbabilityFactory mEncounterProbabilityFactory;
 	private Subscription mSubscription;
 
 	@Inject
-	Encounter(MitmRelay mitmRelay, EncounterPreferences preferences, EncounterNotification encounterNotification) {
+	Encounter(MitmRelay mitmRelay, EncounterPreferences preferences, EncounterNotification encounterNotification, EncounterPokemonFactory encounterPokemonFactory, EncounterProbabilityFactory encounterProbabilityFactory) {
 		mMitmRelay = mitmRelay;
 		mPreferences = preferences;
 		mEncounterNotification = encounterNotification;
+		mEncounterPokemonFactory = encounterPokemonFactory;
+		mEncounterProbabilityFactory = encounterProbabilityFactory;
 	}
 
 	private String formatMove(String move) {
@@ -70,23 +73,21 @@ public final class Encounter implements Feature {
 	}
 
 	private void onEncounter(PokemonData data, CaptureProbability probability) {
-		// TODO factory
-		Pokemons pokemons = new Pokemons(data);
-		// TODO factory
-		EncounterProbability encounterProbability = new EncounterProbability(probability);
+		EncounterPokemon encounterPokemon = mEncounterPokemonFactory.create(data);
+		EncounterProbability encounterProbability = mEncounterProbabilityFactory.create(probability);
 
 		mEncounterNotification.show(
-			pokemons.getNumber(),
-			pokemons.getName(),
-			pokemons.getIvPercentage(),
-			pokemons.getIndividualAttack(),
-			pokemons.getIndividualDefense(),
-			pokemons.getIndividualStamina(),
-			pokemons.getCp(),
-			pokemons.getLevel(),
-			pokemons.getStamina(),
-			formatMove(pokemons.getMove1().name()),
-			formatMove(pokemons.getMove2().name()),
+			encounterPokemon.getNumber(),
+			encounterPokemon.getName(),
+			encounterPokemon.getIvPercentage(),
+			encounterPokemon.getIndividualAttack(),
+			encounterPokemon.getIndividualDefense(),
+			encounterPokemon.getIndividualStamina(),
+			encounterPokemon.getCp(),
+			encounterPokemon.getLevel(),
+			encounterPokemon.getStamina(),
+			formatMove(encounterPokemon.getMove1().name()),
+			formatMove(encounterPokemon.getMove2().name()),
 			encounterProbability.getWithPokeball(),
 			encounterProbability.getWithPokeballAndBerry(),
 			encounterProbability.getWithGreatball(),
