@@ -1,0 +1,67 @@
+def getTag() {
+    def output = '0.0.0'
+    def stdout = new ByteArrayOutputStream()
+
+    try {
+        exec {
+            commandLine 'git', 'describe', '--tags'
+            standardOutput = stdout
+        }
+        output = stdout.toString().trim()
+    }
+    catch (ignored) {
+        println('WARNING: This enviroment doesn\'t use git')
+    }
+    finally {
+        stdout.close()
+    }
+    return output
+}
+
+def getCount() {
+    def output = 0
+    def stdout = new ByteArrayOutputStream()
+
+    try {
+        exec {
+            commandLine 'git', 'rev-list', '--first-parent', '--count', 'master'
+            standardOutput = stdout
+        }
+        output = Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        println('WARNING: This enviroment doesn\'t use git')
+    }
+    finally {
+        stdout.close()
+    }
+    return output
+}
+
+def getCommit() {
+    def output = 'DEADBEEF'
+    def stdout = new ByteArrayOutputStream()
+
+    try {
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'master'
+            standardOutput = stdout
+        }
+        output = stdout.toString().trim()
+    }
+    catch (ignored) {
+        println('WARNING: This enviroment doesn\'t use git')
+    }
+    finally {
+        stdout.close()
+    }
+    return output
+}
+
+ext {
+    version = [
+            tag   : this.getTag(),
+            count : this.getCount(),
+            commit: this.getCommit()
+    ]
+}

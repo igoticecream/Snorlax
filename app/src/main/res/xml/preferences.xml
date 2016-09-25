@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+
+	<PreferenceCategory
+		android:title="@string/preference_general"
+		>
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_general_mock_enable"
+			android:key="@string/preference_general_mock_enable_key"
+			android:summary="@string/preference_general_mock_enable_summary"
+			android:title="@string/preference_general_mock_enable_title"
+			/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="@string/preference_encounter_notification"
+		>
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_encounter_notification_enable"
+			android:key="@string/preference_encounter_notification_enable_key"
+			android:summary="@string/preference_encounter_notification_enable_summary"
+			android:title="@string/preference_encounter_notification_enable_title"
+			/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="@string/preference_catch_notification">
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_catch_notification_enable"
+			android:key="@string/preference_catch_notification_enable_key"
+			android:summary="@string/preference_catch_notification_enable_summary"
+			android:title="@string/preference_catch_notification_enable_title"
+			/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

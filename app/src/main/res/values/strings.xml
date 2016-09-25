@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+	<string name="enable">Enable</string>
+	<string name="xposed_disabled">Snorlax module is not enabled</string>
+	<string name="xposed_missing">Install xposed to use Snorlax</string>
+	<string name="pokemon_missing">Install Pokemon Go to launch it</string>
+
+	<string name="notification_title">%1$s has appeared!</string>
+	<string name="notification_content">IV %1$4.1f%% %2$d/%3$d/%4$d - CP %5$d - LV %6$3.1f - HP %7$d</string>
+
+	<string name="notification_categoty_stats_title">Stats</string>
+	<string name="notification_categoty_stats_content">IV %1$4.1f%% %2$d/%3$d/%4$d - CP %5$d - LV %6$3.1f - HP %7$d</string>
+
+	<string name="notification_categoty_moves_title">Moves</string>
+	<string name="notification_categoty_moves_content">%1$s - %2$s</string>
+
+	<string name="notification_categoty_catch_title">Catch Rate</string>
+	<string name="notification_categoty_catch_content_pokeball">Pokeball %1$4.1f%% - %2$4.1f%%</string>
+	<string name="notification_categoty_catch_content_greatball">Greatball %1$4.1f%% - %2$4.1f%%</string>
+	<string name="notification_categoty_catch_content_ultraball">Ultraball %1$4.1f%% - %2$4.1f%%</string>
+
+	<string name="preference_general">General</string>
+	<string name="preference_general_mock_enable_key">general_mock_key</string>
+	<string name="preference_general_mock_enable_title">Enable mock location</string>
+	<string name="preference_general_mock_enable_summary">Prevent detection of mocking locations apps</string>
+
+	<string name="preference_encounter_notification">Encounter Notifications</string>
+	<string name="preference_encounter_notification_enable_key">encounter_notification_key</string>
+	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
+	<string name="preference_encounter_notification_enable_summary">Show encountered pokemons stats via system notification</string>
+
+	<string name="preference_catch_notification">Catch Notifications</string>
+	<string name="preference_catch_notification_enable_key">catch_notification_key</string>
+	<string name="preference_catch_notification_enable_title">Enable catch Notifications</string>
+	<string name="preference_catch_notification_enable_summary">Show catch result via system toast</string>
+
+</resources>

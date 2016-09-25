@@ -1,0 +1,36 @@
+def getSigningProperties() {
+    def properties = new Properties()
+    def propertiesFile = project.rootProject.file('buildscript/signing/sign.properties')
+
+    if (propertiesFile.exists()) {
+        properties.load(propertiesFile.newDataInputStream())
+    }
+    return properties;
+}
+
+def getKeyStoreFile() {
+    return project.rootProject.file((this.signingProperties.STORE_FILE != null) ? 'buildscript/signing/' + this.signingProperties.STORE_FILE : 'buildscript/signing/debug.keystore')
+}
+
+def getKeyStoreFilePassword() {
+    return this.signingProperties.STORE_PASSWORD ?: 'android'
+}
+
+def getKeyStoreAlias() {
+    return this.signingProperties.ALIAS ?: 'androiddebugkey'
+}
+
+def getKeyStoreAliasPassword() {
+    return this.signingProperties.ALIAS_PASSWORD ?: 'android'
+}
+
+android {
+    signingConfigs {
+        snorlax {
+            storeFile this.getKeyStoreFile()
+            storePassword this.getKeyStoreFilePassword()
+            keyAlias this.getKeyStoreAlias()
+            keyPassword this.getKeyStoreAliasPassword()
+        }
+    }
+}

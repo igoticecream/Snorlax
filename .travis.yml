@@ -1,0 +1,42 @@
+language: android
+
+jdk:
+  - oraclejdk8
+
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-24.0.2
+  - android-24
+  - extra-android-m2repository
+  - extra-google-m2repository
+  - extra-android-support
+  - extra-google-google_play_services
+
+before_install:
+  - chmod +x gradlew
+  - export CI=true
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+script:
+  - ./gradlew clean build connectedCheck
+
+sudo: false
+
+notifications:
+  email: false
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.gradle
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+
+branches:
+  only:
+    - master
+    - dev

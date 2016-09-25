@@ -1,0 +1,34 @@
+apply from: "${rootDir}/buildscript/version.gradle"
+
+ext {
+    config = [
+            // Project
+            name                      : 'Snorlax',
+            desc                      : 'Check pokemons stats before you catch them',
+
+            // Packages Id
+            pokemonGoId               : 'com.nianticlabs.pokemongo',
+            xposedId                  : 'de.robv.android.xposed.installer',
+
+            // Project build
+            package                   : 'com.icecream.snorlax',
+            minSdkVersion             : 19,
+            versionCode               : version.count,
+            versionName               : version.tag,
+
+            // Project build
+            buildToolsVersion         : '24.0.2',
+            compileSdkVersion         : 24,
+            targetSdkVersion          : 24,
+            sourceCompatibilityVersion: JavaVersion.VERSION_1_8,
+            targetCompatibilityVersion: JavaVersion.VERSION_1_8,
+
+            // Extras
+            commit                    : version.commit,
+            date                      : new Date().time,
+
+            // CI
+            predex                    : true,
+            ci                        : System.getenv("CI").equals("true")
+    ]
+}

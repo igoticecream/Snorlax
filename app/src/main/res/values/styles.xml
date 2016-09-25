@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+	<style name="Snorlax" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="colorPrimary">@color/grey_100</item>
+		<item name="colorPrimaryDark">@color/grey_100</item>
+		<item name="colorAccent">@color/red_700</item>
+		<item name="android:windowBackground">@color/white</item>
+		<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+	</style>
+
+	<style name="Snorlax.Activity">
+		<item name="windowActionBar">false</item>
+		<item name="windowNoTitle">true</item>
+		<item name="android:windowTranslucentStatus">true</item>
+	</style>
+
+	<style name="Snorlax.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar"/>
+
+	<style name="Snorlax.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+</resources>

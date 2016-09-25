@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+
+	<!-- Margins -->
+	<dimen name="margin_activity">16dp</dimen>
+	<dimen name="margin_fab">16dp</dimen>
+
+	<!-- Elevation -->
+	<dimen name="evelation_normal_fab">6dp</dimen>
+	<dimen name="evelation_pressed_fab">12dp</dimen>
+
+</resources>

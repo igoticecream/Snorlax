@@ -1,0 +1,41 @@
+buildscript {
+    apply from: "${rootDir}/buildscript/dependencies.gradle"
+
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+        jcenter()
+    }
+    dependencies {
+        pluginLibraries.each { name, dependency ->
+            classpath dependency
+        }
+    }
+}
+
+apply plugin: 'com.github.ben-manes.versions'
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    apply from: "${rootDir}/buildscript/configuration.gradle"
+    apply from: "${rootDir}/buildscript/dependencies.gradle"
+}
+
+task clean(type: Delete, description: 'Cleans the root project build directory.') {
+    delete rootProject.buildDir
+    delete fileTree(dir: rootDir, include: 'Thumbs.db')
+}
+
+task wrapper(type: Wrapper, description: 'Updates the gradle wrapper version.') {
+    gradleVersion = '3.1'
+}
+
+task updateSubmodules(type: Exec, group: 'git', description: 'Updates git submodules') {
+    commandLine 'git', 'submodule', 'update', '--init', '--recursive'
+}

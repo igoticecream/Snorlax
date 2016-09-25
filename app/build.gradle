@@ -1,0 +1,129 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+apply from: "${rootDir}/buildscript/signing/sign.gradle"
+apply from: "${rootDir}/buildscript/testing.gradle"
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId config.package
+
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+
+        versionCode config.versionCode
+        versionName config.versionName
+
+        resConfig 'en'
+        resValue 'string', 'app_name', config.name
+        resValue 'string', 'app_desc', config.desc
+
+        vectorDrawables.useSupportLibrary true
+
+        buildConfigField 'String', 'GIT_COMMIT', "\"${config.commit}\""
+        buildConfigField 'java.util.Date', 'BUILD_TIME', "new java.util.Date(${config.date}L)"
+
+        buildConfigField 'String', 'XPOSED_ID', "\"${config.xposedId}\""
+        buildConfigField 'String', 'SNORLAX_ID', "\"${config.package}\""
+        buildConfigField 'String', 'POKEMON_GO_ID', "\"${config.pokemonGoId}\""
+
+        archivesBaseName = project.name.toLowerCase()
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.snorlax
+        }
+        release {
+            signingConfig signingConfigs.snorlax
+
+            useProguard true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        showAll true
+        abortOnError true
+        explainIssues true
+        checkAllWarnings true
+        warningsAsErrors true
+        textReport true
+        textOutput 'stdout'
+
+        disable 'RtlEnabled',
+                'AllowBackup',
+                'InvalidPackage',
+                'UnusedResources',
+                'GoogleAppIndexingWarning'
+    }
+    dexOptions {
+        dexInProcess true
+        preDexLibraries config.predex && !config.ci
+        javaMaxHeapSize '4g'
+    }
+    compileOptions {
+        incremental true
+        sourceCompatibility config.sourceCompatibilityVersion
+        targetCompatibility config.targetCompatibilityVersion
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/proto/src'
+            }
+        }
+    }
+}
+
+retrolambda {
+    incremental true
+}
+
+protobuf {
+    protoc {
+        artifact = libraries.protobufArtifact
+    }
+    plugins {
+        javalite {
+            artifact = libraries.protobufLiteArtifact
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.plugins {
+                javalite {
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile libraries.protobufLite
+    compile libraries.supportLib
+    compile libraries.timber
+
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+    compile libraries.rxBinding
+
+    compile libraries.butterknife
+    apt libraries.butterknifeCompiler
+
+    compile libraries.dagger
+    apt libraries.daggerCompiler
+
+    provided libraries.xposed
+}
