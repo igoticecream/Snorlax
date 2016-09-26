@@ -105,13 +105,16 @@ public final class Mock implements Feature {
 
 	@Override
 	public void unsubscribe() throws Exception {
-		if (mUnhookGetString != null)
+		if (mUnhookGetString != null) {
 			mUnhookGetString.unhook();
+		}
 
-		if (mUnhookGetStringForUser != null)
+		if (mUnhookGetStringForUser != null) {
 			mUnhookGetStringForUser.unhook();
+		}
 
-		if (mUnhookMockProvider != null)
+		if (mUnhookMockProvider != null) {
 			mUnhookMockProvider.unhook();
+		}
 	}
 }
