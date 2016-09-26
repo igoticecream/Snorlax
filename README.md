@@ -53,6 +53,7 @@ To install directly to the phone connected via ADB
 ```
 ./gradlew installRelease
 ```
+
 ## Contributing
   - Fork it!
   - Create your feature branch: `git checkout -b my-new-feature`
