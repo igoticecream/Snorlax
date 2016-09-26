@@ -36,10 +36,6 @@ Clone the repository (you must have Git installed)
 ```
 git clone https://github.com/igoticecream/Snorlax.git
 cd .\Snorlax\
-```
-
-Update submodules
-```
 git submodule update --init
 ```
 
