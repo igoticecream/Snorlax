@@ -82,10 +82,12 @@ public final class Mitm implements Feature {
 
 	@Override
 	public void unsubscribe() throws Exception {
-		if (mUnhookInputStream != null)
+		if (mUnhookInputStream != null) {
 			mUnhookInputStream.unhook();
+		}
 
-		if (mUnhookOutputStream != null)
+		if (mUnhookOutputStream != null) {
 			mUnhookOutputStream.unhook();
+		}
 	}
 }

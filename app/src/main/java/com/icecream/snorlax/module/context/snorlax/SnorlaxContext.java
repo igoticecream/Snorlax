@@ -19,11 +19,14 @@ package com.icecream.snorlax.module.context.snorlax;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.icecream.snorlax.R;
+
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 final class SnorlaxContext extends ContextWrapper {
 
 	SnorlaxContext(Context base) {
 		super(base);
+		setTheme(R.style.Snorlax);
 	}
 
 	@Override

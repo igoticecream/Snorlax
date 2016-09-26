@@ -19,12 +19,6 @@ package com.icecream.snorlax.module;
 import javax.inject.Inject;
 
 import android.app.Application;
-import android.content.ContextWrapper;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.app.SnorlaxApp;
@@ -33,6 +27,7 @@ import com.icecream.snorlax.module.feature.capture.Capture;
 import com.icecream.snorlax.module.feature.encounter.Encounter;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
+import com.icecream.snorlax.module.feature.ui.Ui;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -52,6 +47,8 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	Capture mCapture;
 	@Inject
 	Encounter mEncounter;
+	@Inject
+	Ui mUi;
 
 	private XSharedPreferences mXSharedPreferences;
 
@@ -80,35 +77,15 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				getComponent((Application) param.thisObject, classLoader, mXSharedPreferences).inject(Snorlax.this);
 
-				FeatureHelper.subscribe(mMitm, mMock, mCapture, mEncounter);
+				FeatureHelper.subscribe(mMitm, mMock, mCapture, mEncounter, mUi);
 			}
 		});
 		XposedHelpers.findAndHookMethod(Application.class, "onTerminate", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter);
+				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter, mUi);
 			}
 		});
-		//~~~~~~~~~~~~~~~~~~~~~~
-		XposedHelpers.findAndHookConstructor("com.unity3d.player.UnityPlayer", classLoader, ContextWrapper.class, new XC_MethodHook() {
-			@Override
-			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				FrameLayout frameLayout = (FrameLayout) param.thisObject;
-
-				TextView textView = new TextView(frameLayout.getContext());
-				textView.setText("HOLAAAA");
-				textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20.0f);
-
-				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT
-				);
-				params.gravity = Gravity.CENTER;
-
-				frameLayout.addView(textView, params);
-			}
-		});
-		//~~~~~~~~~~~~~~~~~~~~~~
 	}
 
 	private void handleSnorlaxLoadPackage(final ClassLoader classLoader) {
