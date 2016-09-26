@@ -2,7 +2,25 @@
 
 Check pokemons stats before you catch them.
 
+Libraries and tools included:
+
+- Android's support libraries
+- Reactive extensions: [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding) and [RxRelay](https://github.com/JakeWharton/RxRelay)
+- Dependency injector: [Dagger 2](http://google.github.io/dagger/)
+- Android's views binding: [Butterknife](https://github.com/JakeWharton/butterknife)
+- Logging utility: [Timber](https://github.com/JakeWharton/timber)
+- Generated immutable value classes: [AutoValue](https://github.com/google/auto/tree/master/value)
+- [Xposed framework](https://github.com/rovo89/XposedBridge)
+- [Protobuf](https://github.com/google/protobuf-gradle-plugin)
+
 Don't forget to star this project ;D
+
+## Requirements
+
+- JDK 1.8
+- [Android SDK](http://developer.android.com/sdk/index.html)
+- Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
+- Latest Android SDK Tools and build tools
 
 ## Special thanks
 
