@@ -46,12 +46,12 @@ Build
 
 To build a release APK
 ```
-./gradlew assembleRelease
+.\gradlew assembleRelease
 ```
 
 To install directly to the phone connected via ADB
 ```
-./gradlew installRelease
+.\gradlew installRelease
 ```
 
 ## Contributing
