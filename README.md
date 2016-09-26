@@ -1,5 +1,5 @@
 # Snorlax [![Build Status](https://travis-ci.org/igoticecream/Snorlax.svg?branch=master)](https://travis-ci.org/igoticecream/Snorlax) [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-Check pokemons stats before you catch them.
+Check pokemons stats before you catch them. [Available through Xposed repository](http://repo.xposed.info/module/com.icecream.snorlax)
 
 Features:
 - Prevent PokemonGo from detecting GPS is being spoofed (similar to Mock Mock Locations)
