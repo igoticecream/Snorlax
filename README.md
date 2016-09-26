@@ -1,9 +1,7 @@
 # Snorlax [![Build Status](https://travis-ci.org/igoticecream/Snorlax.svg?branch=master)](https://travis-ci.org/igoticecream/Snorlax) [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-
 Check pokemons stats before you catch them.
 
 Features:
-
 - Prevent PokemonGo from detecting GPS is being spoofed (similar to Mock Mock Locations)
 - Show pokemon stats as a system notification when you encounter them: IV's, HP, CP, level, moves, catch probability
 - Show catch results: Success, missed, flee, etc.
@@ -11,7 +9,6 @@ Features:
 Don't forget to star this project ;D
 
 ## Requirements
-
 - JDK 1.8
 - [Android SDK](http://developer.android.com/sdk/index.html)
 - Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
@@ -19,7 +16,6 @@ Don't forget to star this project ;D
 - Your device must be rooted and the xposed framekwork must be installed. You can download the xposed framework [here](http://repo.xposed.info/module/de.robv.android.xposed.installer).
 
 ## Libraries and tools
-
 - Android's support libraries
 - Reactive extensions: [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding) and [RxRelay](https://github.com/JakeWharton/RxRelay)
 - Dependency injector: [Dagger 2](http://google.github.io/dagger/)
@@ -29,9 +25,7 @@ Don't forget to star this project ;D
 - [Xposed framework](https://github.com/rovo89/XposedBridge)
 - [Protobuf](https://github.com/google/protobuf-gradle-plugin)
 
-
 ## Build from source
-
 Clone the repository (you must have Git installed)
 ```
 git clone https://github.com/igoticecream/Snorlax.git
@@ -62,15 +56,12 @@ To install directly to the phone connected via ADB
   - Submit a pull request on the `dev` (all pull request on master branch will be rejected)
 
 ## Special thanks
-
 Snorlax would not have been possible without:
-
 - [chuparCh0pper](https://github.com/chuparCh0pper/PoGoIV_xposed) for his awesome [module](https://github.com/chuparCh0pper/PoGoIV_xposed) which Snorlax is inspired on
 - [ELynx](https://github.com/ELynx) for the method to MITM PokemonGo communications, check his [repo](https://github.com/ELynx/pokemon-go-xposed-mitm) too
 - And last but not least, [AeonLucid](https://github.com/AeonLucid) for the [PokemonGo's protos](https://github.com/AeonLucid/POGOProtos)
 
 ## License
-
     Copyright (c) 2016. Pedro Diaz <igoticecream@gmail.com>
 
     Licensed under the Apache License, Version 2.0 (the "License");
