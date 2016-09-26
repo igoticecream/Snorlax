@@ -2,7 +2,23 @@
 
 Check pokemons stats before you catch them.
 
-Libraries and tools included:
+Features:
+
+- Prevent PokemonGo from detecting GPS is being spoofed (similar to Mock Mock Locations)
+- Show pokemon stats as a system notification when you encounter them: IV's, HP, CP, level, moves, catch probability
+- Show catch results: Success, missed, flee, etc.
+
+Don't forget to star this project ;D
+
+## Requirements
+
+- JDK 1.8
+- [Android SDK](http://developer.android.com/sdk/index.html)
+- Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
+- Latest Android SDK Tools and build tools
+- Your device must be rooted and the xposed framekwork must be installed. You can download the xposed framework [here](http://repo.xposed.info/module/de.robv.android.xposed.installer).
+
+## Libraries and tools
 
 - Android's support libraries
 - Reactive extensions: [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding) and [RxRelay](https://github.com/JakeWharton/RxRelay)
@@ -13,14 +29,40 @@ Libraries and tools included:
 - [Xposed framework](https://github.com/rovo89/XposedBridge)
 - [Protobuf](https://github.com/google/protobuf-gradle-plugin)
 
-Don't forget to star this project ;D
 
-## Requirements
+## Build from source
 
-- JDK 1.8
-- [Android SDK](http://developer.android.com/sdk/index.html)
-- Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
-- Latest Android SDK Tools and build tools
+Clone the repository (you must have Git installed)
+```
+git clone https://github.com/igoticecream/Snorlax.git
+cd .\Snorlax\
+```
+
+Update submodules
+```
+git submodule update --init
+```
+
+Build
+```
+.\gradlew build
+```
+
+To build a release APK
+```
+./gradlew assembleRelease
+```
+
+To install directly to the phone connected via ADB
+```
+./gradlew installRelease
+```
+## Contributing
+  - Fork it!
+  - Create your feature branch: `git checkout -b my-new-feature`
+  - Commit your changes: `git commit -am 'Useful information about your new features'`
+  - Push to the branch: `git push origin my-new-feature`
+  - Submit a pull request on the `dev` (all pull request on master branch will be rejected)
 
 ## Special thanks
 
