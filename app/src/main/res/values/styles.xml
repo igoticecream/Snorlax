@@ -15,6 +15,12 @@
 		<item name="android:windowTranslucentStatus">true</item>
 	</style>
 
+	<style name="Snorlax.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+		<item name="colorAccent">@color/white</item>
+		<item name="android:textColorPrimary">@color/white</item>
+		<item name="android:windowBackground">@drawable/dialog</item>
+	</style>
+
 	<style name="Snorlax.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar"/>
 
 	<style name="Snorlax.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
