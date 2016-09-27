@@ -41,4 +41,16 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="@string/preference_hatch_notification">
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_hatch_notification_enable"
+			android:key="@string/preference_hatch_notification_enable_key"
+			android:summary="@string/preference_hatch_notification_enable_summary"
+			android:title="@string/preference_hatch_notification_enable_title"
+			/>
+
+	</PreferenceCategory>
+
 </PreferenceScreen>
