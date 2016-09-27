@@ -71,10 +71,10 @@ final class EncounterNotification {
 					getLargeIconHeight(),
 					false
 				))
-				.setContentTitle(mContext.getString(R.string.notification_title, Helper.getPokemonName(pokemonNumber, mResources)))
-				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina, cp, level, hp))
+				.setContentTitle(mContext.getString(R.string.notification_title, Helper.getPokemonName(pokemonNumber, mResources), cp, hp, level))
+				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina))
 				.setStyle(new NotificationCompat.InboxStyle()
-					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina, cp, level, hp))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_moves_title)))
 					.addLine(mContext.getString(R.string.notification_categoty_moves_content, move1, move2))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
@@ -84,7 +84,8 @@ final class EncounterNotification {
 				)
 				.setColor(ContextCompat.getColor(mContext, R.color.red_700))
 				.setAutoCancel(true)
-				.setVibrate(new long[]{0, 60, 300, 60})
+				//.setVibrate(new long[]{0, 60, 300, 60})
+				.setVibrate(new long[]{0})
 				.setPriority(Notification.PRIORITY_MAX)
 				.setCategory(NotificationCompat.CATEGORY_ALARM)
 				.build();

@@ -15,11 +15,11 @@
 	<string name="error_xposed_missing">Install xposed to use Snorlax</string>
 	<string name="error_pokemon_missing">Install Pokemon Go to launch it</string>
 
-	<string name="notification_title">%1$s has appeared!</string>
-	<string name="notification_content">IV %1$4.1f%% %2$d/%3$d/%4$d - CP %5$d - LV %6$3.1f - HP %7$d</string>
+	<string name="notification_title">%1$s (CP %2$d HP %3$d) LV %4$3.1f</string>
+	<string name="notification_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
 
 	<string name="notification_categoty_stats_title">Stats</string>
-	<string name="notification_categoty_stats_content">IV %1$4.1f%% %2$d/%3$d/%4$d - CP %5$d - LV %6$3.1f - HP %7$d</string>
+	<string name="notification_categoty_stats_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
 
 	<string name="notification_categoty_moves_title">Moves</string>
 	<string name="notification_categoty_moves_content">%1$s - %2$s</string>
@@ -37,7 +37,7 @@
 	<string name="preference_encounter_notification">Encounter Notifications</string>
 	<string name="preference_encounter_notification_enable_key">encounter_notification_key</string>
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
-	<string name="preference_encounter_notification_enable_summary">Show encountered encounterPokemon stats via system notification</string>
+	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
 
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>
