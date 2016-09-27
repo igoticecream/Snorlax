@@ -132,3 +132,13 @@ dependencies {
 
     provided libraries.xposed
 }
+
+android {
+    buildTypes {
+        release {
+            lintOptions {
+                disable 'MissingTranslation'
+            }
+        }
+    }
+}
