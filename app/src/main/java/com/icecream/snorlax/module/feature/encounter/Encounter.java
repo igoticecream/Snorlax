@@ -80,7 +80,6 @@ public final class Encounter implements Feature {
 
 		mEncounterNotification.show(
 			encounterPokemon.getNumber(),
-			encounterPokemon.getName(),
 			encounterPokemon.getIvPercentage(),
 			encounterPokemon.getIndividualAttack(),
 			encounterPokemon.getIndividualDefense(),

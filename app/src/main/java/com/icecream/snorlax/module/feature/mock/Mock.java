@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import android.content.ContentResolver;
+import android.os.Bundle;
 import android.provider.Settings;
 
 import com.icecream.snorlax.module.feature.Feature;
@@ -28,16 +29,21 @@ import com.icecream.snorlax.module.util.Log;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
-
 @Singleton
 public final class Mock implements Feature {
 
 	private final ClassLoader mClassLoader;
 	private final MockPreferences mPreferences;
 
+	private XC_MethodHook.Unhook mUnhookGetInt1;
+	private XC_MethodHook.Unhook mUnhookGetInt2;
+	private XC_MethodHook.Unhook mUnhookGetFloat1;
+	private XC_MethodHook.Unhook mUnhookGetFloat2;
+	private XC_MethodHook.Unhook mUnhookGetLong1;
+	private XC_MethodHook.Unhook mUnhookGetLong2;
 	private XC_MethodHook.Unhook mUnhookGetString;
-	private XC_MethodHook.Unhook mUnhookGetStringForUser;
+
+	private XC_MethodHook.Unhook mUnhookGms;
 	private XC_MethodHook.Unhook mUnhookMockProvider;
 
 	@Inject
@@ -60,57 +66,102 @@ public final class Mock implements Feature {
 			return;
 		}
 
-		mUnhookGetString = findAndHookMethod(secure, "getString", ContentResolver.class, String.class, new XC_MethodHook() {
+		final XC_MethodHook hook = new XC_MethodHook() {
 			@Override
 			@SuppressWarnings("deprecation")
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				if (!mPreferences.isEnabled()) {
-					return;
-				}
-
-				String requested = (String) param.args[1];
-				if (requested.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
-					param.setResult("0");
-				}
-			}
-		});
-
-		mUnhookGetStringForUser = XposedHelpers.findAndHookMethod(secure, "getStringForUser", ContentResolver.class, String.class, Integer.TYPE, new XC_MethodHook() {
-			@Override
-			@SuppressWarnings("deprecation")
-			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				if (!mPreferences.isEnabled()) {
-					return;
-				}
-
-				String requested = (String) param.args[1];
-				if (requested.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
-					param.setResult("0");
-				}
-			}
-		});
-
-		mUnhookMockProvider = findAndHookMethod(location, "isFromMockProvider",
-			new XC_MethodHook() {
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					if (!mPreferences.isEnabled()) {
-						return;
+				if (mPreferences.isEnabled()) {
+					String methodName = param.method.getName();
+					String setting = (String) param.args[1];
+					if (setting.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
+						switch (methodName) {
+							case "getInt":
+								param.setResult(0);
+								break;
+							case "getString":
+								param.setResult("0");
+								break;
+							case "getFloat":
+								param.setResult(0.0f);
+								break;
+							case "getLong":
+								param.setResult(0L);
+								break;
+							default:
+								break;
+						}
 					}
+				}
+			}
+		};
+
+		mUnhookGetInt1 = XposedHelpers.findAndHookMethod(secure, "getInt", ContentResolver.class, String.class, hook);
+		mUnhookGetInt2 = XposedHelpers.findAndHookMethod(secure, "getInt", ContentResolver.class, String.class, int.class, hook);
+
+		mUnhookGetFloat1 = XposedHelpers.findAndHookMethod(secure, "getFloat", ContentResolver.class, String.class, hook);
+		mUnhookGetFloat2 = XposedHelpers.findAndHookMethod(secure, "getFloat", ContentResolver.class, String.class, float.class, hook);
+
+		mUnhookGetLong1 = XposedHelpers.findAndHookMethod(secure, "getLong", ContentResolver.class, String.class, hook);
+		mUnhookGetLong2 = XposedHelpers.findAndHookMethod(secure, "getLong", ContentResolver.class, String.class, long.class, hook);
+
+		mUnhookGetString = XposedHelpers.findAndHookMethod(secure, "getString", ContentResolver.class, String.class, hook);
+
+		mUnhookGms = XposedHelpers.findAndHookMethod(location, "getExtras", new XC_MethodHook() {
+			@Override
+			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+				final String GMS_MOCK_KEY = "mockLocation";
+				if (mPreferences.isEnabled()) {
+					Bundle extras = (Bundle) param.getResult();
+					if (extras != null && extras.getBoolean(GMS_MOCK_KEY)) {
+						extras.putBoolean(GMS_MOCK_KEY, false);
+					}
+					param.setResult(extras);
+				}
+			}
+		});
+
+		mUnhookMockProvider = XposedHelpers.findAndHookMethod(location, "isFromMockProvider", new XC_MethodHook() {
+			@Override
+			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+				if (mPreferences.isEnabled()) {
 					param.setResult(false);
 				}
 			}
-		);
+		});
 	}
 
 	@Override
 	public void unsubscribe() throws Exception {
+		if (mUnhookGetInt1 != null) {
+			mUnhookGetInt1.unhook();
+		}
+
+		if (mUnhookGetInt2 != null) {
+			mUnhookGetInt2.unhook();
+		}
+
+		if (mUnhookGetFloat1 != null) {
+			mUnhookGetFloat1.unhook();
+		}
+
+		if (mUnhookGetFloat2 != null) {
+			mUnhookGetFloat2.unhook();
+		}
+
+		if (mUnhookGetLong1 != null) {
+			mUnhookGetLong1.unhook();
+		}
+
+		if (mUnhookGetLong2 != null) {
+			mUnhookGetLong2.unhook();
+		}
+
 		if (mUnhookGetString != null) {
 			mUnhookGetString.unhook();
 		}
 
-		if (mUnhookGetStringForUser != null) {
-			mUnhookGetStringForUser.unhook();
+		if (mUnhookGms != null) {
+			mUnhookGms.unhook();
 		}
 
 		if (mUnhookMockProvider != null) {

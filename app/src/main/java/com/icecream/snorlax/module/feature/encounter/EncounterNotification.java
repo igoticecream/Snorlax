@@ -57,7 +57,7 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
+	void show(int pokemonNumber, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
