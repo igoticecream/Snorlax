@@ -64,10 +64,12 @@ public final class Encounter implements Feature {
 	private String formatMove(String move) {
 		StringBuilder builder = new StringBuilder();
 		for (String part : move.split("_")) {
-			builder
-				.append(part.charAt(0))
-				.append(part.substring(1).toLowerCase(Locale.US))
-				.append(" ");
+			if (!part.equalsIgnoreCase("fast")) {
+				builder
+					.append(part.charAt(0))
+					.append(part.substring(1).toLowerCase(Locale.US))
+					.append(" ");
+			}
 		}
 		return builder.toString().trim();
 	}

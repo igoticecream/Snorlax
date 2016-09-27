@@ -83,7 +83,7 @@ final class EncounterNotification {
 				)
 				.setColor(ContextCompat.getColor(mContext, R.color.red_700))
 				.setAutoCancel(true)
-				.setVibrate(new long[]{0, 60, 300, 60})
+				//.setVibrate(new long[]{0, 60, 300, 60})
 				.setPriority(Notification.PRIORITY_MAX)
 				.setCategory(NotificationCompat.CATEGORY_ALARM)
 				.build();

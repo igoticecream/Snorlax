@@ -37,7 +37,7 @@
 	<string name="preference_encounter_notification">Encounter Notifications</string>
 	<string name="preference_encounter_notification_enable_key">encounter_notification_key</string>
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
-	<string name="preference_encounter_notification_enable_summary">Show encountered encounterPokemon stats via system notification</string>
+	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
 
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>
