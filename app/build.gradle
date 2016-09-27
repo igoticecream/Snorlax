@@ -19,7 +19,7 @@ android {
         versionCode config.versionCode
         versionName config.versionName
 
-        resConfig 'en'
+        // resConfig 'en'
         resValue 'string', 'app_name', config.name
         resValue 'string', 'app_desc', config.desc
 
@@ -61,7 +61,8 @@ android {
                 'InvalidPackage',
                 'UnusedResources',
                 'GoogleAppIndexingWarning',
-                'IconLocation'
+                'IconLocation',
+                'MissingTranslation'
     }
     dexOptions {
         dexInProcess true

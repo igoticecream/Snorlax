@@ -44,4 +44,9 @@
 	<string name="preference_catch_notification_enable_title">Enable catch notifications</string>
 	<string name="preference_catch_notification_enable_summary">Show catch result via system toast</string>
 
+	<string name="preference_hatch_notification">Hatch Notifications</string>
+	<string name="preference_hatch_notification_enable_key">hatch_notification_key</string>
+	<string name="preference_hatch_notification_enable_title">Enable hatch notifications</string>
+	<string name="preference_hatch_notification_enable_summary">Show hatch result via system notification</string>
+
 </resources>
