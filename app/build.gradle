@@ -61,7 +61,8 @@ android {
                 'InvalidPackage',
                 'UnusedResources',
                 'GoogleAppIndexingWarning',
-                'IconLocation'
+                'IconLocation',
+                'MissingTranslation'
     }
     dexOptions {
         dexInProcess true
@@ -131,14 +132,4 @@ dependencies {
     provided libraries.autoValueAnnotations
 
     provided libraries.xposed
-}
-
-android {
-    buildTypes {
-        release {
-            lintOptions {
-                disable 'MissingTranslation'
-            }
-        }
-    }
 }
