@@ -71,10 +71,10 @@ final class EncounterNotification {
 					getLargeIconHeight(),
 					false
 				))
-				.setContentTitle(mContext.getString(R.string.notification_title, Helper.getPokemonName(pokemonNumber, mResources), cp, hp, level))
-				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina))
+				.setContentTitle(mContext.getString(R.string.notification_title, Helper.getPokemonName(pokemonNumber, mResources), cp, level))
+				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina, hp))
 				.setStyle(new NotificationCompat.InboxStyle()
-					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina, hp))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_moves_title)))
 					.addLine(mContext.getString(R.string.notification_categoty_moves_content, move1, move2))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
