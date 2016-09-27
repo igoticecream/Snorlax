@@ -37,10 +37,12 @@ final class EncounterPokemon {
 	String getName() {
 		StringBuilder builder = new StringBuilder();
 		for (String part : mPokemon.getPokemonId().name().split("_")) {
-			builder
-				.append(part.charAt(0))
-				.append(part.substring(1).toLowerCase(Locale.US))
-				.append(" ");
+			if (!part.equalsIgnoreCase("male") && !part.equalsIgnoreCase("female")) {
+				builder
+					.append(part.charAt(0))
+					.append(part.substring(1).toLowerCase(Locale.US))
+					.append(" ");
+			}
 		}
 		return builder.toString().trim();
 	}
