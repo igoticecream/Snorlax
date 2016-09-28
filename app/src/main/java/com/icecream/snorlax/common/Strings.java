@@ -33,7 +33,15 @@ public final class Strings {
 	}
 
 	public static boolean isNullOrEmpty(String string) {
-		return string == null || string.trim().length() == 0;
+		return isNull(string) || isEmpty(string);
+	}
+
+	public static boolean isNull(String string) {
+		return string == null;
+	}
+
+	public static boolean isEmpty(String string) {
+		return string.trim().length() == 0;
 	}
 
 	public static String valueOrDefault(String string, String defaultString) {

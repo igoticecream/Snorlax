@@ -17,14 +17,34 @@
 package com.icecream.snorlax.module.feature.mitm;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
+import android.util.LongSparseArray;
+
+import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.util.Log;
 
+import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+import static POGOProtos.Enums.PokemonIdOuterClass.PokemonId;
+import static POGOProtos.Inventory.InventoryDeltaOuterClass.InventoryDelta;
+import static POGOProtos.Inventory.InventoryItemDataOuterClass.InventoryItemData;
+import static POGOProtos.Inventory.InventoryItemOuterClass.InventoryItem;
 import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
 import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;
+import static POGOProtos.Networking.Requests.RequestOuterClass.Request;
+import static POGOProtos.Networking.Requests.RequestTypeOuterClass.RequestType;
+import static POGOProtos.Networking.Responses.GetInventoryResponseOuterClass.GetInventoryResponse;
+import static android.R.attr.id;
 
 final class MitmProvider {
+
+	static {
+		sRequests = new LongSparseArray<>();
+	}
+
+	private static LongSparseArray<List<Request>> sRequests;
 
 	static ByteBuffer processOutboundPackage(ByteBuffer roData, boolean connectionOk) {
 		if (!connectionOk)
@@ -39,6 +59,8 @@ final class MitmProvider {
 			synchronized (MitmProvider.class) {
 				RequestEnvelope envelope = RequestEnvelope.parseFrom(buffer);
 				MitmRelay.getInstance().call(envelope);
+
+				processOutBuffer(envelope);
 			}
 		}
 		catch (InvalidProtocolBufferException ignored) {
@@ -48,6 +70,13 @@ final class MitmProvider {
 		}
 
 		return null;
+	}
+
+	private static void processOutBuffer(RequestEnvelope envelope) {
+		sRequests.put(
+			envelope.getRequestId(),
+			envelope.getRequestsList()
+		);
 	}
 
 	static ByteBuffer processInboundPackage(ByteBuffer roData, boolean connectionOk) {
@@ -63,12 +92,87 @@ final class MitmProvider {
 			synchronized (MitmProvider.class) {
 				ResponseEnvelope envelope = ResponseEnvelope.parseFrom(buffer);
 				MitmRelay.getInstance().call(envelope);
+
+				ByteBuffer processed = processInBuffer(envelope);
+
+				if (processed != null) {
+					return processed;
+				}
 			}
 		}
 		catch (InvalidProtocolBufferException ignored) {
 		}
 		catch (Throwable throwable) {
 			Log.e(throwable);
+		}
+
+		return null;
+	}
+
+	private static ByteBuffer processInBuffer(ResponseEnvelope envelope) throws InvalidProtocolBufferException {
+		List<Request> requests = sRequests.get(envelope.getRequestId());
+
+		if (requests == null) {
+			return null;
+		}
+
+		boolean isDone = false;
+		for (int i = 0; i < requests.size(); i++) {
+			if (requests.get(i).getRequestType() == RequestType.GET_INVENTORY) {
+				ByteString processed = processInventoryResponse(GetInventoryResponse.parseFrom(envelope.getReturns(i)));
+
+				if (processed != null) {
+					ResponseEnvelope.Builder builder = envelope.toBuilder();
+					builder.setReturns(i, processed);
+					envelope = builder.build();
+					isDone = true;
+				}
+			}
+		}
+		sRequests.remove(id);
+
+		if (!isDone) {
+			return null;
+		}
+
+		return ByteBuffer.wrap(envelope.toByteArray());
+	}
+
+	private static ByteString processInventoryResponse(GetInventoryResponse response) {
+		if (!response.getSuccess() || !response.hasInventoryDelta()) {
+			return null;
+		}
+
+		boolean isDone = false;
+		GetInventoryResponse.Builder inventory = response.toBuilder();
+		InventoryDelta.Builder inventoryDelta = inventory.getInventoryDelta().toBuilder();
+		for (int i = 0; i < inventoryDelta.getInventoryItemsCount(); i++) {
+			InventoryItem.Builder inventoryItem = inventoryDelta.getInventoryItems(i).toBuilder();
+			InventoryItemData.Builder itemData = inventoryItem.getInventoryItemData().toBuilder();
+
+			if (itemData.getPokemonData().getPokemonId() != PokemonId.MISSINGNO) {
+				PokemonData.Builder Pokemon = itemData.getPokemonData().toBuilder();
+				String nickname = Pokemon.getNickname();
+
+				if (Strings.isEmpty(nickname)) {
+					Pokemon.setNickname(
+						String.format(
+							"%s/%s/%s",
+							String.valueOf(Pokemon.getIndividualAttack()),
+							String.valueOf(Pokemon.getIndividualDefense()),
+							String.valueOf(Pokemon.getIndividualStamina())
+						)
+					);
+					itemData.setPokemonData(Pokemon);
+					inventoryItem.setInventoryItemData(itemData);
+					inventoryDelta.setInventoryItems(i, inventoryItem);
+					inventory.setInventoryDelta(inventoryDelta);
+					isDone = true;
+				}
+			}
+		}
+		if (isDone) {
+			return inventory.build().toByteString();
 		}
 
 		return null;

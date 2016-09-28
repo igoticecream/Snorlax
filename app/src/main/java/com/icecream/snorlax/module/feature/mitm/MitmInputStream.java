@@ -100,12 +100,9 @@ final class MitmInputStream extends InputStream {
 			mByteBuffer.hasRemaining()
 		);
 
-		// Lets keep it read only for now
-		/*
 		if (fromMitm != null) {
 			mByteBuffer = fromMitm;
 		}
-		*/
 		mMitmDone = true;
 	}
 }
