@@ -17,7 +17,6 @@
 package com.icecream.snorlax.module.feature.encounter;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -26,6 +25,7 @@ import android.support.v4.util.Pair;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.icecream.snorlax.module.Pokemons;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
@@ -46,56 +46,59 @@ import static POGOProtos.Networking.Responses.IncenseEncounterResponseOuterClass
 public final class Encounter implements Feature {
 
 	private final MitmRelay mMitmRelay;
-	private final EncounterPreferences mPreferences;
+	private final Pokemons mPokemons;
+	private final EncounterPreferences mEncounterPreferences;
 	private final EncounterNotification mEncounterNotification;
-	private final EncounterPokemonFactory mEncounterPokemonFactory;
-	private final EncounterProbabilityFactory mEncounterProbabilityFactory;
+
 	private Subscription mSubscription;
 
 	@Inject
-	Encounter(MitmRelay mitmRelay, EncounterPreferences preferences, EncounterNotification encounterNotification, EncounterPokemonFactory encounterPokemonFactory, EncounterProbabilityFactory encounterProbabilityFactory) {
+	Encounter(MitmRelay mitmRelay, Pokemons pokemons, EncounterPreferences encounterPreferences, EncounterNotification encounterNotification) {
 		mMitmRelay = mitmRelay;
-		mPreferences = preferences;
+		mPokemons = pokemons;
+		mEncounterPreferences = encounterPreferences;
 		mEncounterNotification = encounterNotification;
-		mEncounterPokemonFactory = encounterPokemonFactory;
-		mEncounterProbabilityFactory = encounterProbabilityFactory;
 	}
 
-	private String formatMove(String move) {
-		StringBuilder builder = new StringBuilder();
-		for (String part : move.split("_")) {
-			if (!part.equalsIgnoreCase("fast")) {
-				builder
-					.append(part.charAt(0))
-					.append(part.substring(1).toLowerCase(Locale.US))
-					.append(" ");
-			}
-		}
-		return builder.toString().trim();
-	}
+	@Override
+	public void subscribe() {
+		unsubscribe();
 
-	private void onEncounter(PokemonData data, CaptureProbability probability) {
-		EncounterPokemon encounterPokemon = mEncounterPokemonFactory.create(data);
-		EncounterProbability encounterProbability = mEncounterProbabilityFactory.create(probability);
+		mSubscription = mMitmRelay
+			.getObservable()
+			.compose(mEncounterPreferences.isEnabled())
+			.flatMap(envelope -> {
+				List<Request> requests = envelope.getRequest().getRequestsList();
 
-		mEncounterNotification.show(
-			encounterPokemon.getNumber(),
-			encounterPokemon.getIvPercentage(),
-			encounterPokemon.getIndividualAttack(),
-			encounterPokemon.getIndividualDefense(),
-			encounterPokemon.getIndividualStamina(),
-			encounterPokemon.getCp(),
-			encounterPokemon.getLevel(),
-			encounterPokemon.getStamina(),
-			formatMove(encounterPokemon.getMove1().name()),
-			formatMove(encounterPokemon.getMove2().name()),
-			encounterProbability.getWithPokeball(),
-			encounterProbability.getWithPokeballAndBerry(),
-			encounterProbability.getWithGreatball(),
-			encounterProbability.getWithGreatballAndBerry(),
-			encounterProbability.getWithUltraball(),
-			encounterProbability.getWithUltraballAndBerry()
-		);
+				for (int i = 0; i < requests.size(); i++) {
+					RequestType type = requests.get(i).getRequestType();
+
+					switch (type) {
+						case ENCOUNTER:
+						case DISK_ENCOUNTER:
+						case INCENSE_ENCOUNTER:
+							return Observable.just(new Pair<>(type, envelope.getResponse().getReturns(i)));
+						default:
+							break;
+					}
+				}
+				return Observable.empty();
+			})
+			.subscribe(pair -> {
+				switch (pair.first) {
+					case ENCOUNTER:
+						onWildEncounter(pair.second);
+						break;
+					case DISK_ENCOUNTER:
+						onDiskEncounter(pair.second);
+						break;
+					case INCENSE_ENCOUNTER:
+						onIncenseEncounter(pair.second);
+						break;
+					default:
+						break;
+				}
+			}, Log::e);
 	}
 
 	private void onWildEncounter(ByteString bytes) {
@@ -131,45 +134,29 @@ public final class Encounter implements Feature {
 		}
 	}
 
-	@Override
-	public void subscribe() {
-		unsubscribe();
+	private void onEncounter(PokemonData pokemonData, CaptureProbability captureProbability) {
+		Pokemons.Data data = mPokemons.with(pokemonData);
+		Pokemons.Probability probability = mPokemons.with(captureProbability);
 
-		mSubscription = mMitmRelay
-			.getObservable()
-			.compose(mPreferences.isEnabled())
-			.flatMap(envelope -> {
-				List<Request> requests = envelope.getRequest().getRequestsList();
-
-				for (int i = 0; i < requests.size(); i++) {
-					RequestType type = requests.get(i).getRequestType();
-
-					switch (type) {
-						case ENCOUNTER:
-						case DISK_ENCOUNTER:
-						case INCENSE_ENCOUNTER:
-							return Observable.just(new Pair<>(type, envelope.getResponse().getReturns(i)));
-						default:
-							break;
-					}
-				}
-				return Observable.empty();
-			})
-			.subscribe(pair -> {
-				switch (pair.first) {
-					case ENCOUNTER:
-						onWildEncounter(pair.second);
-						break;
-					case DISK_ENCOUNTER:
-						onDiskEncounter(pair.second);
-						break;
-					case INCENSE_ENCOUNTER:
-						onIncenseEncounter(pair.second);
-						break;
-					default:
-						break;
-				}
-			}, Log::e);
+		mEncounterNotification.show(
+			data.getNumber(),
+			data.getName(),
+			data.getIvPercentage(),
+			data.getAttack(),
+			data.getDefense(),
+			data.getStamina(),
+			data.getCp(),
+			data.getLevel(),
+			data.getHp(),
+			data.getMove1WithFormat(),
+			data.getMove2WithFormat(),
+			probability.getWithPokeball(),
+			probability.getWithPokeballAndBerry(),
+			probability.getWithGreatball(),
+			probability.getWithGreatballAndBerry(),
+			probability.getWithUltraball(),
+			probability.getWithUltraballAndBerry()
+		);
 	}
 
 	@Override

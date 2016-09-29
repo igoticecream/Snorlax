@@ -37,7 +37,6 @@ import android.text.style.StyleSpan;
 import android.view.View;
 
 import com.icecream.snorlax.R;
-import com.icecream.snorlax.common.Helper;
 import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
@@ -57,7 +56,7 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
@@ -71,7 +70,7 @@ final class EncounterNotification {
 					getLargeIconHeight(),
 					false
 				))
-				.setContentTitle(mContext.getString(R.string.notification_title, Helper.getPokemonName(pokemonNumber, mResources), cp, level))
+				.setContentTitle(mContext.getString(R.string.notification_title, pokemonName, cp, level))
 				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina, hp))
 				.setStyle(new NotificationCompat.InboxStyle()
 					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina, hp))

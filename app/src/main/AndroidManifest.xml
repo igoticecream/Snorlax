@@ -35,18 +35,6 @@
 			</intent-filter>
 		</activity>
 
-		<activity
-			android:name=".app.rename.RenameActivity"
-			android:label="@string/format"
-			android:parentActivityName=".app.home.HomeActivity"
-			android:theme="@style/Snorlax.Activity"
-			>
-			<intent-filter>
-				<action android:name=".app.rename.RenameActivity"/>
-				<category android:name="android.intent.category.DEFAULT"/>
-			</intent-filter>
-		</activity>
-
 	</application>
 
 </manifest>

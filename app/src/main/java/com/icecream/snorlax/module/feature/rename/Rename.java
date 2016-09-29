@@ -17,6 +17,7 @@
 package com.icecream.snorlax.module.feature.rename;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,6 +25,7 @@ import javax.inject.Singleton;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.common.Strings;
+import com.icecream.snorlax.module.Pokemons;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmListener;
 import com.icecream.snorlax.module.feature.mitm.MitmProvider;
@@ -42,11 +44,13 @@ import static POGOProtos.Networking.Responses.GetInventoryResponseOuterClass.Get
 public final class Rename implements Feature, MitmListener {
 
 	private final MitmProvider mMitmProvider;
+	private final Pokemons mPokemons;
 	private final RenamePreferences mRenamePreferences;
 
 	@Inject
-	Rename(MitmProvider mitmProvider, RenamePreferences renamePreferences) {
+	Rename(MitmProvider mitmProvider, Pokemons pokemons, RenamePreferences renamePreferences) {
 		mMitmProvider = mitmProvider;
+		mPokemons = pokemons;
 		mRenamePreferences = renamePreferences;
 	}
 
@@ -100,12 +104,7 @@ public final class Rename implements Feature, MitmListener {
 				PokemonData.Builder pokemon = data.getPokemonData().toBuilder();
 
 				if (Strings.isEmpty(pokemon.getNickname())) {
-					pokemon.setNickname(String.format(
-						"+ %s/%s/%s",
-						String.valueOf(pokemon.getIndividualAttack()),
-						String.valueOf(pokemon.getIndividualDefense()),
-						String.valueOf(pokemon.getIndividualStamina())
-					));
+					pokemon.setNickname(processNickname(data.getPokemonData()));
 				}
 				data.setPokemonData(pokemon);
 			}
@@ -114,5 +113,19 @@ public final class Rename implements Feature, MitmListener {
 			delta.setInventoryItems(i, item);
 		}
 		return inventory.setInventoryDelta(delta).build().toByteString();
+	}
+
+	private String processNickname(PokemonData pokemonData) {
+		Pokemons.Data data = mPokemons.with(pokemonData);
+
+		return String.format(
+			Locale.US,
+			"%4.1f %s/%s/%s %3.1f",
+			data.getIvPercentage(),
+			data.getAttack(),
+			data.getDefense(),
+			data.getStamina(),
+			data.getLevel()
+		);
 	}
 }
