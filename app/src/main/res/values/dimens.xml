@@ -6,6 +6,7 @@
 	<dimen name="margin_fab">16dp</dimen>
 
 	<!-- Elevation -->
+	<dimen name="evelation_toolbar">4dp</dimen>
 	<dimen name="evelation_normal_fab">6dp</dimen>
 	<dimen name="evelation_pressed_fab">12dp</dimen>
 	<dimen name="margin_vertical_dialog">16dp</dimen>

@@ -3,6 +3,7 @@
 
 	<string name="about">About</string>
 	<string name="enable">Enable</string>
+	<string name="format">Format</string>
 
 	<string name="about_version">Version %1$s</string>
 	<string name="about_author">By igoticecream (igoticecream@gmail.com)</string>
@@ -43,6 +44,10 @@
 	<string name="preference_rename_enable_key">rename_key</string>
 	<string name="preference_rename_enable_title">Enable inventory pokemons stats</string>
 	<string name="preference_rename_enable_summary">Show inventory pokemons stats on ingame pokemon list</string>
+
+	<string name="preference_rename_activity_enable_key">rename_activity_key</string>
+	<string name="preference_rename_activity_enable_title">Format</string>
+	<string name="preference_rename_activity_enable_summary">Customize how the stats are going to be displayed on pokemons names</string>
 
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.app.ui;
+package com.icecream.snorlax.app.home;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -63,15 +63,15 @@ public class HomeActivity extends AppCompatActivity {
 	private AlertDialog mAboutDialog;
 
 	@Override
-	protected void onCreate(Bundle savedStateInstanceState) {
-		super.onCreate(savedStateInstanceState);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_activity);
 		mUnbinder = ButterKnife.bind(this);
 
 		setupToolbar();
 		setupPreferences();
 
-		if (savedStateInstanceState == null) {
+		if (savedInstanceState == null) {
 			Observable
 				.just(SnorlaxApp.isEnabled())
 				.filter(enabled -> !enabled)
