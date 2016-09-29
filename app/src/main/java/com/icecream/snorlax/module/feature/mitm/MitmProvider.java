@@ -19,6 +19,9 @@ package com.icecream.snorlax.module.feature.mitm;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import android.util.LongSparseArray;
 
 import com.google.protobuf.ByteString;
@@ -38,15 +41,17 @@ import static POGOProtos.Networking.Requests.RequestTypeOuterClass.RequestType;
 import static POGOProtos.Networking.Responses.GetInventoryResponseOuterClass.GetInventoryResponse;
 import static android.R.attr.id;
 
+@Singleton
 final class MitmProvider {
 
-	static {
-		sRequests = new LongSparseArray<>();
+	private final LongSparseArray<List<Request>> mRequests;
+
+	@Inject
+	MitmProvider(LongSparseArray<List<Request>> requests) {
+		mRequests = requests;
 	}
 
-	private static LongSparseArray<List<Request>> sRequests;
-
-	static ByteBuffer processOutboundPackage(ByteBuffer roData, boolean connectionOk) {
+	ByteBuffer processOutboundPackage(ByteBuffer roData, boolean connectionOk) {
 		if (!connectionOk)
 			return null;
 
@@ -72,14 +77,14 @@ final class MitmProvider {
 		return null;
 	}
 
-	private static void processOutBuffer(RequestEnvelope envelope) {
-		sRequests.put(
+	private void processOutBuffer(RequestEnvelope envelope) {
+		mRequests.put(
 			envelope.getRequestId(),
 			envelope.getRequestsList()
 		);
 	}
 
-	static ByteBuffer processInboundPackage(ByteBuffer roData, boolean connectionOk) {
+	ByteBuffer processInboundPackage(ByteBuffer roData, boolean connectionOk) {
 		if (!connectionOk)
 			return null;
 
@@ -109,8 +114,8 @@ final class MitmProvider {
 		return null;
 	}
 
-	private static ByteBuffer processInBuffer(ResponseEnvelope envelope) throws InvalidProtocolBufferException {
-		List<Request> requests = sRequests.get(envelope.getRequestId());
+	private ByteBuffer processInBuffer(ResponseEnvelope envelope) throws InvalidProtocolBufferException {
+		List<Request> requests = mRequests.get(envelope.getRequestId());
 
 		if (requests == null) {
 			return null;
@@ -129,7 +134,7 @@ final class MitmProvider {
 				}
 			}
 		}
-		sRequests.remove(id);
+		mRequests.remove(id);
 
 		if (!isDone) {
 			return null;
@@ -138,7 +143,7 @@ final class MitmProvider {
 		return ByteBuffer.wrap(envelope.toByteArray());
 	}
 
-	private static ByteString processInventoryResponse(GetInventoryResponse response) {
+	private ByteString processInventoryResponse(GetInventoryResponse response) {
 		if (!response.getSuccess() || !response.hasInventoryDelta()) {
 			return null;
 		}
@@ -176,9 +181,5 @@ final class MitmProvider {
 		}
 
 		return null;
-	}
-
-	private MitmProvider() {
-		throw new AssertionError("No instances");
 	}
 }

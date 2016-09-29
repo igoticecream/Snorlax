@@ -16,15 +16,20 @@
 
 package com.icecream.snorlax.module;
 
+import java.util.List;
+
 import javax.inject.Singleton;
 
 import android.app.Application;
+import android.util.LongSparseArray;
 
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 
 import dagger.Module;
 import dagger.Provides;
 import de.robv.android.xposed.XSharedPreferences;
+
+import static POGOProtos.Networking.Requests.RequestOuterClass.Request;
 
 @Module
 final class SnorlaxModule {
@@ -58,5 +63,11 @@ final class SnorlaxModule {
 	@Singleton
 	MitmRelay provideMitmRelay() {
 		return MitmRelay.getInstance();
+	}
+
+	@Provides
+	@Singleton
+	LongSparseArray<List<Request>> provideLongSparseArray() {
+		return new LongSparseArray<>();
 	}
 }

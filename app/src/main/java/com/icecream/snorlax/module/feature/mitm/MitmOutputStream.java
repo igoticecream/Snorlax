@@ -23,11 +23,13 @@ import java.nio.ByteBuffer;
 
 final class MitmOutputStream extends ByteArrayOutputStream {
 
-	private final OutputStream mOutputStream;
+	private final MitmProvider mMitmProvider;
+	private OutputStream mOutputStream;
 
-	MitmOutputStream(OutputStream outputStream) {
+	MitmOutputStream(OutputStream outputStream, MitmProvider mitmProvider) {
 		super(2048);
 		mOutputStream = outputStream;
+		mMitmProvider = mitmProvider;
 	}
 
 	@Override
@@ -43,7 +45,7 @@ final class MitmOutputStream extends ByteArrayOutputStream {
 
 	@SuppressWarnings("unused")
 	private void mitmStream() {
-		ByteBuffer fromMitm = MitmProvider.processOutboundPackage(
+		ByteBuffer fromMitm = mMitmProvider.processOutboundPackage(
 			ByteBuffer.wrap(buf, 0, count).asReadOnlyBuffer(),
 			mOutputStream != null
 		);

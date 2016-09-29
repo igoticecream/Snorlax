@@ -26,11 +26,12 @@ import android.support.annotation.NonNull;
 final class MitmInputStream extends InputStream {
 
 	private static final int sAverageSize = 4096;
-
+	private final MitmProvider mMitmProvider;
 	private boolean mMitmDone;
 	private ByteBuffer mByteBuffer;
 
-	MitmInputStream(InputStream inputStream) {
+	MitmInputStream(InputStream inputStream, MitmProvider mitmProvider) {
+		mMitmProvider = mitmProvider;
 		mMitmDone = false;
 
 		if (inputStream == null) {
@@ -95,7 +96,7 @@ final class MitmInputStream extends InputStream {
 		if (mMitmDone)
 			return;
 
-		ByteBuffer fromMitm = MitmProvider.processInboundPackage(
+		ByteBuffer fromMitm = mMitmProvider.processInboundPackage(
 			mByteBuffer.asReadOnlyBuffer(),
 			mByteBuffer.hasRemaining()
 		);

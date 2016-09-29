@@ -34,36 +34,38 @@ import de.robv.android.xposed.XposedHelpers;
 public final class Mitm implements Feature {
 
 	private final ClassLoader mClassLoader;
+	private final MitmInputStreamFactory mMitmInputStreamFactory;
+	private final MitmOutputStreamFactory mMitmOutputStreamFactory;
 
 	private XC_MethodHook.Unhook mUnhookInputStream;
 	private XC_MethodHook.Unhook mUnhookOutputStream;
 
 	@Inject
-	Mitm(ClassLoader classLoader) {
+	Mitm(ClassLoader classLoader, MitmInputStreamFactory mitmInputStreamFactory, MitmOutputStreamFactory mitmOutputStreamFactory) {
 		mClassLoader = classLoader;
+		mMitmInputStreamFactory = mitmInputStreamFactory;
+		mMitmOutputStreamFactory = mitmOutputStreamFactory;
 	}
 
 	@Override
 	public void subscribe() throws Exception {
 		final Class<?> http = XposedHelpers.findClass(getHttpUrlConnection(), mClassLoader);
 		if (http == null) {
-			Log.e("Cannot find HttpsURLConnection class");
+			Log.e("Cannot find HttpURLConnection implementation class");
 			return;
 		}
 
 		mUnhookInputStream = XposedHelpers.findAndHookMethod(http, "getInputStream", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				// TODO factory
-				param.setResult(new MitmInputStream((InputStream) param.getResult()));
+				param.setResult(mMitmInputStreamFactory.create((InputStream) param.getResult()));
 			}
 		});
 
 		mUnhookOutputStream = XposedHelpers.findAndHookMethod(http, "getOutputStream", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				// TODO factory
-				param.setResult(new MitmOutputStream((OutputStream) param.getResult()));
+				param.setResult(mMitmOutputStreamFactory.create((OutputStream) param.getResult()));
 			}
 		});
 	}
