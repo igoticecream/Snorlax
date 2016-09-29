@@ -132,4 +132,6 @@ dependencies {
     provided libraries.autoValueAnnotations
 
     provided libraries.xposed
+
+    compile 'com.splitwise:tokenautocomplete:2.0.8@aar'
 }

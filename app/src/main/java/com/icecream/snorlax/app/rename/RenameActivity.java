@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 
 import com.icecream.snorlax.R;
 
@@ -42,6 +43,7 @@ public class RenameActivity extends AppCompatActivity {
 		mUnbinder = ButterKnife.bind(this);
 
 		setupToolbar();
+		setupOptions();
 	}
 
 	private void setupToolbar() {
@@ -50,5 +52,16 @@ public class RenameActivity extends AppCompatActivity {
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
+	}
+
+	private void setupOptions() {
+		RenameOptions[] options = new RenameOptions[]{
+			RenameOptions.create("IV"),
+			RenameOptions.create("ATT"),
+			RenameOptions.create("DEF"),
+			RenameOptions.create("STA")
+		};
+
+		ArrayAdapter<RenameOptions> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, options);
 	}
 }
