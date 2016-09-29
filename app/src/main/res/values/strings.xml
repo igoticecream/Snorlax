@@ -39,6 +39,11 @@
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
 	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
 
+	<string name="preference_rename">Show pokemons stats</string>
+	<string name="preference_rename_enable_key">rename_key</string>
+	<string name="preference_rename_enable_title">Enable inventory pokemons stats</string>
+	<string name="preference_rename_enable_summary">Show inventory pokemons stats on ingame pokemon list</string>
+
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>
 	<string name="preference_catch_notification_enable_title">Enable catch notifications</string>

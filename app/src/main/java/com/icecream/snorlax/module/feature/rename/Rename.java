@@ -42,10 +42,12 @@ import static POGOProtos.Networking.Responses.GetInventoryResponseOuterClass.Get
 public final class Rename implements Feature, MitmListener {
 
 	private final MitmProvider mMitmProvider;
+	private final RenamePreferences mRenamePreferences;
 
 	@Inject
-	Rename(MitmProvider mitmProvider) {
+	Rename(MitmProvider mitmProvider, RenamePreferences renamePreferences) {
 		mMitmProvider = mitmProvider;
+		mRenamePreferences = renamePreferences;
 	}
 
 	@Override
@@ -61,6 +63,10 @@ public final class Rename implements Feature, MitmListener {
 
 	@Override
 	public ResponseEnvelope onMitm(List<Request> requests, ResponseEnvelope envelope) {
+		if (!mRenamePreferences.isEnabled()) {
+			return null;
+		}
+
 		for (int i = 0; i < requests.size(); i++) {
 			if (requests.get(i).getRequestType() == RequestType.GET_INVENTORY) {
 				try {

@@ -17,6 +17,19 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
+		android:title="@string/preference_rename"
+		>
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_rename_enable"
+			android:key="@string/preference_rename_enable_key"
+			android:summary="@string/preference_rename_enable_summary"
+			android:title="@string/preference_rename_enable_title"
+			/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory
 		android:title="@string/preference_encounter_notification"
 		>
 
@@ -49,8 +62,8 @@
 		<SwitchPreference
 			android:defaultValue="@bool/preference_hatch_notification_enable"
 			android:key="@string/preference_hatch_notification_enable_key"
-			android:summary="@string/preference_hatch_notification_enable_summary"
 			android:title="@string/preference_hatch_notification_enable_title"
+			android:summary="@string/preference_hatch_notification_enable_summary"
 			/>
 
 	</PreferenceCategory>

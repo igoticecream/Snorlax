@@ -40,8 +40,8 @@ final class MockPreferences {
 
 	boolean isEnabled() {
 		mPreferences.reload();
-		final boolean excepted = getPreferenceDefaultValue();
-		return excepted == getPreference(excepted);
+		final boolean expected = getPreferenceDefaultValue();
+		return expected == getPreference(expected);
 	}
 
 	private boolean getPreferenceDefaultValue() {

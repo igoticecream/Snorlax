@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.encounter;
+package com.icecream.snorlax.module.feature.rename;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,34 +25,30 @@ import com.icecream.snorlax.R;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import de.robv.android.xposed.XSharedPreferences;
-import rx.Observable;
 
 @Singleton
-final class EncounterPreferences {
+final class RenamePreferences {
 
 	private final Resources mResources;
 	private final XSharedPreferences mPreferences;
 
 	@Inject
-	EncounterPreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
+	RenamePreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
 		mResources = resources;
 		mPreferences = preferences;
 	}
 
-	<T> Observable.Transformer<T, T> isEnabled() {
-		return observable -> observable
-			.doOnNext(t -> mPreferences.reload())
-			.filter(t -> {
-				final boolean expected = getPreferenceDefaultValue();
-				return expected == getPreference(expected);
-			});
+	boolean isEnabled() {
+		mPreferences.reload();
+		final boolean expected = getPreferenceDefaultValue();
+		return expected == getPreference(expected);
 	}
 
 	private boolean getPreferenceDefaultValue() {
-		return mResources.getBoolean(R.bool.preference_encounter_notification_enable);
+		return mResources.getBoolean(R.bool.preference_rename_enable);
 	}
 
 	private boolean getPreference(boolean defaultValue) {
-		return mPreferences.getBoolean(mResources.getString(R.string.preference_encounter_notification_enable_key), defaultValue);
+		return mPreferences.getBoolean(mResources.getString(R.string.preference_rename_enable_key), defaultValue);
 	}
 }

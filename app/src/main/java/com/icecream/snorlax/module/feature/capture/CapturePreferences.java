@@ -43,8 +43,8 @@ final class CapturePreferences {
 		return observable -> observable
 			.doOnNext(t -> mPreferences.reload())
 			.filter(t -> {
-				final boolean excepted = getPreferenceDefaultValue();
-				return excepted == getPreference(excepted);
+				final boolean expected = getPreferenceDefaultValue();
+				return expected == getPreference(expected);
 			});
 	}
 
