@@ -181,6 +181,8 @@ public class HomeActivity extends AppCompatActivity {
 			super.onActivityCreated(savedInstanceState);
 			setDivider(new ColorDrawable(Color.TRANSPARENT));
 			setDividerHeight(0);
+
+			getListView().setPadding(0, 0, 0, getActivity().getResources().getDimensionPixelSize(R.dimen.padding_list_bottom));
 		}
 
 		@Override

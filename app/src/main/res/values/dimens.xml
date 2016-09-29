@@ -11,4 +11,7 @@
 	<dimen name="margin_vertical_dialog">16dp</dimen>
 	<dimen name="margin_horizontal_dialog">24dp</dimen>
 
+	<!-- Paddings -->
+	<dimen name="padding_list_bottom">64dp</dimen>
+
 </resources>
