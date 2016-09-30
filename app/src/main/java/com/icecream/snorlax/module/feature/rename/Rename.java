@@ -16,6 +16,7 @@
 
 package com.icecream.snorlax.module.feature.rename;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,7 +25,6 @@ import javax.inject.Singleton;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.Pokemons;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmListener;
@@ -103,9 +103,9 @@ public final class Rename implements Feature, MitmListener {
 			if (data.getPokemonData().getPokemonId() != PokemonId.MISSINGNO) {
 				PokemonData.Builder pokemon = data.getPokemonData().toBuilder();
 
-				if (Strings.isEmpty(pokemon.getNickname())) {
+				//if (Strings.isEmpty(pokemon.getNickname())) {
 					pokemon.setNickname(processNickname(data.getPokemonData()));
-				}
+				//}
 				data.setPokemonData(pokemon);
 			}
 
@@ -118,14 +118,17 @@ public final class Rename implements Feature, MitmListener {
 	private String processNickname(PokemonData pokemonData) {
 		Pokemons.Data data = mPokemons.with(pokemonData);
 
+		DecimalFormat ivFormatter = new DecimalFormat("000.0");
+		DecimalFormat lvFormatter = new DecimalFormat("00.0");
+
 		return String.format(
 			Locale.US,
-			"%4.1f %s/%s/%s %3.1f",
-			data.getIvPercentage(),
+			"%s %d/%d/%d %s",
+			ivFormatter.format(data.getIvPercentage()),
 			data.getAttack(),
 			data.getDefense(),
 			data.getStamina(),
-			data.getLevel()
+			lvFormatter.format(data.getLevel())
 		);
 	}
 }
