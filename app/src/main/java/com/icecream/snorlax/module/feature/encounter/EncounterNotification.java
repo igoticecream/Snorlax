@@ -56,7 +56,7 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double greatRate, double ultraRate) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
@@ -71,19 +71,17 @@ final class EncounterNotification {
 					false
 				))
 				.setContentTitle(mContext.getString(R.string.notification_title, pokemonName, cp, level))
-				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina, hp))
+				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina))
 				.setStyle(new NotificationCompat.InboxStyle()
-					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina, hp))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content_iv, iv, attack, defense, stamina))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content_hp, hp))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_moves_title)))
 					.addLine(mContext.getString(R.string.notification_categoty_moves_content, move1, move2))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_pokeball, pokeRate, pokeBerryRate))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_greatball, greatRate, greatBerryRate))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_ultraball, ultraRate, ultraBerryRate))
+					.addLine(mContext.getString(R.string.notification_categoty_catch_content, pokeRate, greatRate, ultraRate))
 				)
 				.setColor(ContextCompat.getColor(mContext, R.color.red_700))
 				.setAutoCancel(true)
-				//.setVibrate(new long[]{0, 60, 300, 60})
 				.setVibrate(new long[]{0})
 				.setPriority(Notification.PRIORITY_MAX)
 				.setCategory(NotificationCompat.CATEGORY_ALARM)

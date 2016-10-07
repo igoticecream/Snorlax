@@ -163,11 +163,8 @@ public final class Encounter implements Feature {
 			data.getMove1WithFormat(),
 			data.getMove2WithFormat(),
 			probability.getWithPokeball(),
-			probability.getWithPokeballAndBerry(),
 			probability.getWithGreatball(),
-			probability.getWithGreatballAndBerry(),
-			probability.getWithUltraball(),
-			probability.getWithUltraballAndBerry()
+			probability.getWithUltraball()
 		);
 	}
 

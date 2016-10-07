@@ -157,6 +157,7 @@ public final class Pokemons {
 			return Math.round(Math.min(100.0d, mCaptureProbability.getCaptureProbability(index) * 100d * multiplier) * 100.0d) / 100.0d;
 		}
 
+		@Deprecated
 		public double getWithPokeballAndBerry() {
 			return getRate(0, 1.5);
 		}
@@ -165,6 +166,7 @@ public final class Pokemons {
 			return getRate(1, 1);
 		}
 
+		@Deprecated
 		public double getWithGreatballAndBerry() {
 			return getRate(1, 1.5);
 		}
@@ -173,6 +175,7 @@ public final class Pokemons {
 			return getRate(2, 1);
 		}
 
+		@Deprecated
 		public double getWithUltraballAndBerry() {
 			return getRate(2, 1.5);
 		}

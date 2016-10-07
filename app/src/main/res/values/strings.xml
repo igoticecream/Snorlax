@@ -17,18 +17,17 @@
 	<string name="error_pokemon_missing">Install Pokemon Go to launch it</string>
 
 	<string name="notification_title">%1$s (CP %2$d) LV %3$3.1f</string>
-	<string name="notification_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d] and HP %5$d</string>
+	<string name="notification_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
 
 	<string name="notification_categoty_stats_title">Stats</string>
-	<string name="notification_categoty_stats_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d] and HP %5$d</string>
+	<string name="notification_categoty_stats_content_iv">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
+	<string name="notification_categoty_stats_content_hp">HP %1$d</string>
 
 	<string name="notification_categoty_moves_title">Moves</string>
 	<string name="notification_categoty_moves_content">%1$s - %2$s</string>
 
 	<string name="notification_categoty_catch_title">Catch Rate</string>
-	<string name="notification_categoty_catch_content_pokeball">Pokeball %1$4.1f%% - %2$4.1f%%</string>
-	<string name="notification_categoty_catch_content_greatball">Greatball %1$4.1f%% - %2$4.1f%%</string>
-	<string name="notification_categoty_catch_content_ultraball">Ultraball %1$4.1f%% - %2$4.1f%%</string>
+	<string name="notification_categoty_catch_content">Poké %1$4.1f%% - Great %2$4.1f%% - Ultra %3$4.1f%%</string>
 
 	<string name="preference_general">General</string>
 	<string name="preference_general_mock_enable_key">general_mock_key</string>
