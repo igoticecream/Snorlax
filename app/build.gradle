@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.protobuf'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 apply from: "${rootDir}/buildscript/signing/sign.gradle"
@@ -123,12 +122,12 @@ dependencies {
     compile libraries.rxRelay
 
     compile libraries.butterknife
-    apt libraries.butterknifeCompiler
+    annotationProcessor libraries.butterknifeCompiler
 
     compile libraries.dagger
-    apt libraries.daggerCompiler
+    annotationProcessor libraries.daggerCompiler
 
-    apt libraries.autoValue
+    annotationProcessor libraries.autoValue
     provided libraries.autoValueAnnotations
 
     provided libraries.xposed
