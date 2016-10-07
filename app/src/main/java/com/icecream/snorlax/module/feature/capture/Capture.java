@@ -55,7 +55,10 @@ public final class Capture implements Feature {
 	private void onCapture(ByteString bytes) {
 		try {
 			CatchPokemonResponse response = CatchPokemonResponse.parseFrom(bytes);
-			mCaptureNotification.show(formatCapture(response.getStatus().name()));
+
+			if (!response.getStatus().equals(CatchPokemonResponse.CatchStatus.CATCH_MISSED)) {
+				mCaptureNotification.show(formatCapture(response.getStatus().name()));
+			}
 		}
 		catch (InvalidProtocolBufferException e) {
 			Log.d("CatchPokemonResponse failed: %s" + e.getMessage());
