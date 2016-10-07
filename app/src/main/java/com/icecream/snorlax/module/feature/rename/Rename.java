@@ -29,6 +29,7 @@ import com.icecream.snorlax.module.Pokemons;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmListener;
 import com.icecream.snorlax.module.feature.mitm.MitmProvider;
+import com.icecream.snorlax.module.util.Log;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static POGOProtos.Enums.PokemonIdOuterClass.PokemonId;
@@ -103,19 +104,28 @@ public final class Rename implements Feature, MitmListener {
 			if (data.getPokemonData().getPokemonId() != PokemonId.MISSINGNO) {
 				PokemonData.Builder pokemon = data.getPokemonData().toBuilder();
 
-				//if (Strings.isEmpty(pokemon.getNickname())) {
+				try {
 					pokemon.setNickname(processNickname(data.getPokemonData()));
-				//}
-				data.setPokemonData(pokemon);
+				}
+				catch (NullPointerException e) {
+					Log.d("processNickname failed: %s", e.getMessage());
+					Log.e(e);
+				}
+				catch (IllegalArgumentException e) {
+					Log.d("Cannot process processNickname: %s", e.getMessage());
+					Log.e(e);
+				}
+				finally {
+					data.setPokemonData(pokemon);
+				}
 			}
-
 			item.setInventoryItemData(data);
 			delta.setInventoryItems(i, item);
 		}
 		return inventory.setInventoryDelta(delta).build().toByteString();
 	}
 
-	private String processNickname(PokemonData pokemonData) {
+	private String processNickname(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
 		Pokemons.Data data = mPokemons.with(pokemonData);
 
 		DecimalFormat ivFormatter = new DecimalFormat("000.0");

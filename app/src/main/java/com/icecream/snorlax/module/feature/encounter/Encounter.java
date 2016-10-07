@@ -107,7 +107,11 @@ public final class Encounter implements Feature {
 			onEncounter(response.getWildPokemon().getPokemonData(), response.getCaptureProbability());
 		}
 		catch (InvalidProtocolBufferException | NullPointerException e) {
-			Log.d("EncounterResponse failed: %s" + e.getMessage());
+			Log.d("EncounterResponse failed: %s", e.getMessage());
+			Log.e(e);
+		}
+		catch (IllegalArgumentException e) {
+			Log.d("Cannot process IncenseEncounterResponse: %s", e.getMessage());
 			Log.e(e);
 		}
 	}
@@ -118,7 +122,11 @@ public final class Encounter implements Feature {
 			onEncounter(response.getPokemonData(), response.getCaptureProbability());
 		}
 		catch (InvalidProtocolBufferException | NullPointerException e) {
-			Log.d("DiskEncounterResponse failed: %s" + e.getMessage());
+			Log.d("DiskEncounterResponse failed: %s", e.getMessage());
+			Log.e(e);
+		}
+		catch (IllegalArgumentException e) {
+			Log.d("Cannot process IncenseEncounterResponse: %s", e.getMessage());
 			Log.e(e);
 		}
 	}
@@ -129,12 +137,16 @@ public final class Encounter implements Feature {
 			onEncounter(response.getPokemonData(), response.getCaptureProbability());
 		}
 		catch (InvalidProtocolBufferException | NullPointerException e) {
-			Log.d("IncenseEncounterResponse failed: %s" + e.getMessage());
+			Log.d("IncenseEncounterResponse failed: %s", e.getMessage());
+			Log.e(e);
+		}
+		catch (IllegalArgumentException e) {
+			Log.d("Cannot process IncenseEncounterResponse: %s", e.getMessage());
 			Log.e(e);
 		}
 	}
 
-	private void onEncounter(PokemonData pokemonData, CaptureProbability captureProbability) {
+	private void onEncounter(PokemonData pokemonData, CaptureProbability captureProbability) throws NullPointerException, IllegalArgumentException {
 		Pokemons.Data data = mPokemons.with(pokemonData);
 		Pokemons.Probability probability = mPokemons.with(captureProbability);
 

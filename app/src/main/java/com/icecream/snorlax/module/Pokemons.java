@@ -28,6 +28,7 @@ import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+import static POGOProtos.Enums.PokemonIdOuterClass.PokemonId;
 import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 
 @Singleton
@@ -123,11 +124,20 @@ public final class Pokemons {
 		mNames = resources.getStringArray(R.array.pokemon);
 	}
 
-	public Pokemons.Data with(PokemonData pokemonData) {
+	public Pokemons.Data with(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
+		if (pokemonData == null) {
+			throw new NullPointerException("PokemonData cannot be null");
+		}
+		if (pokemonData.getPokemonId().equals(PokemonId.MISSINGNO) || pokemonData.getPokemonId().equals(PokemonId.UNRECOGNIZED)) {
+			throw new IllegalArgumentException("Unrecognized Pokemon Id");
+		}
 		return new Data(pokemonData);
 	}
 
-	public Probability with(CaptureProbability captureProbability) {
+	public Probability with(CaptureProbability captureProbability) throws NullPointerException {
+		if (captureProbability == null) {
+			throw new NullPointerException("CaptureProbability cannot be null");
+		}
 		return new Probability(captureProbability);
 	}
 
@@ -135,7 +145,7 @@ public final class Pokemons {
 
 		private final CaptureProbability mCaptureProbability;
 
-		Probability(CaptureProbability captureProbability) {
+		private Probability(CaptureProbability captureProbability) {
 			mCaptureProbability = captureProbability;
 		}
 
@@ -172,7 +182,7 @@ public final class Pokemons {
 
 		private final PokemonData mPokemonData;
 
-		Data(PokemonData pokemonData) {
+		private Data(PokemonData pokemonData) {
 			mPokemonData = pokemonData;
 		}
 
