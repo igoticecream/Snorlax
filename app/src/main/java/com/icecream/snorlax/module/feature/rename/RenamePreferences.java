@@ -38,6 +38,10 @@ final class RenamePreferences {
 		mPreferences = preferences;
 	}
 
+	String getFormat() {
+		throw new RuntimeException("Not implemented");
+	}
+
 	boolean isEnabled() {
 		mPreferences.reload();
 		final boolean expected = getPreferenceDefaultValue();
