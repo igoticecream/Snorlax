@@ -21,15 +21,20 @@ import javax.inject.Singleton;
 
 import android.support.annotation.Nullable;
 
+import com.icecream.snorlax.common.Decimals;
 import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.Pokemons;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+import static android.R.attr.level;
+import static java.lang.Integer.parseInt;
 
 @Singleton
 final class RenameFormat {
 
 	private static final String BASE_NICK = "NICK";
+	private static final String BASE_LVL = "LVL";
+	private static final String BASE_IV = "IV";
 
 	private final Pokemons mPokemons;
 	private final RenamePreferences mRenamePreferences;
@@ -50,9 +55,60 @@ final class RenameFormat {
 		}
 		else if (dot > 0 && length > dot) {
 			try {
-				return Strings.truncateAt(nick, Integer.parseInt(target.substring(dot)));
+				return Strings.truncateAt(nick, parseInt(target.substring(dot)));
 			}
 			catch (NumberFormatException ignored) {
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	private String processLevel(String target, float level) {
+
+		if (target.equals(BASE_LVL)) {
+			return Decimals.format(level, 1, 1);
+		}
+		if (target.equals(BASE_LVL.concat("P"))) {
+			return Decimals.format(level, 2, 1);
+		}
+		if (target.startsWith(BASE_LVL.concat("."))) {
+			try {
+				return Decimals.format(level, 1, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+			}
+			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
+			}
+		}
+		if (target.startsWith(BASE_LVL.concat("P."))) {
+			try {
+				return Decimals.format(level, 2, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+			}
+			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	private String processIv(String target, double iv) {
+		if (target.equals(BASE_IV)) {
+			return Decimals.format(iv, 1, 1);
+		}
+		if (target.equals(BASE_IV.concat("P"))) {
+			return Decimals.format(iv, 3, 1);
+		}
+		if (target.startsWith(BASE_IV.concat("."))) {
+			try {
+				return Decimals.format(iv, 1, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+			}
+			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
+			}
+		}
+		if (target.startsWith(BASE_IV.concat("P."))) {
+			try {
+				return Decimals.format(iv, 3, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+			}
+			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 			}
 		}
 		return null;
@@ -65,6 +121,12 @@ final class RenameFormat {
 
 		if (target.startsWith(BASE_NICK)) {
 			processed = processNick(target, pokemonsData.getName());
+		}
+		else if (target.startsWith(BASE_LVL)) {
+			processed = processLevel(target, pokemonsData.getLevel());
+		}
+		else if (target.startsWith(BASE_IV)) {
+			processed = processIv(target, pokemonsData.getIvRatio() * 100);
 		}
 
 		return Strings.isNullOrEmpty(processed) ? "%" + command + "%" : processed;
