@@ -61,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
 
 	private Unbinder mUnbinder;
 	private AlertDialog mAboutDialog;
+	private AlertDialog mFormatInfoDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +132,9 @@ public class HomeActivity extends AppCompatActivity {
 			case R.id.about:
 				showAbout();
 				return true;
+			case R.id.format_info:
+				showFormatInfo();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -160,10 +164,23 @@ public class HomeActivity extends AppCompatActivity {
 			.show();
 	}
 
+	@SuppressLint("InflateParams")
+	private void showFormatInfo() {
+		mAboutDialog = new AlertDialog.Builder(this)
+			.setTitle(R.string.format_info)
+			.setView(getLayoutInflater().inflate(R.layout.format_dialog, null, false))
+			.setPositiveButton(android.R.string.ok, null)
+			.setCancelable(true)
+			.show();
+	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 
+		if (mFormatInfoDialog != null && mFormatInfoDialog.isShowing()) {
+			mFormatInfoDialog.dismiss();
+		}
 		if (mAboutDialog != null && mAboutDialog.isShowing()) {
 			mAboutDialog.dismiss();
 		}

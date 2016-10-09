@@ -12,15 +12,15 @@ Features:
 Pokemon stats custom formats:
 - Nickname
   - %NICK% : Shows pokemon full name. %NICK% -> Snorlax
-  - %NICK.#% : Trims pokemon name by #. %NICK.3%" -> Sno
+  - %NICK.#% : Trims pokemon name by #. %NICK.3% -> Sno
 - Level
   - %LVL% : Shows pokemon level with one decimal. %LVL% -> 2.5
-  - %LVL.#% : Round up and trims pokemon level by # decimals. %LVL.0%" -> 3. %LVL.2%" -> 2.50
+  - %LVL.#% : Round up and trims pokemon level by # decimals. %LVL.0% -> 3. %LVL.2% -> 2.50
   - %LVLP% : Same as %LVL% but add leading zeros. %LVLP% -> 02.5
   - %LVLP.#% : Same as %LVL.#% but add leading zeros. %LVLP.0% -> 03. %LVLP.2% -> 02.50
 - Iv
   - %IV% : Shows pokemon iv with one decimal. %IV% -> 6.7
-  - %IV.#% : Round up and trims pokemon iv by # decimals. %IV.0%" -> 7. %IV.2%" -> 6.67
+  - %IV.#% : Round up and trims pokemon iv by # decimals. %IV.0% -> 7. %IV.2% -> 6.67
   - %IVP% : Same as %IV% but add leading zeros. %IVP% -> 006.7
   - %IVP.#% : Same as %IV.#% but add leading zeros. %IVP.0% -> 007. %IVP.2% -> 006.67
 - Attack
