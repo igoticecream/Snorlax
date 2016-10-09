@@ -69,21 +69,23 @@ final class RenameFormat {
 	private String processLevel(String target, float level) {
 
 		if (target.equals(BASE_LVL)) {
-			return Decimals.format(level, 1, 1);
+			return Decimals.format(level, 1, 2, 1, 1);
 		}
 		if (target.equals(BASE_LVL.concat("P"))) {
-			return Decimals.format(level, 2, 1);
+			return Decimals.format(level, 2, 2, 1, 1);
 		}
 		if (target.startsWith(BASE_LVL.concat("."))) {
 			try {
-				return Decimals.format(level, 1, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+				final int decimals = Integer.parseInt(target.substring(target.indexOf('.') + 1));
+				return Decimals.format(level, 1, 2, decimals, decimals);
 			}
 			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 			}
 		}
 		if (target.startsWith(BASE_LVL.concat("P."))) {
 			try {
-				return Decimals.format(level, 2, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+				final int decimals = Integer.parseInt(target.substring(target.indexOf('.') + 1));
+				return Decimals.format(level, 2, 2, decimals, decimals);
 			}
 			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 			}
@@ -94,21 +96,23 @@ final class RenameFormat {
 	@Nullable
 	private String processIv(String target, double iv) {
 		if (target.equals(BASE_IV)) {
-			return Decimals.format(iv, 1, 1);
+			return Decimals.format(iv, 1, 3, 1, 1);
 		}
 		if (target.equals(BASE_IV.concat("P"))) {
-			return Decimals.format(iv, 3, 1);
+			return Decimals.format(iv, 3, 3, 1, 1);
 		}
 		if (target.startsWith(BASE_IV.concat("."))) {
 			try {
-				return Decimals.format(iv, 1, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+				final int decimals = Integer.parseInt(target.substring(target.indexOf('.') + 1));
+				return Decimals.format(iv, 1, 3, decimals, decimals);
 			}
 			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 			}
 		}
 		if (target.startsWith(BASE_IV.concat("P."))) {
 			try {
-				return Decimals.format(iv, 3, Integer.parseInt(target.substring(target.indexOf('.') + 1)));
+				final int decimals = Integer.parseInt(target.substring(target.indexOf('.') + 1));
+				return Decimals.format(iv, 3, 3, decimals, decimals);
 			}
 			catch (NumberFormatException | IndexOutOfBoundsException ignored) {
 			}
@@ -118,10 +122,10 @@ final class RenameFormat {
 
 	private String processAttack(String target, int attack) {
 		if (target.equals(BASE_ATT)) {
-			return Decimals.format(attack, 1, 0);
+			return Decimals.format(attack, 1, 2, 0, 0);
 		}
 		if (target.equals(BASE_ATT.concat("P"))) {
-			return Decimals.format(attack, 2, 0);
+			return Decimals.format(attack, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_ATT.concat("H"))) {
 			return Integer.toHexString(attack).toUpperCase();
@@ -131,10 +135,10 @@ final class RenameFormat {
 
 	private String processDefense(String target, int defense) {
 		if (target.equals(BASE_DEF)) {
-			return Decimals.format(defense, 1, 0);
+			return Decimals.format(defense, 1, 2, 0, 0);
 		}
 		if (target.equals(BASE_DEF.concat("P"))) {
-			return Decimals.format(defense, 2, 0);
+			return Decimals.format(defense, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_DEF.concat("H"))) {
 			return Integer.toHexString(defense).toUpperCase();
@@ -144,10 +148,10 @@ final class RenameFormat {
 
 	private String processStamina(String target, int stamina) {
 		if (target.equals(BASE_STA)) {
-			return Decimals.format(stamina, 1, 0);
+			return Decimals.format(stamina, 1, 2, 0, 0);
 		}
 		if (target.equals(BASE_STA.concat("P"))) {
-			return Decimals.format(stamina, 2, 0);
+			return Decimals.format(stamina, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_STA.concat("H"))) {
 			return Integer.toHexString(stamina).toUpperCase();

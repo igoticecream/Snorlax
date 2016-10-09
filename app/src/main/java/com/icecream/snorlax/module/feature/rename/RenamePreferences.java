@@ -39,7 +39,7 @@ final class RenamePreferences {
 	}
 
 	String getFormat() {
-		throw new RuntimeException("Not implemented");
+		return "%IVP.0% %ATT%/%DEF%/%STA% %LVL%";
 	}
 
 	boolean isEnabled() {

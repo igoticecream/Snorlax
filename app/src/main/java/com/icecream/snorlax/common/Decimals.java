@@ -22,26 +22,26 @@ import java.text.DecimalFormat;
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public final class Decimals {
 
-	private static DecimalFormat getDecimalFormat(int integerDigits, int fractionDigits) {
+	private static DecimalFormat getDecimalFormat(int minIntegerDigits, int maxIntegerDigits, int minFractionDigits, int maxFractionDigits) {
 		DecimalFormat format = new DecimalFormat();
 		format.setRoundingMode(RoundingMode.UP);
-		format.setMinimumFractionDigits(fractionDigits);
-		format.setMaximumFractionDigits(fractionDigits);
-		format.setMinimumIntegerDigits(integerDigits);
-		format.setMaximumIntegerDigits(integerDigits);
+		format.setMinimumFractionDigits(minFractionDigits);
+		format.setMaximumFractionDigits(maxFractionDigits);
+		format.setMinimumIntegerDigits(minIntegerDigits);
+		format.setMaximumIntegerDigits(maxIntegerDigits);
 		return format;
 	}
 
-	public static String format(float value, int integerDigits, int fractionDigits) {
-		return getDecimalFormat(integerDigits, fractionDigits).format(value);
+	public static String format(float value, int minIntegerDigits, int maxIntegerDigits, int minFractionDigits, int maxFractionDigits) {
+		return getDecimalFormat(minIntegerDigits, maxIntegerDigits, minFractionDigits, maxFractionDigits).format(value);
 	}
 
-	public static String format(double value, int integerDigits, int fractionDigits) {
-		return getDecimalFormat(integerDigits, fractionDigits).format(value);
+	public static String format(double value, int minIntegerDigits, int maxIntegerDigits, int minFractionDigits, int maxFractionDigits) {
+		return getDecimalFormat(minIntegerDigits, maxIntegerDigits, minFractionDigits, maxFractionDigits).format(value);
 	}
 
-	public static String format(int value, int integerDigits, int fractionDigits) {
-		return getDecimalFormat(integerDigits, fractionDigits).format(value);
+	public static String format(int value, int minIntegerDigits, int maxIntegerDigits, int minFractionDigits, int maxFractionDigits) {
+		return getDecimalFormat(minIntegerDigits, maxIntegerDigits, minFractionDigits, maxFractionDigits).format(value);
 	}
 
 	private Decimals() {

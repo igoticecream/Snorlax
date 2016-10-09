@@ -16,9 +16,7 @@
 
 package com.icecream.snorlax.module.feature.rename;
 
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -47,12 +45,14 @@ public final class Rename implements Feature, MitmListener {
 	private final MitmProvider mMitmProvider;
 	private final Pokemons mPokemons;
 	private final RenamePreferences mRenamePreferences;
+	private final RenameFormat mRenameFormat;
 
 	@Inject
-	Rename(MitmProvider mitmProvider, Pokemons pokemons, RenamePreferences renamePreferences) {
+	Rename(MitmProvider mitmProvider, Pokemons pokemons, RenamePreferences renamePreferences, RenameFormat renameFormat) {
 		mMitmProvider = mitmProvider;
 		mPokemons = pokemons;
 		mRenamePreferences = renamePreferences;
+		mRenameFormat = renameFormat;
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public final class Rename implements Feature, MitmListener {
 				PokemonData.Builder pokemon = data.getPokemonData().toBuilder();
 
 				try {
-					pokemon.setNickname(processNickname(data.getPokemonData()));
+					pokemon.setNickname(mRenameFormat.format(data.getPokemonData()));
 				}
 				catch (NullPointerException e) {
 					Log.d("processNickname failed: %s", e.getMessage());
@@ -123,22 +123,5 @@ public final class Rename implements Feature, MitmListener {
 			delta.setInventoryItems(i, item);
 		}
 		return inventory.setInventoryDelta(delta).build().toByteString();
-	}
-
-	private String processNickname(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
-		Pokemons.Data data = mPokemons.with(pokemonData);
-
-		DecimalFormat ivFormatter = new DecimalFormat("000.0");
-		DecimalFormat lvFormatter = new DecimalFormat("00.0");
-
-		return String.format(
-			Locale.US,
-			"%s %d/%d/%d %s",
-			ivFormatter.format(data.getIvPercentage()),
-			data.getAttack(),
-			data.getDefense(),
-			data.getStamina(),
-			lvFormatter.format(data.getLevel())
-		);
 	}
 }

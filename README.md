@@ -9,13 +9,6 @@ Features:
 - Show pokemon stats as a system notification when you encounter them: IV's, HP, CP, level, moves, catch probability
 - Show catch results: Success, missed, flee, etc.
 
-## Requirements
-- JDK 1.8
-- [Android SDK](http://developer.android.com/sdk/index.html)
-- Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
-- Latest Android SDK Tools and build tools
-- Your device must be rooted and the xposed framekwork must be installed. You can download the xposed framework [here](http://repo.xposed.info/module/de.robv.android.xposed.installer).
-
 ## Libraries and tools
 - Android's support libraries
 - Reactive extensions: [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding) and [RxRelay](https://github.com/JakeWharton/RxRelay)
@@ -26,7 +19,14 @@ Features:
 - [Xposed framework](https://github.com/rovo89/XposedBridge)
 - [Protobuf](https://github.com/google/protobuf-gradle-plugin)
 
-## Build from source
+## Build requirements
+- JDK 1.8
+- [Android SDK](http://developer.android.com/sdk/index.html)
+- Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
+- Latest Android SDK Tools and build tools
+- Your device must be rooted and the xposed framekwork must be installed. You can download the xposed framework [here](http://repo.xposed.info/module/de.robv.android.xposed.installer).
+
+## Build source
 Clone the repository (you must have Git installed)
 ```
 git clone https://github.com/igoticecream/Snorlax.git

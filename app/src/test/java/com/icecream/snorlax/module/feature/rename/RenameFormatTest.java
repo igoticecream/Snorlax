@@ -292,6 +292,14 @@ public class RenameFormatTest {
 	}
 
 	@Test
+	public void testAttackTwoDigits() throws Exception {
+		Mockito.doReturn(10).when(mPokemonsData).getAttack();
+
+		mExpected = "10";
+		setRenameFormat("%ATT%");
+	}
+
+	@Test
 	public void testAttackWithPadding() throws Exception {
 		mExpected = "01";
 		setRenameFormat("%ATTP%");
@@ -314,6 +322,14 @@ public class RenameFormatTest {
 	}
 
 	@Test
+	public void testDefenseTwoDigits() throws Exception {
+		Mockito.doReturn(10).when(mPokemonsData).getDefense();
+
+		mExpected = "10";
+		setRenameFormat("%DEF%");
+	}
+
+	@Test
 	public void testDefenseWithPadding() throws Exception {
 		mExpected = "01";
 		setRenameFormat("%DEFP%");
@@ -332,6 +348,14 @@ public class RenameFormatTest {
 	@Test
 	public void testStamina() throws Exception {
 		mExpected = "1";
+		setRenameFormat("%STA%");
+	}
+
+	@Test
+	public void testStaminaTwoDigits() throws Exception {
+		Mockito.doReturn(10).when(mPokemonsData).getStamina();
+
+		mExpected = "10";
 		setRenameFormat("%STA%");
 	}
 
