@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<android.support.v4.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fillViewport="true"
+	>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:paddingBottom="@dimen/margin_vertical_dialog"
+		android:paddingEnd="@dimen/margin_horizontal_dialog"
+		android:paddingStart="@dimen/margin_horizontal_dialog"
+		android:paddingTop="@dimen/margin_vertical_dialog"
+		>
+
+		<TextView
+			android:id="@+id/donation"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/donation_info"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/white"
+			android:textIsSelectable="true"
+			/>
+
+	</LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

@@ -6,6 +6,9 @@
 	<string name="format">Format</string>
 	<string name="format_info">Format Info</string>
 
+	<string name="donation">Donation</string>
+	<string name="donation_info">I hope you are liking Snorlax!\n\nIf you like, you can support this project to keep coming with new features by buying me a cup of coffee (so i can code by night) or a BigMac at McDonalds. Clicking the button below and thanks you!</string>
+
 	<string name="about_version">Version %1$s</string>
 	<string name="about_author">By igoticecream (igoticecream@gmail.com)</string>
 	<string name="about_github">This project is open source under the Apache 2.0 license. If you like this module, an star to this repo on my Github will help me a lot.</string>

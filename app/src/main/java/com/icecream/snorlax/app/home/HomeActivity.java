@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -50,6 +51,8 @@ import butterknife.Unbinder;
 import rx.Observable;
 import timber.log.Timber;
 
+import static com.icecream.snorlax.R.xml.preferences;
+
 public class HomeActivity extends AppCompatActivity {
 
 	@BindView(R.id.coordinator)
@@ -62,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
 	private Unbinder mUnbinder;
 	private AlertDialog mAboutDialog;
 	private AlertDialog mFormatInfoDialog;
+	private AlertDialog mDonationDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,8 @@ public class HomeActivity extends AppCompatActivity {
 			})
 			.filter(intent -> intent != null)
 			.subscribe(this::startActivity);
+
+		checkIfFirstTime();
 	}
 
 	private void setupToolbar() {
@@ -106,12 +112,32 @@ public class HomeActivity extends AppCompatActivity {
 	}
 
 	private void setupPreferences() {
-		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		PreferenceManager.setDefaultValues(this, preferences, false);
 
 		getSupportFragmentManager()
 			.beginTransaction()
 			.replace(R.id.content, new SettingsFragment())
 			.commit();
+	}
+
+	private void checkIfFirstTime() {
+		final String version = "version";
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if (preferences.getInt(version, -1) < BuildConfig.VERSION_CODE) {
+			showDonation();
+			preferences.edit().putInt(version, BuildConfig.VERSION_CODE).apply();
+		}
+	}
+
+	@SuppressLint("InflateParams")
+	private void showDonation() {
+		mDonationDialog = new AlertDialog.Builder(this, R.style.Snorlax_Dialog)
+			.setTitle(R.string.donation)
+			.setView(getLayoutInflater().inflate(R.layout.donation_dialog, null, false))
+			.setPositiveButton("Paypal", (dialog, which) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9PPGNDJEC33E"))))
+			.setCancelable(true)
+			.show();
 	}
 
 	@Override
@@ -134,6 +160,9 @@ public class HomeActivity extends AppCompatActivity {
 				return true;
 			case R.id.format_info:
 				showFormatInfo();
+				return true;
+			case R.id.donation:
+				showDonation();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -166,7 +195,7 @@ public class HomeActivity extends AppCompatActivity {
 
 	@SuppressLint("InflateParams")
 	private void showFormatInfo() {
-		mAboutDialog = new AlertDialog.Builder(this)
+		mFormatInfoDialog = new AlertDialog.Builder(this)
 			.setTitle(R.string.format_info)
 			.setView(getLayoutInflater().inflate(R.layout.format_dialog, null, false))
 			.setPositiveButton(android.R.string.ok, null)
@@ -184,13 +213,16 @@ public class HomeActivity extends AppCompatActivity {
 		if (mAboutDialog != null && mAboutDialog.isShowing()) {
 			mAboutDialog.dismiss();
 		}
+		if (mDonationDialog != null && mDonationDialog.isShowing()) {
+			mDonationDialog.dismiss();
+		}
 	}
 
 	public static class SettingsFragment extends PreferenceFragmentCompat {
 
 		@Override
 		public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-			addPreferencesFromResource(R.xml.preferences);
+			addPreferencesFromResource(preferences);
 		}
 
 		@Override
