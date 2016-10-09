@@ -9,6 +9,35 @@ Features:
 - Show pokemon stats as a system notification when you encounter them: IV's, HP, CP, level, moves, catch probability
 - Show catch results: Success, missed, flee, etc.
 
+Pokemon stats custom formats:
+- Nickname
+  - %NICK% : Shows pokemon full name. %NICK% -> Snorlax
+  - %NICK.#% : Trims pokemon name by #. %NICK.3%" -> Sno
+- Level
+  - %LVL% : Shows pokemon level with one decimal. %LVL% -> 2.5
+  - %LVL.#% : Round up and trims pokemon level by # decimals. %LVL.0%" -> 3. %LVL.2%" -> 2.50
+  - %LVLP% : Same as %LVL% but add leading zeros. %LVLP% -> 02.5
+  - %LVLP.#% : Same as %LVL.#% but add leading zeros. %LVLP.0% -> 03. %LVLP.2% -> 02.50
+- Iv
+  - %IV% : Shows pokemon iv with one decimal. %IV% -> 6.7
+  - %IV.#% : Round up and trims pokemon iv by # decimals. %IV.0%" -> 7. %IV.2%" -> 6.67
+  - %IVP% : Same as %IV% but add leading zeros. %IVP% -> 006.7
+  - %IVP.#% : Same as %IV.#% but add leading zeros. %IVP.0% -> 007. %IVP.2% -> 006.67
+- Attack
+  - %ATT% : Shows pokemon attack. %ATT% -> 1
+  - %ATTP% : Shows pokemon attack with leading zero. %ATTP% -> 01
+  - %ATTH% : Shows pokemon attack with hexadecimal format. %ATTH% (15) -> F
+- Defense
+  - %DEF% : Shows pokemon defense. %DEF% -> 1
+  - %DEFP% : Shows pokemon defense with leading zero. %DEFP% -> 01
+  - %DEFH% : Shows pokemon defense with hexadecimal format. %DEFH% (15) -> F
+- Stamina
+  - %STA% : Shows pokemon stamina. %STA% -> 1
+  - %STAP% : Shows pokemon stamina with leading zero. %STAP% -> 01
+  - %STAH% : Shows pokemon stamina with hexadecimal format. %STAH% (15) -> F
+
+Note: Snorlax wont format other that the above commands. This means that you could add a '%' next to the Iv like this: %IV%% -> 6.7%
+
 ## Libraries and tools
 - Android's support libraries
 - Reactive extensions: [RxJava](https://github.com/ReactiveX/RxJava), [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding) and [RxRelay](https://github.com/JakeWharton/RxRelay)
