@@ -44,15 +44,19 @@ final class RenamePreferences {
 
 	boolean isEnabled() {
 		mPreferences.reload();
-		final boolean expected = getPreferenceDefaultValue();
-		return expected == getPreference(expected);
+		final boolean expected = mResources.getBoolean(R.bool.preference_rename_enable);
+		return expected == mPreferences.getBoolean(mResources.getString(R.string.preference_rename_enable_key), expected);
 	}
 
-	private boolean getPreferenceDefaultValue() {
-		return mResources.getBoolean(R.bool.preference_rename_enable);
+	boolean isFavoriteEnabled() {
+		mPreferences.reload();
+		final boolean expected = mResources.getBoolean(R.bool.preference_rename_favorite_enable);
+		return expected == mPreferences.getBoolean(mResources.getString(R.string.preference_rename_favorite_enable_key), expected);
 	}
 
-	private boolean getPreference(boolean defaultValue) {
-		return mPreferences.getBoolean(mResources.getString(R.string.preference_rename_enable_key), defaultValue);
+	boolean isNicknamedEnabled() {
+		mPreferences.reload();
+		final boolean expected = mResources.getBoolean(R.bool.preference_rename_already_enable);
+		return expected == mPreferences.getBoolean(mResources.getString(R.string.preference_rename_already_enable_key), expected);
 	}
 }

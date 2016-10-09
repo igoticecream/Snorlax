@@ -41,8 +41,16 @@
 
 	<string name="preference_rename">Show pokemons stats</string>
 	<string name="preference_rename_enable_key">rename_key</string>
-	<string name="preference_rename_enable_title">Enable inventory pokemons stats</string>
-	<string name="preference_rename_enable_summary">Show inventory pokemons stats on ingame pokemon list</string>
+	<string name="preference_rename_enable_title">Enable pokemons stats</string>
+	<string name="preference_rename_enable_summary">Show pokemons stats on their name at the inventory</string>
+
+	<string name="preference_rename_favorite_enable_key">rename_favorite_key</string>
+	<string name="preference_rename_favorite_enable_title">Show favorite pokemon stats</string>
+	<string name="preference_rename_favorite_enable_summary">Rename your favorite pokemons with their stats</string>
+
+	<string name="preference_rename_already_enable_key">rename_already_key</string>
+	<string name="preference_rename_already_enable_title">Show nicknamed pokemon stats</string>
+	<string name="preference_rename_already_enable_summary">Rename your already nicknamed pokemons with their stats</string>
 
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>

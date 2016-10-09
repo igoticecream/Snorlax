@@ -23,7 +23,7 @@ import javax.inject.Singleton;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.icecream.snorlax.module.Pokemons;
+import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmListener;
 import com.icecream.snorlax.module.feature.mitm.MitmProvider;
@@ -43,14 +43,12 @@ import static POGOProtos.Networking.Responses.GetInventoryResponseOuterClass.Get
 public final class Rename implements Feature, MitmListener {
 
 	private final MitmProvider mMitmProvider;
-	private final Pokemons mPokemons;
 	private final RenamePreferences mRenamePreferences;
 	private final RenameFormat mRenameFormat;
 
 	@Inject
-	Rename(MitmProvider mitmProvider, Pokemons pokemons, RenamePreferences renamePreferences, RenameFormat renameFormat) {
+	Rename(MitmProvider mitmProvider, RenamePreferences renamePreferences, RenameFormat renameFormat) {
 		mMitmProvider = mitmProvider;
-		mPokemons = pokemons;
 		mRenamePreferences = renamePreferences;
 		mRenameFormat = renameFormat;
 	}
@@ -93,6 +91,9 @@ public final class Rename implements Feature, MitmListener {
 			return null;
 		}
 
+		final boolean isFavoriteEnable = mRenamePreferences.isFavoriteEnabled();
+		final boolean isNicknamedEnable = mRenamePreferences.isNicknamedEnabled();
+
 		GetInventoryResponse.Builder inventory = response.toBuilder();
 		InventoryDelta.Builder delta = inventory.getInventoryDelta().toBuilder();
 
@@ -105,13 +106,14 @@ public final class Rename implements Feature, MitmListener {
 				PokemonData.Builder pokemon = data.getPokemonData().toBuilder();
 
 				try {
-					pokemon.setNickname(mRenameFormat.format(data.getPokemonData()));
+					final boolean isFavorite = pokemon.getFavorite() == 1;
+					final boolean isNickname = !Strings.isNullOrEmpty(pokemon.getNickname());
+
+					if ((isFavoriteEnable || !isFavorite) && (isNicknamedEnable || !isNickname)) {
+						pokemon.setNickname(mRenameFormat.format(data.getPokemonData()));
+					}
 				}
-				catch (NullPointerException e) {
-					Log.d("processNickname failed: %s", e.getMessage());
-					Log.e(e);
-				}
-				catch (IllegalArgumentException e) {
+				catch (NullPointerException | IllegalArgumentException e) {
 					Log.d("Cannot process processNickname: %s", e.getMessage());
 					Log.e(e);
 				}
