@@ -26,7 +26,6 @@ import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.Pokemons;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
-import static android.R.attr.level;
 import static java.lang.Integer.parseInt;
 
 @Singleton
@@ -35,6 +34,9 @@ final class RenameFormat {
 	private static final String BASE_NICK = "NICK";
 	private static final String BASE_LVL = "LVL";
 	private static final String BASE_IV = "IV";
+	private static final String BASE_ATT = "ATT";
+	private static final String BASE_DEF = "DEF";
+	private static final String BASE_STA = "STA";
 
 	private final Pokemons mPokemons;
 	private final RenamePreferences mRenamePreferences;
@@ -114,6 +116,45 @@ final class RenameFormat {
 		return null;
 	}
 
+	private String processAttack(String target, int attack) {
+		if (target.equals(BASE_ATT)) {
+			return Decimals.format(attack, 1, 0);
+		}
+		if (target.equals(BASE_ATT.concat("P"))) {
+			return Decimals.format(attack, 2, 0);
+		}
+		if (target.equals(BASE_ATT.concat("H"))) {
+			return Integer.toHexString(attack).toUpperCase();
+		}
+		return null;
+	}
+
+	private String processDefense(String target, int defense) {
+		if (target.equals(BASE_DEF)) {
+			return Decimals.format(defense, 1, 0);
+		}
+		if (target.equals(BASE_DEF.concat("P"))) {
+			return Decimals.format(defense, 2, 0);
+		}
+		if (target.equals(BASE_DEF.concat("H"))) {
+			return Integer.toHexString(defense).toUpperCase();
+		}
+		return null;
+	}
+
+	private String processStamina(String target, int stamina) {
+		if (target.equals(BASE_STA)) {
+			return Decimals.format(stamina, 1, 0);
+		}
+		if (target.equals(BASE_STA.concat("P"))) {
+			return Decimals.format(stamina, 2, 0);
+		}
+		if (target.equals(BASE_STA.concat("H"))) {
+			return Integer.toHexString(stamina).toUpperCase();
+		}
+		return null;
+	}
+
 	private String processFormat(Pokemons.Data pokemonsData, String command) throws NullPointerException {
 		final String target = command.toUpperCase();
 
@@ -127,6 +168,15 @@ final class RenameFormat {
 		}
 		else if (target.startsWith(BASE_IV)) {
 			processed = processIv(target, pokemonsData.getIvRatio() * 100);
+		}
+		else if (target.startsWith(BASE_ATT)) {
+			processed = processAttack(target, pokemonsData.getAttack());
+		}
+		else if (target.startsWith(BASE_DEF)) {
+			processed = processDefense(target, pokemonsData.getDefense());
+		}
+		else if (target.startsWith(BASE_STA)) {
+			processed = processStamina(target, pokemonsData.getStamina());
 		}
 
 		return Strings.isNullOrEmpty(processed) ? "%" + command + "%" : processed;

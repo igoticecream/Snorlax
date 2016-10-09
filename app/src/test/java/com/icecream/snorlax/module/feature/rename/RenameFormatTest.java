@@ -283,4 +283,70 @@ public class RenameFormatTest {
 		setRenameFormat("%IVP.A%");
 	}
 	//endregion
+
+	//region Attack
+	@Test
+	public void testAttack() throws Exception {
+		mExpected = "1";
+		setRenameFormat("%ATT%");
+	}
+
+	@Test
+	public void testAttackWithPadding() throws Exception {
+		mExpected = "01";
+		setRenameFormat("%ATTP%");
+	}
+
+	@Test
+	public void testAttackHex() throws Exception {
+		Mockito.doReturn(15).when(mPokemonsData).getAttack();
+
+		mExpected = "F";
+		setRenameFormat("%ATTH%");
+	}
+	//endregion
+
+	//region Defense
+	@Test
+	public void testDefense() throws Exception {
+		mExpected = "1";
+		setRenameFormat("%DEF%");
+	}
+
+	@Test
+	public void testDefenseWithPadding() throws Exception {
+		mExpected = "01";
+		setRenameFormat("%DEFP%");
+	}
+
+	@Test
+	public void testDefenseHex() throws Exception {
+		Mockito.doReturn(15).when(mPokemonsData).getDefense();
+
+		mExpected = "F";
+		setRenameFormat("%DEFH%");
+	}
+	//endregion
+
+	//region Stamina
+	@Test
+	public void testStamina() throws Exception {
+		mExpected = "1";
+		setRenameFormat("%STA%");
+	}
+
+	@Test
+	public void testStaminaWithPadding() throws Exception {
+		mExpected = "01";
+		setRenameFormat("%STAP%");
+	}
+
+	@Test
+	public void testStaminaHex() throws Exception {
+		Mockito.doReturn(15).when(mPokemonsData).getStamina();
+
+		mExpected = "F";
+		setRenameFormat("%STAH%");
+	}
+	//endregion
 }

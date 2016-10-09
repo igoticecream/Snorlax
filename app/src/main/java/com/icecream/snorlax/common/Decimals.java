@@ -40,6 +40,10 @@ public final class Decimals {
 		return getDecimalFormat(integerDigits, fractionDigits).format(value);
 	}
 
+	public static String format(int value, int integerDigits, int fractionDigits) {
+		return getDecimalFormat(integerDigits, fractionDigits).format(value);
+	}
+
 	private Decimals() {
 		throw new AssertionError("No instances");
 	}
