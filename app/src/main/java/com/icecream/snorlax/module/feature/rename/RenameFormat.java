@@ -16,6 +16,8 @@
 
 package com.icecream.snorlax.module.feature.rename;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -45,6 +47,64 @@ final class RenameFormat {
 	RenameFormat(Pokemons pokemons, RenamePreferences renamePreferences) {
 		mPokemons = pokemons;
 		mRenamePreferences = renamePreferences;
+	}
+
+	String format(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
+		final Pokemons.Data data = mPokemons.with(pokemonData);
+		final String format = mRenamePreferences.getFormat();
+
+		StringBuilder builder = new StringBuilder();
+
+		for (int i = 0, len = format.length(); i < len; ) {
+			int nextPercent = format.indexOf('%', i + 1);
+			if (format.charAt(i) != '%') {
+				final int end = (nextPercent == -1) ? len : nextPercent;
+
+				builder.append(format.substring(i, end));
+				i = end;
+			}
+			else if (nextPercent == -1) {
+				builder.append(format.substring(i));
+				i = len;
+			}
+			else if (format.substring(i + 1, nextPercent).contains(" ")) {
+				builder.append(format.substring(i, nextPercent));
+				i = nextPercent;
+			}
+			else {
+				builder.append(processFormat(data, format.substring(i + 1, nextPercent)));
+				i = nextPercent + 1;
+			}
+		}
+
+		return builder.toString();
+	}
+
+	private String processFormat(Pokemons.Data pokemonsData, String command) throws NullPointerException {
+		final String target = command.toUpperCase(Locale.getDefault());
+
+		String processed = null;
+
+		if (target.startsWith(BASE_NICK)) {
+			processed = processNick(target, pokemonsData.getName());
+		}
+		else if (target.startsWith(BASE_LVL)) {
+			processed = processLevel(target, pokemonsData.getLevel());
+		}
+		else if (target.startsWith(BASE_IV)) {
+			processed = processIv(target, pokemonsData.getIvRatio() * 100);
+		}
+		else if (target.startsWith(BASE_ATT)) {
+			processed = processAttack(target, pokemonsData.getAttack());
+		}
+		else if (target.startsWith(BASE_DEF)) {
+			processed = processDefense(target, pokemonsData.getDefense());
+		}
+		else if (target.startsWith(BASE_STA)) {
+			processed = processStamina(target, pokemonsData.getStamina());
+		}
+
+		return Strings.isNullOrEmpty(processed) ? "%" + command + "%" : processed;
 	}
 
 	@Nullable
@@ -128,7 +188,7 @@ final class RenameFormat {
 			return Decimals.format(attack, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_ATT.concat("H"))) {
-			return Integer.toHexString(attack).toUpperCase();
+			return Integer.toHexString(attack).toUpperCase(Locale.getDefault());
 		}
 		return null;
 	}
@@ -141,7 +201,7 @@ final class RenameFormat {
 			return Decimals.format(defense, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_DEF.concat("H"))) {
-			return Integer.toHexString(defense).toUpperCase();
+			return Integer.toHexString(defense).toUpperCase(Locale.getDefault());
 		}
 		return null;
 	}
@@ -154,66 +214,8 @@ final class RenameFormat {
 			return Decimals.format(stamina, 2, 2, 0, 0);
 		}
 		if (target.equals(BASE_STA.concat("H"))) {
-			return Integer.toHexString(stamina).toUpperCase();
+			return Integer.toHexString(stamina).toUpperCase(Locale.getDefault());
 		}
 		return null;
-	}
-
-	private String processFormat(Pokemons.Data pokemonsData, String command) throws NullPointerException {
-		final String target = command.toUpperCase();
-
-		String processed = null;
-
-		if (target.startsWith(BASE_NICK)) {
-			processed = processNick(target, pokemonsData.getName());
-		}
-		else if (target.startsWith(BASE_LVL)) {
-			processed = processLevel(target, pokemonsData.getLevel());
-		}
-		else if (target.startsWith(BASE_IV)) {
-			processed = processIv(target, pokemonsData.getIvRatio() * 100);
-		}
-		else if (target.startsWith(BASE_ATT)) {
-			processed = processAttack(target, pokemonsData.getAttack());
-		}
-		else if (target.startsWith(BASE_DEF)) {
-			processed = processDefense(target, pokemonsData.getDefense());
-		}
-		else if (target.startsWith(BASE_STA)) {
-			processed = processStamina(target, pokemonsData.getStamina());
-		}
-
-		return Strings.isNullOrEmpty(processed) ? "%" + command + "%" : processed;
-	}
-
-	String format(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
-		final Pokemons.Data data = mPokemons.with(pokemonData);
-		final String format = mRenamePreferences.getFormat();
-
-		StringBuilder builder = new StringBuilder();
-
-		for (int i = 0, len = format.length(); i < len; ) {
-			int nextPercent = format.indexOf('%', i + 1);
-			if (format.charAt(i) != '%') {
-				final int end = (nextPercent == -1) ? len : nextPercent;
-
-				builder.append(format.substring(i, end));
-				i = end;
-			}
-			else if (nextPercent == -1) {
-				builder.append(format.substring(i));
-				i = len;
-			}
-			else if (format.substring(i + 1, nextPercent).contains(" ")) {
-				builder.append(format.substring(i, nextPercent));
-				i = nextPercent;
-			}
-			else {
-				builder.append(processFormat(data, format.substring(i + 1, nextPercent)));
-				i = nextPercent + 1;
-			}
-		}
-
-		return builder.toString();
 	}
 }
