@@ -39,7 +39,12 @@ final class RenamePreferences {
 	}
 
 	String getFormat() {
-		return "%IVP.0% %ATT%/%DEF%/%STA% %LVL%";
+		mPreferences.reload();
+
+		return mPreferences.getString(
+			mResources.getString(R.string.preference_rename_format_enable_key),
+			mResources.getString(R.string.preference_rename_format_enable_default)
+		);
 	}
 
 	boolean isEnabled() {

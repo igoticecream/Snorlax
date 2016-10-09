@@ -64,13 +64,6 @@ public class RenameFormatTest {
 
 	private String mExpected;
 
-	private void setRenameFormat(String format) {
-		Mockito
-			.doReturn(format)
-			.when(mRenamePreferences)
-			.getFormat();
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		// Given
@@ -101,6 +94,13 @@ public class RenameFormatTest {
 	public void testCommandCompleteFormat() throws Exception {
 		mExpected = POKEMON_NAME;
 		setRenameFormat("%NICK%");
+	}
+
+	private void setRenameFormat(String format) {
+		Mockito
+			.doReturn(format)
+			.when(mRenamePreferences)
+			.getFormat();
 	}
 
 	@Test
@@ -373,4 +373,10 @@ public class RenameFormatTest {
 		setRenameFormat("%STAH%");
 	}
 	//endregion
+
+	@Test
+	public void testSomeCommandCombined() throws Exception {
+		mExpected = "Sno 006.7 1/1/1 8.5";
+		setRenameFormat("%NICK.3% %IVP.1% %ATT%/%DEF%/%STA% %LVL%");
+	}
 }
