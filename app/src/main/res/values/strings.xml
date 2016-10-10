@@ -43,6 +43,10 @@
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
 	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
 
+	<string name="preference_encounter_dismiss_notification_enable_key">encounter_dismiss_notification_key</string>
+	<string name="preference_encounter_dismiss_notification_enable_title">Enable dismiss notifications</string>
+	<string name="preference_encounter_dismiss_notification_enable_summary">Automatically dismiss notifications when catch status is success or flee</string>
+
 	<string name="preference_rename">Show pokemons stats</string>
 	<string name="preference_rename_enable_key">rename_key</string>
 	<string name="preference_rename_enable_title">Enable pokemons stats</string>

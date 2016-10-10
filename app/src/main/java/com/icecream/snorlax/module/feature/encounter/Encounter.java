@@ -26,9 +26,11 @@ import android.support.v4.util.Pair;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.module.Pokemons;
+import com.icecream.snorlax.module.event.DismissNotification;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
+import com.icecream.snorlax.module.util.RxBus;
 import com.icecream.snorlax.module.util.RxFuncitons;
 
 import rx.Observable;
@@ -49,15 +51,18 @@ public final class Encounter implements Feature {
 	private final Pokemons mPokemons;
 	private final EncounterPreferences mEncounterPreferences;
 	private final EncounterNotification mEncounterNotification;
+	private final RxBus mRxBus;
 
 	private Subscription mSubscription;
+	private Subscription mRxBusSubscription;
 
 	@Inject
-	Encounter(MitmRelay mitmRelay, Pokemons pokemons, EncounterPreferences encounterPreferences, EncounterNotification encounterNotification) {
+	Encounter(MitmRelay mitmRelay, Pokemons pokemons, EncounterPreferences encounterPreferences, EncounterNotification encounterNotification, RxBus rxBus) {
 		mMitmRelay = mitmRelay;
 		mPokemons = pokemons;
 		mEncounterPreferences = encounterPreferences;
 		mEncounterNotification = encounterNotification;
+		mRxBus = rxBus;
 	}
 
 	@Override
@@ -99,6 +104,11 @@ public final class Encounter implements Feature {
 						break;
 				}
 			}, Log::e);
+
+		mRxBusSubscription = mRxBus
+			.receive(DismissNotification.class)
+			.compose(mEncounterPreferences.isDismissEnabled())
+			.subscribe(dismiss -> mEncounterNotification.cancel());
 	}
 
 	private void onWildEncounter(ByteString bytes) {
@@ -171,5 +181,6 @@ public final class Encounter implements Feature {
 	@Override
 	public void unsubscribe() {
 		RxFuncitons.unsubscribe(mSubscription);
+		RxFuncitons.unsubscribe(mRxBusSubscription);
 	}
 }

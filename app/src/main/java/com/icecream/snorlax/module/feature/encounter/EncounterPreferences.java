@@ -39,6 +39,15 @@ final class EncounterPreferences {
 		mPreferences = preferences;
 	}
 
+	<T> Observable.Transformer<T, T> isDismissEnabled() {
+		return observable -> observable
+			.doOnNext(t -> mPreferences.reload())
+			.filter(t -> {
+				final boolean expected = mResources.getBoolean(R.bool.preference_encounter_dismiss_notification_enable);
+				return expected == mPreferences.getBoolean(mResources.getString(R.string.preference_encounter_dismiss_notification_enable_key), expected);
+			});
+	}
+
 	<T> Observable.Transformer<T, T> isEnabled() {
 		return observable -> observable
 			.doOnNext(t -> mPreferences.reload())

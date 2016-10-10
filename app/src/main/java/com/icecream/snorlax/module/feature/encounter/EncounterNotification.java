@@ -44,6 +44,8 @@ import com.icecream.snorlax.module.context.snorlax.Snorlax;
 @Singleton
 final class EncounterNotification {
 
+	private static final int NOTIFICATION_ID = 1000;
+
 	private final Context mContext;
 	private final Resources mResources;
 	private final NotificationManager mNotificationManager;
@@ -53,6 +55,10 @@ final class EncounterNotification {
 		mContext = context;
 		mResources = resources;
 		mNotificationManager = notificationManager;
+	}
+
+	void cancel() {
+		mNotificationManager.cancel(NOTIFICATION_ID);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -89,7 +95,7 @@ final class EncounterNotification {
 
 			hideIcon(notification);
 
-			mNotificationManager.notify(1000, notification);
+			mNotificationManager.notify(NOTIFICATION_ID, notification);
 		});
 	}
 
