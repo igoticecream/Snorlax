@@ -91,6 +91,13 @@ Snorlax would not have been possible without:
 - [ELynx](https://github.com/ELynx) for the method to MITM PokemonGo communications, check his [repo](https://github.com/ELynx/pokemon-go-xposed-mitm) too
 - And last but not least, [AeonLucid](https://github.com/AeonLucid) for the [PokemonGo's protos](https://github.com/AeonLucid/POGOProtos)
 
+## Donation
+I hope you are liking Snorlax!
+
+If you do, you can support this project to keep coming with new features by buying me a cup of coffee (so i can code by night) or a BigMac at McDonalds. Click the link below and thanks you!
+
+[Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9PPGNDJEC33E)
+
 ## License
     Copyright (c) 2016. Pedro Diaz <igoticecream@gmail.com>
 
