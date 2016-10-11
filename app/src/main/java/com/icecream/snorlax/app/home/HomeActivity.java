@@ -43,13 +43,13 @@ import android.widget.Toast;
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.R;
 import com.icecream.snorlax.app.SnorlaxApp;
+import com.icecream.snorlax.common.Files;
 import com.jakewharton.rxbinding.view.RxView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import rx.Observable;
-import timber.log.Timber;
 
 import static com.icecream.snorlax.R.xml.preferences;
 
@@ -242,17 +242,12 @@ public class HomeActivity extends AppCompatActivity {
 			// Workaround since Google enforce security on Nougat on getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
 			File sharedPrefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
 			File sharedPrefsFile = new File(sharedPrefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
-			if (sharedPrefsFile.exists()) {
-				try {
-					if (!sharedPrefsFile.setReadable(true, false)) {
-						showReadableError();
-						return;
-					}
-					Timber.d("Set MODE_WORLD_READABLE successfully");
-				}
-				catch (SecurityException exception) {
-					showReadableError();
-				}
+
+			final boolean isDirReadable = Files.setReadable(sharedPrefsDir);
+			final boolean isPrefReadable = Files.setReadable(sharedPrefsFile);
+
+			if (!isDirReadable || !isPrefReadable) {
+				showReadableError();
 			}
 		}
 
