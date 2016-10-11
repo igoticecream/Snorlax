@@ -19,6 +19,7 @@ package com.icecream.snorlax.module.feature.rename;
 import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
 import com.icecream.snorlax.module.pokemon.PokemonMoveMeta;
+import com.icecream.snorlax.module.pokemon.PokemonType;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -77,6 +78,7 @@ public class RenameFormatTest {
 		// Given
 		Mockito.doReturn(mPokemon).when(mPokemonFactory).with(mProto);
 
+		Mockito.doReturn(PokemonType.PSYCHIC).when(mPokemonMoveMeta).getType();
 		Mockito.doReturn(PokemonMove.ZEN_HEADBUTT_FAST).when(mPokemonMoveMeta).getMove();
 		Mockito.doCallRealMethod().when(mPokemonMoveMeta).toString();
 
@@ -313,6 +315,12 @@ public class RenameFormatTest {
 	}
 
 	@Test
+	public void testAttackUnknown() throws Exception {
+		mExpected = "%ATTW%";
+		setRenameFormat("%ATTW%");
+	}
+
+	@Test
 	public void testAttackTwoDigits() throws Exception {
 		Mockito.doReturn(10).when(mPokemon).getAttack();
 
@@ -340,6 +348,12 @@ public class RenameFormatTest {
 	public void testDefense() throws Exception {
 		mExpected = "1";
 		setRenameFormat("%DEF%");
+	}
+
+	@Test
+	public void testDefenseUnknown() throws Exception {
+		mExpected = "%DEFW%";
+		setRenameFormat("%DEFW%");
 	}
 
 	@Test
@@ -373,6 +387,12 @@ public class RenameFormatTest {
 	}
 
 	@Test
+	public void testStaminaUnknown() throws Exception {
+		mExpected = "%STAW%";
+		setRenameFormat("%STAW%");
+	}
+
+	@Test
 	public void testStaminaTwoDigits() throws Exception {
 		Mockito.doReturn(10).when(mPokemon).getStamina();
 
@@ -395,7 +415,7 @@ public class RenameFormatTest {
 	}
 	//endregion
 
-	//region Move Fast
+	//region Move
 	@Test
 	public void testMoveFast() throws Exception {
 		mExpected = "Zen Headbutt";
@@ -442,6 +462,56 @@ public class RenameFormatTest {
 	public void testMoveTruncateWrongFormat() throws Exception {
 		mExpected = "%MV1.1a%";
 		setRenameFormat("%MV1.1a%");
+	}
+	//endregion
+
+	//region Move type
+	@Test
+	public void testMoveTypeFast() throws Exception {
+		mExpected = "Psychic";
+		setRenameFormat("%MVT1%");
+	}
+
+	@Test
+	public void testMoveTypeCharge() throws Exception {
+		mExpected = "Psychic";
+		setRenameFormat("%MVT2%");
+	}
+
+	@Test
+	public void testMoveTypeUnknown() throws Exception {
+		mExpected = "%MVT3%";
+		setRenameFormat("%MVT3%");
+	}
+
+	@Test
+	public void testMoveTypeTruncateBelowLength() throws Exception {
+		mExpected = "Psychic".substring(0, 3);
+		setRenameFormat("%MVT1.3%");
+	}
+
+	@Test
+	public void testMoveTypeTruncateExactLength() throws Exception {
+		mExpected = "Psychic";
+		setRenameFormat("%MVT1.7%");
+	}
+
+	@Test
+	public void testMoveTypeTruncateAboveLength() throws Exception {
+		mExpected = "Psychic";
+		setRenameFormat("%MVT1.30%");
+	}
+
+	@Test
+	public void testMoveTypeTruncateIncompleteFormat() throws Exception {
+		mExpected = "%MVT1.%";
+		setRenameFormat("%MVT1.%");
+	}
+
+	@Test
+	public void testMoveTypeTruncateWrongFormat() throws Exception {
+		mExpected = "%MVT1.1a%";
+		setRenameFormat("%MVT1.1a%");
 	}
 	//endregion
 }

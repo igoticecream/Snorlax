@@ -28,6 +28,7 @@ import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
 import com.icecream.snorlax.module.pokemon.PokemonMoveMeta;
+import com.icecream.snorlax.module.pokemon.PokemonType;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static java.lang.Integer.parseInt;
@@ -43,6 +44,8 @@ final class RenameFormat {
 	private static final String BASE_STA = "STA";
 	private static final String BASE_MV1 = "MV1";
 	private static final String BASE_MV2 = "MV2";
+	private static final String BASE_MVT1 = "MVT1";
+	private static final String BASE_MVT2 = "MVT2";
 
 	private final PokemonFactory mPokemonFactory;
 	private final RenamePreferences mRenamePreferences;
@@ -98,6 +101,12 @@ final class RenameFormat {
 		else if (target.startsWith(BASE_MV2)) {
 			processed = processMove(target, pokemon.getMoveCharge());
 		}
+		else if (target.startsWith(BASE_MVT1)) {
+			processed = processMoveType(target, pokemon.getMoveFast().getType());
+		}
+		else if (target.startsWith(BASE_MVT2)) {
+			processed = processMoveType(target, pokemon.getMoveCharge().getType());
+		}
 		else if (target.startsWith(BASE_LVL)) {
 			processed = processLevel(target, pokemon.getLevel());
 		}
@@ -135,6 +144,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processMove(String target, PokemonMoveMeta move) {
 		final int length = target.length();
 		final int dot = target.indexOf('.') + 1;
@@ -145,6 +155,24 @@ final class RenameFormat {
 		else if (dot > 0 && length > dot) {
 			try {
 				return Strings.truncateAt(move.toString(), parseInt(target.substring(dot)));
+			}
+			catch (NumberFormatException ignored) {
+			}
+		}
+		return null;
+	}
+
+	@Nullable
+	private String processMoveType(String target, PokemonType type) {
+		final int length = target.length();
+		final int dot = target.indexOf('.') + 1;
+
+		if (length == BASE_MVT1.length() || length == BASE_MVT2.length()) {
+			return type.toString();
+		}
+		else if (dot > 0 && length > dot) {
+			try {
+				return Strings.truncateAt(type.toString(), parseInt(target.substring(dot)));
 			}
 			catch (NumberFormatException ignored) {
 			}
