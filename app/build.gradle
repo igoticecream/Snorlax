@@ -112,6 +112,7 @@ protobuf {
 }
 
 dependencies {
+    compile libraries.superuser
     compile libraries.protobufLite
     compile libraries.supportLib
     compile libraries.timber

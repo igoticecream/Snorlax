@@ -15,7 +15,7 @@
 	<string name="about_thanks">Special thanks for the github users chuparCh0pper for his PoGoIV_xposed project and ELynx for the method used to MITM PokemonGo communication.</string>
 	<string name="about_repository">https://github.com/igoticecream/Snorlax</string>
 
-	<string name="error_readable">Cannot make en world readable</string>
+	<string name="error_readable">Cannot make preference world readable</string>
 	<string name="error_xposed_disabled">Snorlax module is not enabled</string>
 	<string name="error_xposed_missing">Install xposed to use Snorlax</string>
 	<string name="error_pokemon_missing">Install Pokemon Go to launch it</string>
