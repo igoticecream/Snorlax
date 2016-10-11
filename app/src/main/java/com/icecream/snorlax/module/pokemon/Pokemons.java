@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module;
+package com.icecream.snorlax.module.pokemon;
 
 import java.util.Locale;
 
@@ -226,8 +226,8 @@ public final class Pokemons {
 			return mPokemonData.getIndividualStamina();
 		}
 
-		public String getMove1WithFormat() {
-			String move = getMove1().name();
+		public String getMoveFastWithFormat() {
+			String move = getMoveFast().name();
 
 			StringBuilder builder = new StringBuilder();
 			for (String part : move.split("_")) {
@@ -241,12 +241,16 @@ public final class Pokemons {
 			return builder.toString().trim();
 		}
 
-		public PokemonMove getMove1() {
+		public PokemonMove getMoveFast() {
 			return mPokemonData.getMove1();
 		}
 
-		public String getMove2WithFormat() {
-			String move = getMove2().name();
+		public PokemonMoveMeta getMoveFastMeta() {
+			return PokemonMoveMetaRegistry.getMeta(getMoveFast());
+		}
+
+		public String getMoveChargeWithFormat() {
+			String move = getMoveCharge().name();
 
 			StringBuilder builder = new StringBuilder();
 			for (String part : move.split("_")) {
@@ -260,8 +264,12 @@ public final class Pokemons {
 			return builder.toString().trim();
 		}
 
-		public PokemonMove getMove2() {
+		public PokemonMove getMoveCharge() {
 			return mPokemonData.getMove2();
+		}
+
+		public PokemonMoveMeta getMoveChargeMeta() {
+			return PokemonMoveMetaRegistry.getMeta(getMoveCharge());
 		}
 
 		public int getCp() {

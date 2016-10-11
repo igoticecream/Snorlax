@@ -25,10 +25,10 @@ import android.support.v4.util.Pair;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.icecream.snorlax.module.Pokemons;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.capture.CaptureEvent;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
+import com.icecream.snorlax.module.pokemon.Pokemons;
 import com.icecream.snorlax.module.util.Log;
 import com.icecream.snorlax.module.util.RxBus;
 import com.icecream.snorlax.module.util.RxFuncitons;
@@ -173,8 +173,12 @@ public final class Encounter implements Feature {
 			data.getCp(),
 			data.getLevel(),
 			data.getHp(),
-			data.getMove1WithFormat(),
-			data.getMove2WithFormat(),
+			data.getMoveFastWithFormat(),
+			data.getMoveFastMeta().getType().name(),
+			data.getMoveFastMeta().getPower(),
+			data.getMoveChargeWithFormat(),
+			data.getMoveChargeMeta().getType().name(),
+			data.getMoveChargeMeta().getPower(),
 			probability.getWithPokeball(),
 			probability.getWithGreatball(),
 			probability.getWithUltraball()

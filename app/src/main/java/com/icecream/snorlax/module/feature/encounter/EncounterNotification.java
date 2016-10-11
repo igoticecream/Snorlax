@@ -62,7 +62,7 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double greatRate, double ultraRate) {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
@@ -82,7 +82,8 @@ final class EncounterNotification {
 					.addLine(mContext.getString(R.string.notification_categoty_stats_content_iv, iv, attack, defense, stamina))
 					.addLine(mContext.getString(R.string.notification_categoty_stats_content_hp, hp))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_moves_title)))
-					.addLine(mContext.getString(R.string.notification_categoty_moves_content, move1, move2))
+					.addLine(mContext.getString(R.string.notification_categoty_moves_fast, move1, move1Type, move1Power))
+					.addLine(mContext.getString(R.string.notification_categoty_moves_charge, move2, move2Type, move2Power))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
 					.addLine(mContext.getString(R.string.notification_categoty_catch_content, pokeRate, greatRate, ultraRate))
 				)

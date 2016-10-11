@@ -28,7 +28,8 @@
 	<string name="notification_categoty_stats_content_hp">HP %1$d</string>
 
 	<string name="notification_categoty_moves_title">Moves</string>
-	<string name="notification_categoty_moves_content">%1$s - %2$s</string>
+	<string name="notification_categoty_moves_fast">%1$s (%2$s %3$d)</string>
+	<string name="notification_categoty_moves_charge">%1$s (%2$s %3$d)</string>
 
 	<string name="notification_categoty_catch_title">Catch Rate</string>
 	<string name="notification_categoty_catch_content">Poké %1$4.1f%% - Great %2$4.1f%% - Ultra %3$4.1f%%</string>

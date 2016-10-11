@@ -16,7 +16,7 @@
 
 package com.icecream.snorlax.module.feature.rename;
 
-import com.icecream.snorlax.module.Pokemons;
+import com.icecream.snorlax.module.pokemon.Pokemons;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

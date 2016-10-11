@@ -25,7 +25,7 @@ import android.support.annotation.Nullable;
 
 import com.icecream.snorlax.common.Decimals;
 import com.icecream.snorlax.common.Strings;
-import com.icecream.snorlax.module.Pokemons;
+import com.icecream.snorlax.module.pokemon.Pokemons;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static java.lang.Integer.parseInt;
