@@ -27,6 +27,7 @@ import com.icecream.snorlax.common.Decimals;
 import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
+import com.icecream.snorlax.module.pokemon.PokemonMoveMeta;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static java.lang.Integer.parseInt;
@@ -40,6 +41,8 @@ final class RenameFormat {
 	private static final String BASE_ATT = "ATT";
 	private static final String BASE_DEF = "DEF";
 	private static final String BASE_STA = "STA";
+	private static final String BASE_MV1 = "MV1";
+	private static final String BASE_MV2 = "MV2";
 
 	private final PokemonFactory mPokemonFactory;
 	private final RenamePreferences mRenamePreferences;
@@ -89,6 +92,12 @@ final class RenameFormat {
 		if (target.startsWith(BASE_NICK)) {
 			processed = processNick(target, pokemon.getName());
 		}
+		else if (target.startsWith(BASE_MV1)) {
+			processed = processMove(target, pokemon.getMoveFast());
+		}
+		else if (target.startsWith(BASE_MV2)) {
+			processed = processMove(target, pokemon.getMoveCharge());
+		}
 		else if (target.startsWith(BASE_LVL)) {
 			processed = processLevel(target, pokemon.getLevel());
 		}
@@ -119,6 +128,23 @@ final class RenameFormat {
 		else if (dot > 0 && length > dot) {
 			try {
 				return Strings.truncateAt(nick, parseInt(target.substring(dot)));
+			}
+			catch (NumberFormatException ignored) {
+			}
+		}
+		return null;
+	}
+
+	private String processMove(String target, PokemonMoveMeta move) {
+		final int length = target.length();
+		final int dot = target.indexOf('.') + 1;
+
+		if (length == BASE_MV1.length() || length == BASE_MV2.length()) {
+			return move.toString();
+		}
+		else if (dot > 0 && length > dot) {
+			try {
+				return Strings.truncateAt(move.toString(), parseInt(target.substring(dot)));
 			}
 			catch (NumberFormatException ignored) {
 			}

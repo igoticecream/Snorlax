@@ -18,6 +18,7 @@ package com.icecream.snorlax.module.feature.rename;
 
 import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
+import com.icecream.snorlax.module.pokemon.PokemonMoveMeta;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -34,12 +35,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
 	Pokemon.class,
 	PokemonData.class,
 	PokemonFactory.class,
+	PokemonMoveMeta.class,
 	RenamePreferences.class
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -60,6 +63,8 @@ public class RenameFormatTest {
 	private RenamePreferences mRenamePreferences;
 	@Mock
 	private PokemonData mProto;
+	@Mock
+	private PokemonMoveMeta mPokemonMoveMeta;
 
 	@InjectMocks
 	private RenameFormat mSut;
@@ -67,15 +72,23 @@ public class RenameFormatTest {
 	private String mExpected;
 
 	@Before
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public void setUp() throws Exception {
 		// Given
 		Mockito.doReturn(mPokemon).when(mPokemonFactory).with(mProto);
+
+		Mockito.doReturn(PokemonMove.ZEN_HEADBUTT_FAST).when(mPokemonMoveMeta).getMove();
+		Mockito.doCallRealMethod().when(mPokemonMoveMeta).toString();
+
 		Mockito.doReturn(POKEMON_NAME).when(mPokemon).getName();
 		Mockito.doReturn(POKEMON_LEVEL).when(mPokemon).getLevel();
 		Mockito.doReturn(POKEMON_ATTACK).when(mPokemon).getAttack();
 		Mockito.doReturn(POKEMON_DEFENSE).when(mPokemon).getDefense();
 		Mockito.doReturn(POKEMON_STAMINA).when(mPokemon).getStamina();
 		Mockito.doCallRealMethod().when(mPokemon).getIv();
+
+		Mockito.doReturn(mPokemonMoveMeta).when(mPokemon).getMoveFast();
+		Mockito.doReturn(mPokemonMoveMeta).when(mPokemon).getMoveCharge();
 	}
 
 	@After
@@ -127,6 +140,12 @@ public class RenameFormatTest {
 	public void testNotCommand() throws Exception {
 		mExpected = "%SNORLAX%";
 		setRenameFormat("%SNORLAX%");
+	}
+
+	@Test
+	public void testSomeCommandCombined() throws Exception {
+		mExpected = "Sno 006.7 1/1/1 8.5";
+		setRenameFormat("%NICK.3% %IVP.1% %ATT%/%DEF%/%STA% %LVL%");
 	}
 	//endregion
 
@@ -376,9 +395,53 @@ public class RenameFormatTest {
 	}
 	//endregion
 
+	//region Move Fast
 	@Test
-	public void testSomeCommandCombined() throws Exception {
-		mExpected = "Sno 006.7 1/1/1 8.5";
-		setRenameFormat("%NICK.3% %IVP.1% %ATT%/%DEF%/%STA% %LVL%");
+	public void testMoveFast() throws Exception {
+		mExpected = "Zen Headbutt";
+		setRenameFormat("%MV1%");
 	}
+
+	@Test
+	public void testMoveCharge() throws Exception {
+		mExpected = "Zen Headbutt";
+		setRenameFormat("%MV2%");
+	}
+
+	@Test
+	public void testMoveUnknown() throws Exception {
+		mExpected = "%MV3%";
+		setRenameFormat("%MV3%");
+	}
+
+	@Test
+	public void testMoveTruncateBelowLength() throws Exception {
+		mExpected = "Zen Headbutt".substring(0, 3);
+		setRenameFormat("%MV1.3%");
+	}
+
+	@Test
+	public void testMoveTruncateExactLength() throws Exception {
+		mExpected = "Zen Headbutt";
+		setRenameFormat("%MV1.12%");
+	}
+
+	@Test
+	public void testMoveTruncateAboveLength() throws Exception {
+		mExpected = "Zen Headbutt";
+		setRenameFormat("%MV1.30%");
+	}
+
+	@Test
+	public void testMoveTruncateIncompleteFormat() throws Exception {
+		mExpected = "%MV1.%";
+		setRenameFormat("%MV1.%");
+	}
+
+	@Test
+	public void testMoveTruncateWrongFormat() throws Exception {
+		mExpected = "%MV1.1a%";
+		setRenameFormat("%MV1.1a%");
+	}
+	//endregion
 }

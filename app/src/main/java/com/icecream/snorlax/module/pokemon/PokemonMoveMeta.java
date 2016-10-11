@@ -37,14 +37,6 @@ public final class PokemonMoveMeta {
 	PokemonMoveMeta() {
 	}
 
-	public PokemonMove getMove() {
-		return mMove;
-	}
-
-	public void setMove(PokemonMove move) {
-		mMove = move;
-	}
-
 	public PokemonType getType() {
 		return mType;
 	}
@@ -97,11 +89,19 @@ public final class PokemonMoveMeta {
 	public String toString() {
 		List<String> move = new ArrayList<>();
 
-		for (String string : mMove.name().split("_")) {
+		for (String string : getMove().name().split("_")) {
 			if (!string.equalsIgnoreCase("FAST")) {
 				move.add(string);
 			}
 		}
 		return Strings.capitalize(move.toArray(new String[0]));
+	}
+
+	public PokemonMove getMove() {
+		return mMove;
+	}
+
+	public void setMove(PokemonMove move) {
+		mMove = move;
 	}
 }
