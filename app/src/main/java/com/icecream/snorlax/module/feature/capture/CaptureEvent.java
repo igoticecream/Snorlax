@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.event;
+package com.icecream.snorlax.module.feature.capture;
 
-public final class DismissNotification {
+import static POGOProtos.Networking.Responses.CatchPokemonResponseOuterClass.CatchPokemonResponse.CatchStatus;
 
-	public static DismissNotification create() {
-		return new DismissNotification();
+public final class CaptureEvent {
+
+	private final CatchStatus mCatchStatus;
+
+	CaptureEvent(CatchStatus catchStatus) {
+		mCatchStatus = catchStatus;
 	}
 
-	private DismissNotification() {
+	public CatchStatus getCatchStatus() {
+		return mCatchStatus;
 	}
 }

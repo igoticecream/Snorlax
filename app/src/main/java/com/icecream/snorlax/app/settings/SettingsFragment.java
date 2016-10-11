@@ -58,7 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 		settingsReadable
 			.setReadable()
-			.toBlocking()
 			.subscribe(Timber::d, throwable -> {
 				Timber.e(throwable);
 				showReadableError();

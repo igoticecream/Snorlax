@@ -25,7 +25,6 @@ import com.icecream.snorlax.R;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import de.robv.android.xposed.XSharedPreferences;
-import rx.Observable;
 
 @Singleton
 final class CapturePreferences {
@@ -39,13 +38,10 @@ final class CapturePreferences {
 		mPreferences = preferences;
 	}
 
-	<T> Observable.Transformer<T, T> isEnabled() {
-		return observable -> observable
-			.doOnNext(t -> mPreferences.reload())
-			.filter(t -> {
-				final boolean expected = getPreferenceDefaultValue();
-				return expected == getPreference(expected);
-			});
+	boolean isEnabled() {
+		mPreferences.reload();
+		final boolean expected = getPreferenceDefaultValue();
+		return expected == getPreference(expected);
 	}
 
 	private boolean getPreferenceDefaultValue() {

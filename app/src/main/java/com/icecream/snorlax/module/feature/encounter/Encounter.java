@@ -26,13 +26,14 @@ import android.support.v4.util.Pair;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.module.Pokemons;
-import com.icecream.snorlax.module.event.DismissNotification;
 import com.icecream.snorlax.module.feature.Feature;
+import com.icecream.snorlax.module.feature.capture.CaptureEvent;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
 import com.icecream.snorlax.module.util.RxBus;
 import com.icecream.snorlax.module.util.RxFuncitons;
 
+import POGOProtos.Networking.Responses.CatchPokemonResponseOuterClass.CatchPokemonResponse.CatchStatus;
 import rx.Observable;
 import rx.Subscription;
 
@@ -106,7 +107,9 @@ public final class Encounter implements Feature {
 			}, Log::e);
 
 		mRxBusSubscription = mRxBus
-			.receive(DismissNotification.class)
+			.receive(CaptureEvent.class)
+			.map(CaptureEvent::getCatchStatus)
+			.filter(status -> status.equals(CatchStatus.CATCH_FLEE) || status.equals(CatchStatus.CATCH_SUCCESS))
 			.compose(mEncounterPreferences.isDismissEnabled())
 			.subscribe(dismiss -> mEncounterNotification.cancel());
 	}

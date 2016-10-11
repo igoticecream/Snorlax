@@ -24,7 +24,6 @@ import javax.inject.Singleton;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.icecream.snorlax.module.event.DismissNotification;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
@@ -63,13 +62,10 @@ public final class Capture implements Feature {
 
 			final CatchPokemonResponse.CatchStatus status = response.getStatus();
 
-			if (!status.equals(CatchPokemonResponse.CatchStatus.CATCH_MISSED)) {
+			if (mPreferences.isEnabled() && !status.equals(CatchPokemonResponse.CatchStatus.CATCH_MISSED)) {
 				mCaptureNotification.show(formatCapture(response.getStatus().name()));
 			}
-
-			if (status.equals(CatchPokemonResponse.CatchStatus.CATCH_SUCCESS) || status.equals(CatchPokemonResponse.CatchStatus.CATCH_FLEE)) {
-				mRxBus.post(DismissNotification.create());
-			}
+			mRxBus.post(new CaptureEvent(status));
 		}
 		catch (InvalidProtocolBufferException e) {
 			Log.d("CatchPokemonResponse failed: %s" + e.getMessage());
@@ -94,7 +90,6 @@ public final class Capture implements Feature {
 
 		mSubscription = mMitmRelay
 			.getObservable()
-			.compose(mPreferences.isEnabled())
 			.flatMap(envelope -> {
 				List<Request> requests = envelope.getRequest().getRequestsList();
 
