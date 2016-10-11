@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.util;
+package com.icecream.snorlax.common.rx;
 
 import com.jakewharton.rxrelay.PublishRelay;
 import com.jakewharton.rxrelay.SerializedRelay;

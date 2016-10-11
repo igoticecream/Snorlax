@@ -24,10 +24,10 @@ import javax.inject.Singleton;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.common.Strings;
+import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmListener;
 import com.icecream.snorlax.module.feature.mitm.MitmProvider;
-import com.icecream.snorlax.module.util.Log;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static POGOProtos.Enums.PokemonIdOuterClass.PokemonId;

@@ -16,7 +16,8 @@
 
 package com.icecream.snorlax.module.feature.rename;
 
-import com.icecream.snorlax.module.pokemon.Pokemons;
+import com.icecream.snorlax.module.pokemon.Pokemon;
+import com.icecream.snorlax.module.pokemon.PokemonFactory;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -36,8 +37,9 @@ import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-	Pokemons.class,
+	Pokemon.class,
 	PokemonData.class,
+	PokemonFactory.class,
 	RenamePreferences.class
 })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -51,9 +53,9 @@ public class RenameFormatTest {
 	// A/D/S -> 0.0666666666666667
 
 	@Mock
-	private Pokemons mPokemons;
+	private PokemonFactory mPokemonFactory;
 	@Mock
-	private Pokemons.Data mPokemonsData;
+	private Pokemon mPokemon;
 	@Mock
 	private RenamePreferences mRenamePreferences;
 	@Mock
@@ -67,13 +69,13 @@ public class RenameFormatTest {
 	@Before
 	public void setUp() throws Exception {
 		// Given
-		Mockito.doReturn(mPokemonsData).when(mPokemons).with(mProto);
-		Mockito.doReturn(POKEMON_NAME).when(mPokemonsData).getName();
-		Mockito.doReturn(POKEMON_LEVEL).when(mPokemonsData).getLevel();
-		Mockito.doReturn(POKEMON_ATTACK).when(mPokemonsData).getAttack();
-		Mockito.doReturn(POKEMON_DEFENSE).when(mPokemonsData).getDefense();
-		Mockito.doReturn(POKEMON_STAMINA).when(mPokemonsData).getStamina();
-		Mockito.doCallRealMethod().when(mPokemonsData).getIvRatio();
+		Mockito.doReturn(mPokemon).when(mPokemonFactory).with(mProto);
+		Mockito.doReturn(POKEMON_NAME).when(mPokemon).getName();
+		Mockito.doReturn(POKEMON_LEVEL).when(mPokemon).getLevel();
+		Mockito.doReturn(POKEMON_ATTACK).when(mPokemon).getAttack();
+		Mockito.doReturn(POKEMON_DEFENSE).when(mPokemon).getDefense();
+		Mockito.doReturn(POKEMON_STAMINA).when(mPokemon).getStamina();
+		Mockito.doCallRealMethod().when(mPokemon).getIv();
 	}
 
 	@After
@@ -82,9 +84,9 @@ public class RenameFormatTest {
 		final String formatted = mSut.format(mProto);
 
 		// Then
-		Mockito.verify(mPokemons).with(mProto);
+		Mockito.verify(mPokemonFactory).with(mProto);
 		Mockito.verify(mRenamePreferences).getFormat();
-		Mockito.verifyNoMoreInteractions(mPokemons, mRenamePreferences);
+		Mockito.verifyNoMoreInteractions(mPokemonFactory, mRenamePreferences);
 
 		MatcherAssert.assertThat(formatted, Matchers.is(mExpected));
 	}
@@ -293,7 +295,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testAttackTwoDigits() throws Exception {
-		Mockito.doReturn(10).when(mPokemonsData).getAttack();
+		Mockito.doReturn(10).when(mPokemon).getAttack();
 
 		mExpected = "10";
 		setRenameFormat("%ATT%");
@@ -307,7 +309,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testAttackHex() throws Exception {
-		Mockito.doReturn(15).when(mPokemonsData).getAttack();
+		Mockito.doReturn(15).when(mPokemon).getAttack();
 
 		mExpected = "F";
 		setRenameFormat("%ATTH%");
@@ -323,7 +325,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testDefenseTwoDigits() throws Exception {
-		Mockito.doReturn(10).when(mPokemonsData).getDefense();
+		Mockito.doReturn(10).when(mPokemon).getDefense();
 
 		mExpected = "10";
 		setRenameFormat("%DEF%");
@@ -337,7 +339,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testDefenseHex() throws Exception {
-		Mockito.doReturn(15).when(mPokemonsData).getDefense();
+		Mockito.doReturn(15).when(mPokemon).getDefense();
 
 		mExpected = "F";
 		setRenameFormat("%DEFH%");
@@ -353,7 +355,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testStaminaTwoDigits() throws Exception {
-		Mockito.doReturn(10).when(mPokemonsData).getStamina();
+		Mockito.doReturn(10).when(mPokemon).getStamina();
 
 		mExpected = "10";
 		setRenameFormat("%STA%");
@@ -367,7 +369,7 @@ public class RenameFormatTest {
 
 	@Test
 	public void testStaminaHex() throws Exception {
-		Mockito.doReturn(15).when(mPokemonsData).getStamina();
+		Mockito.doReturn(15).when(mPokemon).getStamina();
 
 		mExpected = "F";
 		setRenameFormat("%STAH%");

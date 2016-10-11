@@ -16,6 +16,11 @@
 
 package com.icecream.snorlax.module.pokemon;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.icecream.snorlax.common.Strings;
+
 import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
@@ -86,5 +91,17 @@ public final class PokemonMoveMeta {
 
 	public void setCriticalChance(double criticalChance) {
 		mCriticalChance = criticalChance;
+	}
+
+	@Override
+	public String toString() {
+		List<String> move = new ArrayList<>();
+
+		for (String string : mMove.name().split("_")) {
+			if (!string.equalsIgnoreCase("FAST")) {
+				move.add(string);
+			}
+		}
+		return Strings.capitalize(move.toArray(new String[0]));
 	}
 }

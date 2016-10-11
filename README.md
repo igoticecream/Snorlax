@@ -1,5 +1,5 @@
 # Snorlax [![Build Status](https://travis-ci.org/igoticecream/Snorlax.svg?branch=master)](https://travis-ci.org/igoticecream/Snorlax) [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9PPGNDJEC33E)
-Check pokemons stats. [Available through Xposed repository](http://repo.xposed.info/module/com.icecream.snorlax)  
+Check pokemonFactory stats. [Available through Xposed repository](http://repo.xposed.info/module/com.icecream.snorlax)
   
 This module acts as a [man in the middle](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) on Pokémon Go's communications with the server, and allows us to add extra features to the game.
 

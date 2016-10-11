@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.util;
+package com.icecream.snorlax.module.pokemon;
 
-import java.util.Locale;
-
-import de.robv.android.xposed.XposedBridge;
+import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class Log {
+public final class PokemonProbability {
 
-	public static void d(String format, Object... args) {
-		XposedBridge.log(String.format(Locale.US, format, args));
+	private final CaptureProbability mCaptureProbability;
+
+	PokemonProbability(CaptureProbability captureProbability) {
+		mCaptureProbability = captureProbability;
 	}
 
-	public static void e(Throwable throwable) {
-		XposedBridge.log(throwable);
+	public double getPokeball() {
+		return getRate(0);
 	}
 
-	public static void e(Throwable throwable, String format, Object... args) {
-		XposedBridge.log(new Exception(String.format(Locale.US, format, args), throwable));
+	private double getRate(int index) {
+		return Math.round(Math.min(100.0d, mCaptureProbability.getCaptureProbability(index) * 100d) * 100.0d) / 100.0d;
 	}
 
-	public static void e(String format, Object... args) {
-		XposedBridge.log(new Exception(String.format(Locale.US, format, args)));
+	public double getGreatball() {
+		return getRate(1);
 	}
 
-	private Log() {
-		throw new AssertionError("No instances");
+	public double getUltraball() {
+		return getRate(2);
 	}
 }

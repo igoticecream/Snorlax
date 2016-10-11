@@ -1,0 +1,88 @@
+/*
+ * Copyright (c) 2016. Pedro Diaz <igoticecream@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.icecream.snorlax.module.pokemon;
+
+import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+public final class Pokemon {
+
+	private final String[] mNames;
+	private final PokemonData mPokemonData;
+
+	Pokemon(PokemonData pokemonData, String[] names) {
+		mPokemonData = pokemonData;
+		mNames = names;
+	}
+
+	public float getLevel() {
+		if (mPokemonData.getIsEgg()) {
+			return 0;
+		}
+
+		float level = 1;
+		float cpMultiplier = mPokemonData.getCpMultiplier() + mPokemonData.getAdditionalCpMultiplier();
+
+		for (double currentCpM : PokemonCp.CpM) {
+			if (Math.abs(cpMultiplier - currentCpM) < 0.0001) {
+				return level;
+			}
+			level += 0.5;
+		}
+		return level;
+	}
+
+	public double getIv() {
+		return ((double) (getAttack() + getDefense() + getStamina())) / 45.0;
+	}
+
+	public int getAttack() {
+		return mPokemonData.getIndividualAttack();
+	}
+
+	public int getDefense() {
+		return mPokemonData.getIndividualDefense();
+	}
+
+	public int getStamina() {
+		return mPokemonData.getIndividualStamina();
+	}
+
+	public PokemonMoveMeta getMoveFast() {
+		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove1());
+	}
+
+	public PokemonMoveMeta getMoveCharge() {
+		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove2());
+	}
+
+	public int getCp() {
+		return mPokemonData.getCp();
+	}
+
+	public int getHp() {
+		return mPokemonData.getStaminaMax();
+	}
+
+	public String getName() {
+		return mNames[getNumber() - 1];
+	}
+
+	public int getNumber() {
+		return mPokemonData.getPokemonId().getNumber();
+	}
+}

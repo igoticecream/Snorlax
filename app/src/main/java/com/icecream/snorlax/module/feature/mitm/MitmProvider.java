@@ -26,7 +26,7 @@ import javax.inject.Singleton;
 import android.util.LongSparseArray;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.icecream.snorlax.module.util.Log;
+import com.icecream.snorlax.module.Log;
 
 import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
 import static POGOProtos.Networking.Envelopes.ResponseEnvelopeOuterClass.ResponseEnvelope;

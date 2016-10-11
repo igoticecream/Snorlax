@@ -21,7 +21,7 @@ import java.util.Objects;
 import com.jakewharton.rxrelay.PublishRelay;
 import com.jakewharton.rxrelay.SerializedRelay;
 
-import rx.AsyncEmitter;
+import rx.Emitter;
 import rx.Observable;
 
 import static POGOProtos.Networking.Envelopes.RequestEnvelopeOuterClass.RequestEnvelope;
@@ -51,10 +51,10 @@ public final class MitmRelay {
 		mRelayResponse = PublishRelay.<ResponseEnvelope>create().toSerialized();
 
 		mEnvelope = Observable
-			.fromEmitter(emitter -> mRelayRequest.asObservable().subscribe(emitter::onNext), AsyncEmitter.BackpressureMode.BUFFER)
+			.fromEmitter(emitter -> mRelayRequest.asObservable().subscribe(emitter::onNext), Emitter.BackpressureMode.BUFFER)
 			.cast(RequestEnvelope.class)
 			.flatMap(request -> Observable
-				.fromEmitter(emitter -> mRelayResponse.asObservable().subscribe(emitter::onNext), AsyncEmitter.BackpressureMode.BUFFER)
+				.fromEmitter(emitter -> mRelayResponse.asObservable().subscribe(emitter::onNext), Emitter.BackpressureMode.BUFFER)
 				.cast(ResponseEnvelope.class)
 				.filter(response -> Objects.equals(request.getRequestId(), response.getRequestId()))
 				.map(response -> MitmEnvelope.create(request, response))

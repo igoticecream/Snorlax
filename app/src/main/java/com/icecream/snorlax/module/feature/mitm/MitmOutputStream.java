@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
 final class MitmOutputStream extends ByteArrayOutputStream {
 
 	private final MitmProvider mMitmProvider;
-	private OutputStream mOutputStream;
+	private final OutputStream mOutputStream;
 
 	MitmOutputStream(OutputStream outputStream, MitmProvider mitmProvider) {
 		super(2048);

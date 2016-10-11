@@ -42,24 +42,24 @@
 	<string name="preference_encounter_notification">Encounter Notifications</string>
 	<string name="preference_encounter_notification_enable_key">encounter_notification_key</string>
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
-	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
+	<string name="preference_encounter_notification_enable_summary">Show encounter pokemonFactory stats via system notification</string>
 
 	<string name="preference_encounter_dismiss_notification_enable_key">encounter_dismiss_notification_key</string>
 	<string name="preference_encounter_dismiss_notification_enable_title">Enable dismiss notifications</string>
 	<string name="preference_encounter_dismiss_notification_enable_summary">Automatically dismiss notifications when catch status is success or flee</string>
 
-	<string name="preference_rename">Show pokemons stats</string>
+	<string name="preference_rename">Show pokemonFactory stats</string>
 	<string name="preference_rename_enable_key">rename_key</string>
-	<string name="preference_rename_enable_title">Enable pokemons stats</string>
-	<string name="preference_rename_enable_summary">Show pokemons stats on their name at the inventory</string>
+	<string name="preference_rename_enable_title">Enable pokemonFactory stats</string>
+	<string name="preference_rename_enable_summary">Show pokemonFactory stats on their name at the inventory</string>
 
 	<string name="preference_rename_favorite_enable_key">rename_favorite_key</string>
 	<string name="preference_rename_favorite_enable_title">Show favorite pokemon stats</string>
-	<string name="preference_rename_favorite_enable_summary">Rename your favorite pokemons with their stats</string>
+	<string name="preference_rename_favorite_enable_summary">Rename your favorite pokemonFactory with their stats</string>
 
 	<string name="preference_rename_already_enable_key">rename_already_key</string>
 	<string name="preference_rename_already_enable_title">Show nicknamed pokemon stats</string>
-	<string name="preference_rename_already_enable_summary">Rename your already nicknamed pokemons with their stats</string>
+	<string name="preference_rename_already_enable_summary">Rename your already nicknamed pokemonFactory with their stats</string>
 
 	<string name="preference_rename_format_enable_key">rename_format_key</string>
 	<string name="preference_rename_format_enable_title">Edit format</string>

@@ -25,13 +25,16 @@ import android.support.v4.util.Pair;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.icecream.snorlax.common.rx.RxBus;
+import com.icecream.snorlax.common.rx.RxFuncitons;
+import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.capture.CaptureEvent;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
-import com.icecream.snorlax.module.pokemon.Pokemons;
-import com.icecream.snorlax.module.util.Log;
-import com.icecream.snorlax.module.util.RxBus;
-import com.icecream.snorlax.module.util.RxFuncitons;
+import com.icecream.snorlax.module.pokemon.Pokemon;
+import com.icecream.snorlax.module.pokemon.PokemonFactory;
+import com.icecream.snorlax.module.pokemon.PokemonProbability;
+import com.icecream.snorlax.module.pokemon.PokemonProbabilityFactory;
 
 import POGOProtos.Networking.Responses.CatchPokemonResponseOuterClass.CatchPokemonResponse.CatchStatus;
 import rx.Observable;
@@ -49,7 +52,8 @@ import static POGOProtos.Networking.Responses.IncenseEncounterResponseOuterClass
 public final class Encounter implements Feature {
 
 	private final MitmRelay mMitmRelay;
-	private final Pokemons mPokemons;
+	private final PokemonFactory mPokemonFactory;
+	private final PokemonProbabilityFactory mPokemonProbabilityFactory;
 	private final EncounterPreferences mEncounterPreferences;
 	private final EncounterNotification mEncounterNotification;
 	private final RxBus mRxBus;
@@ -58,9 +62,10 @@ public final class Encounter implements Feature {
 	private Subscription mRxBusSubscription;
 
 	@Inject
-	Encounter(MitmRelay mitmRelay, Pokemons pokemons, EncounterPreferences encounterPreferences, EncounterNotification encounterNotification, RxBus rxBus) {
+	Encounter(MitmRelay mitmRelay, PokemonFactory pokemonFactory, PokemonProbabilityFactory pokemonProbabilityFactory, EncounterPreferences encounterPreferences, EncounterNotification encounterNotification, RxBus rxBus) {
 		mMitmRelay = mitmRelay;
-		mPokemons = pokemons;
+		mPokemonFactory = pokemonFactory;
+		mPokemonProbabilityFactory = pokemonProbabilityFactory;
 		mEncounterPreferences = encounterPreferences;
 		mEncounterNotification = encounterNotification;
 		mRxBus = rxBus;
@@ -160,28 +165,28 @@ public final class Encounter implements Feature {
 	}
 
 	private void onEncounter(PokemonData pokemonData, CaptureProbability captureProbability) throws NullPointerException, IllegalArgumentException {
-		Pokemons.Data data = mPokemons.with(pokemonData);
-		Pokemons.Probability probability = mPokemons.with(captureProbability);
+		Pokemon pokemon = mPokemonFactory.with(pokemonData);
+		PokemonProbability probability = mPokemonProbabilityFactory.with(captureProbability);
 
 		mEncounterNotification.show(
-			data.getNumber(),
-			data.getName(),
-			data.getIvPercentage(),
-			data.getAttack(),
-			data.getDefense(),
-			data.getStamina(),
-			data.getCp(),
-			data.getLevel(),
-			data.getHp(),
-			data.getMoveFastWithFormat(),
-			data.getMoveFastMeta().getType().name(),
-			data.getMoveFastMeta().getPower(),
-			data.getMoveChargeWithFormat(),
-			data.getMoveChargeMeta().getType().name(),
-			data.getMoveChargeMeta().getPower(),
-			probability.getWithPokeball(),
-			probability.getWithGreatball(),
-			probability.getWithUltraball()
+			pokemon.getNumber(),
+			pokemon.getName(),
+			pokemon.getIv() * 100,
+			pokemon.getAttack(),
+			pokemon.getDefense(),
+			pokemon.getStamina(),
+			pokemon.getCp(),
+			pokemon.getLevel(),
+			pokemon.getHp(),
+			pokemon.getMoveFast().toString(),
+			pokemon.getMoveFast().getType().toString(),
+			pokemon.getMoveFast().getPower(),
+			pokemon.getMoveCharge().toString(),
+			pokemon.getMoveCharge().getType().toString(),
+			pokemon.getMoveCharge().getPower(),
+			probability.getPokeball(),
+			probability.getGreatball(),
+			probability.getUltraball()
 		);
 	}
 

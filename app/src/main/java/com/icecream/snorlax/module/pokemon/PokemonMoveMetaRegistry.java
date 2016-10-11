@@ -21,7 +21,7 @@ import java.util.EnumMap;
 import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class PokemonMoveMetaRegistry {
+final class PokemonMoveMetaRegistry {
 
 	private static EnumMap<PokemonMove, PokemonMoveMeta> sMeta = new EnumMap<>(PokemonMove.class);
 
@@ -1399,7 +1399,7 @@ public final class PokemonMoveMetaRegistry {
 		sMeta.put(PokemonMove.ROCK_SMASH_FAST, metam);
 	}
 
-	public static PokemonMoveMeta getMeta(PokemonMove id) {
+	static PokemonMoveMeta getMeta(PokemonMove id) {
 		return sMeta.get(id);
 	}
 

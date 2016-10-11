@@ -23,8 +23,8 @@ import javax.inject.Singleton;
 import android.app.Application;
 import android.util.LongSparseArray;
 
+import com.icecream.snorlax.common.rx.RxBus;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
-import com.icecream.snorlax.module.util.RxBus;
 
 import dagger.Module;
 import dagger.Provides;

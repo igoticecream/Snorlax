@@ -16,31 +16,23 @@
 
 package com.icecream.snorlax.module.pokemon;
 
-import com.icecream.snorlax.common.Strings;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public enum PokemonType {
-	NONE,
-	GRASS,
-	FIRE,
-	WATER,
-	BUG,
-	ELECTRIC,
-	POISON,
-	FAIRY,
-	NORMAL,
-	PSYCHIC,
-	FIGHTING,
-	DRAGON,
-	FLYING,
-	ICE,
-	ROCK,
-	GROUND,
-	GHOST,
-	STEEL,
-	DARK;
+import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
 
-	@Override
-	public String toString() {
-		return Strings.capitalize(name());
+@Singleton
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+public final class PokemonProbabilityFactory {
+
+	@Inject
+	PokemonProbabilityFactory() {
+	}
+
+	public PokemonProbability with(CaptureProbability captureProbability) throws NullPointerException {
+		if (captureProbability == null) {
+			throw new NullPointerException("CaptureProbability cannot be null");
+		}
+		return new PokemonProbability(captureProbability);
 	}
 }

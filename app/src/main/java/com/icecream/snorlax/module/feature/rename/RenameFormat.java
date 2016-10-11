@@ -25,7 +25,8 @@ import android.support.annotation.Nullable;
 
 import com.icecream.snorlax.common.Decimals;
 import com.icecream.snorlax.common.Strings;
-import com.icecream.snorlax.module.pokemon.Pokemons;
+import com.icecream.snorlax.module.pokemon.Pokemon;
+import com.icecream.snorlax.module.pokemon.PokemonFactory;
 
 import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
 import static java.lang.Integer.parseInt;
@@ -40,17 +41,17 @@ final class RenameFormat {
 	private static final String BASE_DEF = "DEF";
 	private static final String BASE_STA = "STA";
 
-	private final Pokemons mPokemons;
+	private final PokemonFactory mPokemonFactory;
 	private final RenamePreferences mRenamePreferences;
 
 	@Inject
-	RenameFormat(Pokemons pokemons, RenamePreferences renamePreferences) {
-		mPokemons = pokemons;
+	RenameFormat(PokemonFactory pokemonFactory, RenamePreferences renamePreferences) {
+		mPokemonFactory = pokemonFactory;
 		mRenamePreferences = renamePreferences;
 	}
 
 	String format(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
-		final Pokemons.Data data = mPokemons.with(pokemonData);
+		final Pokemon pokemon = mPokemonFactory.with(pokemonData);
 		final String format = mRenamePreferences.getFormat();
 
 		StringBuilder builder = new StringBuilder();
@@ -72,7 +73,7 @@ final class RenameFormat {
 				i = nextPercent;
 			}
 			else {
-				builder.append(processFormat(data, format.substring(i + 1, nextPercent)));
+				builder.append(processFormat(pokemon, format.substring(i + 1, nextPercent)));
 				i = nextPercent + 1;
 			}
 		}
@@ -80,28 +81,28 @@ final class RenameFormat {
 		return builder.toString();
 	}
 
-	private String processFormat(Pokemons.Data pokemonsData, String command) throws NullPointerException {
+	private String processFormat(Pokemon pokemon, String command) throws NullPointerException {
 		final String target = command.toUpperCase(Locale.getDefault());
 
 		String processed = null;
 
 		if (target.startsWith(BASE_NICK)) {
-			processed = processNick(target, pokemonsData.getName());
+			processed = processNick(target, pokemon.getName());
 		}
 		else if (target.startsWith(BASE_LVL)) {
-			processed = processLevel(target, pokemonsData.getLevel());
+			processed = processLevel(target, pokemon.getLevel());
 		}
 		else if (target.startsWith(BASE_IV)) {
-			processed = processIv(target, pokemonsData.getIvRatio() * 100);
+			processed = processIv(target, pokemon.getIv() * 100);
 		}
 		else if (target.startsWith(BASE_ATT)) {
-			processed = processAttack(target, pokemonsData.getAttack());
+			processed = processAttack(target, pokemon.getAttack());
 		}
 		else if (target.startsWith(BASE_DEF)) {
-			processed = processDefense(target, pokemonsData.getDefense());
+			processed = processDefense(target, pokemon.getDefense());
 		}
 		else if (target.startsWith(BASE_STA)) {
-			processed = processStamina(target, pokemonsData.getStamina());
+			processed = processStamina(target, pokemon.getStamina());
 		}
 
 		return Strings.isNullOrEmpty(processed) ? "%" + command + "%" : processed;
