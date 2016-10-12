@@ -21,6 +21,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.icecream.snorlax.common.Decimals;
@@ -60,6 +61,7 @@ final class RenameFormat {
 		mRenamePreferences = renamePreferences;
 	}
 
+	@NonNull
 	String format(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
 		final Pokemon pokemon = mPokemonFactory.with(pokemonData);
 		final String format = mRenamePreferences.getFormat();
@@ -79,6 +81,10 @@ final class RenameFormat {
 				i = len;
 			}
 			else if (format.substring(i + 1, nextPercent).contains(" ")) {
+				builder.append(format.substring(i, nextPercent));
+				i = nextPercent;
+			}
+			else if (format.substring(i, nextPercent).length() < 3) {
 				builder.append(format.substring(i, nextPercent));
 				i = nextPercent;
 			}
@@ -199,6 +205,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processMovePower(String target, int power) {
 		if (target.equals(BASE_MVP1) || target.equals(BASE_MVP2)) {
 			return Decimals.format(power, 1, 3, 0, 0);
@@ -209,6 +216,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processType(String target, PokemonType type) {
 		final int length = target.length();
 		final int dot = target.indexOf('.') + 1;
@@ -281,6 +289,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processAttack(String target, int attack) {
 		if (target.equals(BASE_ATT)) {
 			return Decimals.format(attack, 1, 2, 0, 0);
@@ -294,6 +303,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processDefense(String target, int defense) {
 		if (target.equals(BASE_DEF)) {
 			return Decimals.format(defense, 1, 2, 0, 0);
@@ -307,6 +317,7 @@ final class RenameFormat {
 		return null;
 	}
 
+	@Nullable
 	private String processStamina(String target, int stamina) {
 		if (target.equals(BASE_STA)) {
 			return Decimals.format(stamina, 1, 2, 0, 0);

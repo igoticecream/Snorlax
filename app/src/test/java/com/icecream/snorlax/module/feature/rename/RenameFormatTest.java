@@ -153,6 +153,12 @@ public class RenameFormatTest {
 		mExpected = "Sno 006.7 1/1/1 8.5";
 		setRenameFormat("%NICK.3% %IVP.1% %ATT%/%DEF%/%STA% %LVL%");
 	}
+
+	@Test
+	public void testSomeOthersCommandCombined() throws Exception {
+		mExpected = "Snorlax 6.7%,1/1/1,8.5";
+		setRenameFormat("%NICK% %IV%%,%ATT%/%DEF%/%STA%,%LVL%");
+	}
 	//endregion
 
 	//region Nick
