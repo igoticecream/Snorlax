@@ -132,4 +132,7 @@ dependencies {
     provided libraries.autoValueAnnotations
 
     provided libraries.xposed
+
+    provided libraries.lombok
+    annotationProcessor libraries.lombok
 }
