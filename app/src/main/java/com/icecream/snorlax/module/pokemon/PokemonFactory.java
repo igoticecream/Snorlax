@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.capture;
+package com.icecream.snorlax.module.pokemon;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,31 +24,27 @@ import android.content.res.Resources;
 import com.icecream.snorlax.R;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
-import de.robv.android.xposed.XSharedPreferences;
+import static POGOProtos.Data.PokemonDataOuterClass.PokemonData;
+import static POGOProtos.Enums.PokemonIdOuterClass.PokemonId;
 
 @Singleton
-final class CapturePreferences {
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+public final class PokemonFactory {
 
-	private final Resources mResources;
-	private final XSharedPreferences mPreferences;
+	private final String[] mNames;
 
 	@Inject
-	CapturePreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
-		mResources = resources;
-		mPreferences = preferences;
+	PokemonFactory(@Snorlax Resources resources) {
+		mNames = resources.getStringArray(R.array.pokemon);
 	}
 
-	boolean isEnabled() {
-		mPreferences.reload();
-		final boolean expected = getPreferenceDefaultValue();
-		return expected == getPreference(expected);
-	}
-
-	private boolean getPreferenceDefaultValue() {
-		return mResources.getBoolean(R.bool.preference_catch_notification_enable);
-	}
-
-	private boolean getPreference(boolean defaultValue) {
-		return mPreferences.getBoolean(mResources.getString(R.string.preference_catch_notification_enable_key), defaultValue);
+	public Pokemon with(PokemonData pokemonData) throws NullPointerException, IllegalArgumentException {
+		if (pokemonData == null) {
+			throw new NullPointerException("PokemonData cannot be null");
+		}
+		if (pokemonData.getPokemonId().equals(PokemonId.MISSINGNO) || pokemonData.getPokemonId().equals(PokemonId.UNRECOGNIZED)) {
+			throw new IllegalArgumentException("Unrecognized Pokemon Id");
+		}
+		return new Pokemon(pokemonData, mNames);
 	}
 }

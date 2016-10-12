@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.util;
+package com.icecream.snorlax.module.pokemon.probability;
 
-import java.util.Locale;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import de.robv.android.xposed.XposedBridge;
+import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
 
+@Singleton
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class Log {
+public final class PokemonProbabilityFactory {
 
-	public static void d(String format, Object... args) {
-		XposedBridge.log(String.format(Locale.US, format, args));
+	@Inject
+	PokemonProbabilityFactory() {
 	}
 
-	public static void e(Throwable throwable) {
-		XposedBridge.log(throwable);
-	}
-
-	public static void e(Throwable throwable, String format, Object... args) {
-		XposedBridge.log(new Exception(String.format(Locale.US, format, args), throwable));
-	}
-
-	public static void e(String format, Object... args) {
-		XposedBridge.log(new Exception(String.format(Locale.US, format, args)));
-	}
-
-	private Log() {
-		throw new AssertionError("No instances");
+	public PokemonProbability with(CaptureProbability captureProbability) throws NullPointerException {
+		if (captureProbability == null) {
+			throw new NullPointerException("CaptureProbability cannot be null");
+		}
+		return new PokemonProbability(captureProbability);
 	}
 }

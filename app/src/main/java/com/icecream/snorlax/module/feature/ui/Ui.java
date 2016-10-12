@@ -26,15 +26,15 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.icecream.snorlax.R;
+import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 import com.icecream.snorlax.module.feature.Feature;
-import com.icecream.snorlax.module.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 @Singleton
-public final class Ui implements Feature {
+final class Ui implements Feature {
 
 	private final ClassLoader mClassLoader;
 	private final LayoutInflater mLayoutInflater;

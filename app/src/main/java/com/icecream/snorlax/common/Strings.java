@@ -16,6 +16,8 @@
 
 package com.icecream.snorlax.common;
 
+import java.util.Locale;
+
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public final class Strings {
 
@@ -74,6 +76,26 @@ public final class Strings {
 		}
 		sb.append(string);
 		return sb.toString();
+	}
+
+	public static String capitalize(String[] string) {
+		if (string == null) {
+			return null;
+		}
+		StringBuilder builder = new StringBuilder();
+		for (String sub : string) {
+			builder
+				.append(capitalize(sub))
+				.append(" ");
+		}
+		return builder.toString().trim();
+	}
+
+	public static String capitalize(String string) {
+		if (isNullOrEmpty(string) || string.trim().length() < 2) {
+			return string;
+		}
+		return String.valueOf(string.charAt(0)).toUpperCase(Locale.US) + string.substring(1).toLowerCase(Locale.US);
 	}
 
 	private Strings() {

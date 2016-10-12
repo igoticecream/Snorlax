@@ -24,10 +24,11 @@ import javax.inject.Singleton;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.icecream.snorlax.common.rx.RxBus;
+import com.icecream.snorlax.common.rx.RxFuncitons;
+import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
-import com.icecream.snorlax.module.util.Log;
-import com.icecream.snorlax.module.util.RxFuncitons;
 
 import POGOProtos.Networking.Requests.RequestTypeOuterClass;
 import rx.Observable;
@@ -43,19 +44,28 @@ public final class Capture implements Feature {
 	private final MitmRelay mMitmRelay;
 	private final CapturePreferences mPreferences;
 	private final CaptureNotification mCaptureNotification;
+	private final RxBus mRxBus;
+
 	private Subscription mSubscription;
 
 	@Inject
-	Capture(MitmRelay mitmRelay, CapturePreferences preferences, CaptureNotification captureNotification) {
+	Capture(MitmRelay mitmRelay, CapturePreferences preferences, CaptureNotification captureNotification, RxBus rxBus) {
 		mMitmRelay = mitmRelay;
 		mPreferences = preferences;
 		mCaptureNotification = captureNotification;
+		mRxBus = rxBus;
 	}
 
 	private void onCapture(ByteString bytes) {
 		try {
 			CatchPokemonResponse response = CatchPokemonResponse.parseFrom(bytes);
-			mCaptureNotification.show(formatCapture(response.getStatus().name()));
+
+			final CatchPokemonResponse.CatchStatus status = response.getStatus();
+
+			if (mPreferences.isEnabled() && !status.equals(CatchPokemonResponse.CatchStatus.CATCH_MISSED)) {
+				mCaptureNotification.show(formatCapture(response.getStatus().name()));
+			}
+			mRxBus.post(new CaptureEvent(status));
 		}
 		catch (InvalidProtocolBufferException e) {
 			Log.d("CatchPokemonResponse failed: %s" + e.getMessage());
@@ -80,7 +90,6 @@ public final class Capture implements Feature {
 
 		mSubscription = mMitmRelay
 			.getObservable()
-			.compose(mPreferences.isEnabled())
 			.flatMap(envelope -> {
 				List<Request> requests = envelope.getRequest().getRequestsList();
 

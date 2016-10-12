@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
 	<item name="pokeball" type="drawable">@drawable/ic_pokeball</item>
-	<item name="github" type="drawable">@drawable/ic_github</item>
 </resources>

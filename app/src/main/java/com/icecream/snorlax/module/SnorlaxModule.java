@@ -23,6 +23,7 @@ import javax.inject.Singleton;
 import android.app.Application;
 import android.util.LongSparseArray;
 
+import com.icecream.snorlax.common.rx.RxBus;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 
 import dagger.Module;
@@ -69,5 +70,10 @@ final class SnorlaxModule {
 	@Singleton
 	LongSparseArray<List<Request>> provideLongSparseArray() {
 		return new LongSparseArray<>();
+	}
+
+	@Provides
+	RxBus provideRxBus() {
+		return RxBus.getInstance();
 	}
 }

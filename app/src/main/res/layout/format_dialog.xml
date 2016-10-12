@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<android.support.v4.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fillViewport="true"
+	>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:paddingBottom="@dimen/margin_vertical_dialog"
+		android:paddingEnd="@dimen/margin_horizontal_dialog"
+		android:paddingStart="@dimen/margin_horizontal_dialog"
+		android:paddingTop="@dimen/margin_vertical_dialog"
+		>
+
+		<!-- Nickname -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Nickname"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%NICK% : Shows pokemon full name. %NICK% -> Snorlax"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%NICK.#% : Trims pokemon name by #. %NICK.3% -> Sno"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Level -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Level"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%LVL% : Shows pokemon level with one decimal. %LVL% -> 2.5"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%LVL.#% : Round up and trims pokemon level by # decimals. %LVL.0% -> 3. %LVL.2% -> 2.50"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%LVLP% : Same as %LVL% but add leading zeros. %LVLP% -> 02.5"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%LVLP.#% : Same as %LVL.#% but add leading zeros. %LVLP.0% -> 03. %LVLP.2% -> 02.50"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Iv -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Iv"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%IV% : Shows pokemon iv with one decimal. %IV% -> 6.7"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%IV.#% : Round up and trims pokemon iv by # decimals. %IV.0% -> 7. %IV.2% -> 6.67"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%IVP% : Same as %IV% but add leading zeros. %IVP% -> 006.7"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%IVP.#% : Same as %IV.#% but add leading zeros. %IVP.0% -> 007. %IVP.2% -> 006.67"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Attack -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Attack"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%ATT% : Shows pokemon attack. %ATT% -> 1"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%ATTP% : Shows pokemon attack with leading zero. %ATTP% -> 01"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%ATTH% : Shows pokemon attack with hexadecimal format. %ATTH% (15) -> F"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Defense -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Defense"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%DEF% : Shows pokemon defense. %DEF% -> 1"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%DEFP% : Shows pokemon defense with leading zero. %DEFP% -> 01"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%DEFH% : Shows pokemon defense with hexadecimal format. %DEFH% (15) -> F"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Stamina -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Stamina"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%STA% : Shows pokemon stamina. %STA% -> 1"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%STAP% : Shows pokemon stamina with leading zero. %STAP% -> 01"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%STAH% : Shows pokemon stamina with hexadecimal format. %STAH% (15) -> F"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Move -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV1% : Shows pokemon fast attack. %MV1% -> Zen Headbutt"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV2% : Shows pokemon charge attack. %MV2% -> Zen Headbutt"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV1.#% : Trims pokemon fast attack by #. %MV1.3% -> Zen"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV2.#% : Trims pokemon charge attack by #. %MV2.3% -> Zen"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Move type -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move type"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT1% : Shows pokemon fast attack type. %MVT1% -> Psychic"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT2% : Shows pokemon charge attack type. %MVT2% -> Psychic"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT1.#% : Trims pokemon fast attack type by #. %MVT1.3% -> Psy"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT2.#% : Trims pokemon charge attack type by #. %MVT2.3% -> Psy"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Move power -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move power"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP1% : Shows pokemon fast attack power. %MVP1% -> 15"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP2% : Shows pokemon charge attack power. %MVP2% -> 15"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP1P% : Shows pokemon fast attack power with leading zero. %MVP1P% -> 015"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP2P% : Shows pokemon charge attack power with leading zero. %MVP2P% -> 015"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Pokemon type -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Pokemon type"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP1% : Shows pokemon first type. %TYP1% -> Normal"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP2% : Shows pokemon second type. %TYP2% -> Electric"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP1.#% : Trims pokemon first type by #. %TYP1.3% -> Nor"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP2.#% : Trims pokemon second type by #. %TYP2.3% -> Ele"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Note -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingTop="8dp"
+			android:text="Note: Snorlax wont format other that the above commands. This means that you could add a '%' next to the Iv like this: %IV%% -> 6.7%"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/black"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+	</LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

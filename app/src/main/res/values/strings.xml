@@ -4,6 +4,10 @@
 	<string name="about">About</string>
 	<string name="enable">Enable</string>
 	<string name="format">Format</string>
+	<string name="format_info">Format Info</string>
+
+	<string name="donation">Donation</string>
+	<string name="donation_info">I hope you are liking Snorlax!\n\nIf you do, you can support this project to keep coming with new features by buying me a cup of coffee (so i can code by night) or a BigMac at McDonalds. Click the button below and thanks you!</string>
 
 	<string name="about_version">Version %1$s</string>
 	<string name="about_author">By igoticecream (igoticecream@gmail.com)</string>
@@ -11,24 +15,24 @@
 	<string name="about_thanks">Special thanks for the github users chuparCh0pper for his PoGoIV_xposed project and ELynx for the method used to MITM PokemonGo communication.</string>
 	<string name="about_repository">https://github.com/igoticecream/Snorlax</string>
 
-	<string name="error_readable">Cannot make en world readable</string>
+	<string name="error_readable">Cannot make preference world readable</string>
 	<string name="error_xposed_disabled">Snorlax module is not enabled</string>
 	<string name="error_xposed_missing">Install xposed to use Snorlax</string>
 	<string name="error_pokemon_missing">Install Pokemon Go to launch it</string>
 
 	<string name="notification_title">%1$s (CP %2$d) LV %3$3.1f</string>
-	<string name="notification_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d] and HP %5$d</string>
+	<string name="notification_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
 
 	<string name="notification_categoty_stats_title">Stats</string>
-	<string name="notification_categoty_stats_content">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d] and HP %5$d</string>
+	<string name="notification_categoty_stats_content_iv">%1$4.1f%% [A/D/S %2$d/%3$d/%4$d]</string>
+	<string name="notification_categoty_stats_content_hp">HP %1$d</string>
 
 	<string name="notification_categoty_moves_title">Moves</string>
-	<string name="notification_categoty_moves_content">%1$s - %2$s</string>
+	<string name="notification_categoty_moves_fast">%1$s (%2$s %3$d)</string>
+	<string name="notification_categoty_moves_charge">%1$s (%2$s %3$d)</string>
 
 	<string name="notification_categoty_catch_title">Catch Rate</string>
-	<string name="notification_categoty_catch_content_pokeball">Pokeball %1$4.1f%% - %2$4.1f%%</string>
-	<string name="notification_categoty_catch_content_greatball">Greatball %1$4.1f%% - %2$4.1f%%</string>
-	<string name="notification_categoty_catch_content_ultraball">Ultraball %1$4.1f%% - %2$4.1f%%</string>
+	<string name="notification_categoty_catch_content">Poké %1$4.1f%% - Great %2$4.1f%% - Ultra %3$4.1f%%</string>
 
 	<string name="preference_general">General</string>
 	<string name="preference_general_mock_enable_key">general_mock_key</string>
@@ -40,10 +44,28 @@
 	<string name="preference_encounter_notification_enable_title">Enable encounter notifications</string>
 	<string name="preference_encounter_notification_enable_summary">Show encounter pokemons stats via system notification</string>
 
+	<string name="preference_encounter_dismiss_notification_enable_key">encounter_dismiss_notification_key</string>
+	<string name="preference_encounter_dismiss_notification_enable_title">Enable dismiss notifications</string>
+	<string name="preference_encounter_dismiss_notification_enable_summary">Automatically dismiss notifications when catch status is success or flee</string>
+
 	<string name="preference_rename">Show pokemons stats</string>
 	<string name="preference_rename_enable_key">rename_key</string>
-	<string name="preference_rename_enable_title">Enable inventory pokemons stats</string>
-	<string name="preference_rename_enable_summary">Show inventory pokemons stats on ingame pokemon list</string>
+	<string name="preference_rename_enable_title">Enable pokemons stats</string>
+	<string name="preference_rename_enable_summary">Show pokemons stats on their name at the inventory</string>
+
+	<string name="preference_rename_favorite_enable_key">rename_favorite_key</string>
+	<string name="preference_rename_favorite_enable_title">Show favorite pokemon stats</string>
+	<string name="preference_rename_favorite_enable_summary">Rename your favorite pokemons with their stats</string>
+
+	<string name="preference_rename_already_enable_key">rename_already_key</string>
+	<string name="preference_rename_already_enable_title">Show nicknamed pokemon stats</string>
+	<string name="preference_rename_already_enable_summary">Rename your already nicknamed pokemons with their stats</string>
+
+	<string name="preference_rename_format_enable_key">rename_format_key</string>
+	<string name="preference_rename_format_enable_title">Edit format</string>
+	<string name="preference_rename_format_enable_summary"/>
+	<string name="preference_rename_format_enable_default">%IVP.0% %ATT%/%DEF%/%STA% %LVL%</string>
+	<string name="preference_rename_format_enable_dialog_title">Enter a format</string>
 
 	<string name="preference_catch_notification">Catch Notifications</string>
 	<string name="preference_catch_notification_enable_key">catch_notification_key</string>

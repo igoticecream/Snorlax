@@ -16,6 +16,8 @@
 
 package com.icecream.snorlax.module.feature.encounter;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -40,9 +42,12 @@ import com.icecream.snorlax.R;
 import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
+import com.icecream.snorlax.module.pokemon.PokemonType;
 
 @Singleton
 final class EncounterNotification {
+
+	private static final int NOTIFICATION_ID = 1000;
 
 	private final Context mContext;
 	private final Resources mResources;
@@ -55,8 +60,12 @@ final class EncounterNotification {
 		mNotificationManager = notificationManager;
 	}
 
+	void cancel() {
+		mNotificationManager.cancel(NOTIFICATION_ID);
+	}
+
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move2, double pokeRate, double pokeBerryRate, double greatRate, double greatBerryRate, double ultraRate, double ultraBerryRate) {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate, String type1, String type2, String pokemonClass) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
@@ -71,19 +80,19 @@ final class EncounterNotification {
 					false
 				))
 				.setContentTitle(mContext.getString(R.string.notification_title, pokemonName, cp, level))
-				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina, hp))
+				.setContentText(mContext.getString(R.string.notification_content, iv, attack, defense, stamina))
 				.setStyle(new NotificationCompat.InboxStyle()
-					.addLine(mContext.getString(R.string.notification_categoty_stats_content, iv, attack, defense, stamina, hp))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content_iv, iv, attack, defense, stamina))
+					.addLine(mContext.getString(R.string.notification_categoty_stats_content_hp, hp))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_moves_title)))
-					.addLine(mContext.getString(R.string.notification_categoty_moves_content, move1, move2))
+					.addLine(mContext.getString(R.string.notification_categoty_moves_fast, move1, move1Type, move1Power))
+					.addLine(mContext.getString(R.string.notification_categoty_moves_charge, move2, move2Type, move2Power))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_pokeball, pokeRate, pokeBerryRate))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_greatball, greatRate, greatBerryRate))
-					.addLine(mContext.getString(R.string.notification_categoty_catch_content_ultraball, ultraRate, ultraBerryRate))
+					.addLine(mContext.getString(R.string.notification_categoty_catch_content, pokeRate, greatRate, ultraRate))
+					.setSummaryText(getFooter(type1, type2, pokemonClass))
 				)
 				.setColor(ContextCompat.getColor(mContext, R.color.red_700))
 				.setAutoCancel(true)
-				//.setVibrate(new long[]{0, 60, 300, 60})
 				.setVibrate(new long[]{0})
 				.setPriority(Notification.PRIORITY_MAX)
 				.setCategory(NotificationCompat.CATEGORY_ALARM)
@@ -91,7 +100,7 @@ final class EncounterNotification {
 
 			hideIcon(notification);
 
-			mNotificationManager.notify(1000, notification);
+			mNotificationManager.notify(NOTIFICATION_ID, notification);
 		});
 	}
 
@@ -112,6 +121,16 @@ final class EncounterNotification {
 		Spannable spannable = new SpannableString(text);
 		spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, spannable.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		return spannable;
+	}
+
+	@SuppressWarnings("StringBufferReplaceableByString")
+	private String getFooter(String type1, String type2, String pokemonClass) {
+		return new StringBuilder()
+			.append(type1)
+			.append(type2.equalsIgnoreCase(PokemonType.NONE.toString()) ? Strings.EMPTY : String.format(Locale.US, "/%s", type2))
+			.append(" - ")
+			.append(pokemonClass)
+			.toString();
 	}
 
 	@SuppressWarnings("deprecation")
