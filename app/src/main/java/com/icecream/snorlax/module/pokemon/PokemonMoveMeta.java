@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.icecream.snorlax.common.Strings;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -32,26 +33,29 @@ import static POGOProtos.Enums.PokemonMoveOuterClass.PokemonMove;
 public final class PokemonMoveMeta {
 
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private PokemonMove mMove;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private PokemonType mType;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private int mPower;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private int mAccuracy;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private double mCriticalChance;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private int mTime;
 	@Getter
-	@Setter
+	@Setter(AccessLevel.PACKAGE)
 	private int mEnergy;
+
+	PokemonMoveMeta() {
+	}
 
 	@Override
 	public String toString() {

@@ -16,6 +16,8 @@
 
 package com.icecream.snorlax.module.feature.encounter;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -40,6 +42,7 @@ import com.icecream.snorlax.R;
 import com.icecream.snorlax.common.Strings;
 import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
+import com.icecream.snorlax.module.pokemon.PokemonType;
 
 @Singleton
 final class EncounterNotification {
@@ -62,7 +65,7 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate) {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate, String type1, String type2, String pokemonClass) {
 		new Handler(Looper.getMainLooper()).post(() -> {
 
 			Notification notification = new NotificationCompat.Builder(mContext)
@@ -86,6 +89,7 @@ final class EncounterNotification {
 					.addLine(mContext.getString(R.string.notification_categoty_moves_charge, move2, move2Type, move2Power))
 					.addLine(getBoldSpannable(mContext.getString(R.string.notification_categoty_catch_title)))
 					.addLine(mContext.getString(R.string.notification_categoty_catch_content, pokeRate, greatRate, ultraRate))
+					.setSummaryText(getFooter(type1, type2, pokemonClass))
 				)
 				.setColor(ContextCompat.getColor(mContext, R.color.red_700))
 				.setAutoCancel(true)
@@ -117,6 +121,16 @@ final class EncounterNotification {
 		Spannable spannable = new SpannableString(text);
 		spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, spannable.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 		return spannable;
+	}
+
+	@SuppressWarnings("StringBufferReplaceableByString")
+	private String getFooter(String type1, String type2, String pokemonClass) {
+		return new StringBuilder()
+			.append(type1)
+			.append(type2.equalsIgnoreCase(PokemonType.NONE.toString()) ? Strings.EMPTY : String.format(Locale.US, "/%s", type2))
+			.append(" - ")
+			.append(pokemonClass)
+			.toString();
 	}
 
 	@SuppressWarnings("deprecation")

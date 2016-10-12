@@ -26,6 +26,7 @@ Check out the [Wiki page](https://github.com/igoticecream/Snorlax/wiki/Custom-fo
 - [Android SDK](http://developer.android.com/sdk/index.html)
 - Android N [(API 24) ](http://developer.android.com/tools/revisions/platforms.html)
 - Latest Android SDK Tools and build tools
+- Lombok plugin for Android Studio / IntelliJ IDEA
 - Your device must be rooted and the xposed framekwork must be installed. You can download the xposed framework [here](http://repo.xposed.info/module/de.robv.android.xposed.installer).
 
 ## Build source

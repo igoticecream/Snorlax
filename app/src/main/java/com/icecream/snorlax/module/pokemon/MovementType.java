@@ -16,30 +16,20 @@
 
 package com.icecream.snorlax.module.pokemon;
 
-import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
+import com.icecream.snorlax.common.Strings;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class PokemonProbability {
+public enum MovementType {
+	PSYCHIC,
+	FLYING,
+	ELETRIC,
+	NORMAL,
+	HOVERING,
+	JUMP,
+	ELECTRIC;
 
-	private final CaptureProbability mCaptureProbability;
-
-	PokemonProbability(CaptureProbability captureProbability) {
-		mCaptureProbability = captureProbability;
-	}
-
-	public double getPokeball() {
-		return getRate(0);
-	}
-
-	private double getRate(int index) {
-		return Math.round(Math.min(100.0d, mCaptureProbability.getCaptureProbability(index) * 100d) * 100.0d) / 100.0d;
-	}
-
-	public double getGreatball() {
-		return getRate(1);
-	}
-
-	public double getUltraball() {
-		return getRate(2);
+	@Override
+	public String toString() {
+		return Strings.capitalize(name().split("_"));
 	}
 }

@@ -41,6 +41,6 @@ public enum PokemonType {
 
 	@Override
 	public String toString() {
-		return Strings.capitalize(name());
+		return Strings.capitalize(name().split("_"));
 	}
 }

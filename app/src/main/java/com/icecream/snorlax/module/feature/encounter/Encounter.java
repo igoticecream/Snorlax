@@ -33,8 +33,8 @@ import com.icecream.snorlax.module.feature.capture.CaptureEvent;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
-import com.icecream.snorlax.module.pokemon.PokemonProbability;
-import com.icecream.snorlax.module.pokemon.PokemonProbabilityFactory;
+import com.icecream.snorlax.module.pokemon.probability.PokemonProbability;
+import com.icecream.snorlax.module.pokemon.probability.PokemonProbabilityFactory;
 
 import POGOProtos.Networking.Responses.CatchPokemonResponseOuterClass.CatchPokemonResponse.CatchStatus;
 import rx.Observable;
@@ -186,7 +186,10 @@ public final class Encounter implements Feature {
 			pokemon.getMoveCharge().getPower(),
 			probability.getPokeball(),
 			probability.getGreatball(),
-			probability.getUltraball()
+			probability.getUltraball(),
+			pokemon.getType1().toString(),
+			pokemon.getType2().toString(),
+			pokemon.getPokemonClass().toString()
 		);
 	}
 

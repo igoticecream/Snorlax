@@ -62,14 +62,6 @@ public final class Pokemon {
 		return mPokemonData.getIndividualStamina();
 	}
 
-	public PokemonMoveMeta getMoveFast() {
-		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove1());
-	}
-
-	public PokemonMoveMeta getMoveCharge() {
-		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove2());
-	}
-
 	public int getCp() {
 		return mPokemonData.getCp();
 	}
@@ -83,6 +75,26 @@ public final class Pokemon {
 	}
 
 	public int getNumber() {
-		return mPokemonData.getPokemonId().getNumber();
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getNumber();
+	}
+
+	public PokemonMoveMeta getMoveFast() {
+		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove1());
+	}
+
+	public PokemonMoveMeta getMoveCharge() {
+		return PokemonMoveMetaRegistry.getMeta(mPokemonData.getMove2());
+	}
+
+	public PokemonType getType1() {
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getType1();
+	}
+
+	public PokemonType getType2() {
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getType2();
+	}
+
+	public PokemonClass getPokemonClass() {
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getPokemonClass();
 	}
 }

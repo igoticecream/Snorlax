@@ -16,23 +16,22 @@
 
 package com.icecream.snorlax.module.pokemon;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.icecream.snorlax.common.Strings;
 
-import static POGOProtos.Data.Capture.CaptureProbabilityOuterClass.CaptureProbability;
-
-@Singleton
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public final class PokemonProbabilityFactory {
+public enum PokemonClass {
+	NONE,
+	VERY_COMMON,
+	COMMON,
+	UNCOMMON,
+	RARE,
+	VERY_RARE,
+	EPIC,
+	LEGENDARY,
+	MYTHIC;
 
-	@Inject
-	PokemonProbabilityFactory() {
-	}
-
-	public PokemonProbability with(CaptureProbability captureProbability) throws NullPointerException {
-		if (captureProbability == null) {
-			throw new NullPointerException("CaptureProbability cannot be null");
-		}
-		return new PokemonProbability(captureProbability);
+	@Override
+	public String toString() {
+		return Strings.capitalize(name().split("_"));
 	}
 }
