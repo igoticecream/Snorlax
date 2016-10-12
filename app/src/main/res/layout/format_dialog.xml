@@ -435,6 +435,58 @@
 			tools:ignore="HardcodedText"
 			/>
 
+		<!-- Pokemon type -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Pokemon type"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP1% : Shows pokemon first type. %TYP1% -> Normal"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP2% : Shows pokemon second type. %TYP2% -> Electric"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP1.#% : Trims pokemon first type by #. %TYP1.3% -> Nor"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%TYP2.#% : Trims pokemon second type by #. %TYP2.3% -> Ele"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
 		<!-- Note -->
 		<TextView
 			android:layout_width="wrap_content"
