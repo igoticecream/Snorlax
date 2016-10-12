@@ -98,44 +98,53 @@ public final class Broadcast implements Feature {
     private void onGetMapObjects(ByteString bytes) {
         try {
             GetMapObjectsResponseOuterClass.GetMapObjectsResponse response = GetMapObjectsResponseOuterClass.GetMapObjectsResponse.parseFrom(bytes);
-            mBroadcastNotification.show("onGetMapObjects");
+            mBroadcastNotification.show("com.icecream.snorlax.BROADCAST_GETMAPOBJECTS");
 
             List<MapCell> mapCellsList = response.getMapCellsList();
             JSONObject jsonArrayData = new JSONObject();
+            JSONArray jsonArrayWildPokemon = new JSONArray();
+            JSONArray jsonArrayNearbyPokemon = new JSONArray();
             int mapCellsCount = response.getMapCellsCount();
             for(int i = 0; i < mapCellsCount; i++) {
                 MapCell cell = mapCellsList.get(i);
 
                 int wildPokemonCount = cell.getWildPokemonsCount();
-                JSONArray jsonArrayWildPokemon = new JSONArray();
                 for (int j = 0; j < wildPokemonCount; j++) {
                     WildPokemonOuterClass.WildPokemon pokemon = cell.getWildPokemons(j);
                     JSONObject jsonPokemon = new JSONObject();
-                    jsonPokemon.put("id", pokemon.getEncounterId());
+                    jsonPokemon.put("encounterId", pokemon.getEncounterId());
                     jsonPokemon.put("pokedex", pokemon.getPokemonData().getPokemonIdValue());
                     jsonPokemon.put("timeTillHiddenMs", pokemon.getTimeTillHiddenMs());
                     jsonPokemon.put("lastModifiedTimestampMs", pokemon.getLastModifiedTimestampMs());
+                    jsonPokemon.put("latitude", pokemon.getLatitude());
+                    jsonPokemon.put("longitude", pokemon.getLongitude());
+                    jsonPokemon.put("spawnpointId", pokemon.getSpawnPointId());
+                    jsonPokemon.put("s2CellId", cell.getS2CellId());
                     jsonArrayWildPokemon.put(jsonPokemon);
                 }
-                jsonArrayData.put("wild", jsonArrayWildPokemon);
 
                 int nearbyPokemonCount = cell.getNearbyPokemonsCount();
-                JSONArray jsonArrayNearbyPokemon = new JSONArray();
                 for (int j = 0; j < nearbyPokemonCount; j++) {
                     NearbyPokemonOuterClass.NearbyPokemon pokemon = cell.getNearbyPokemons(j);
                     JSONObject jsonPokemon = new JSONObject();
-                    jsonPokemon.put("id", pokemon.getEncounterId());
+                    jsonPokemon.put("encounterId", pokemon.getEncounterId());
                     jsonPokemon.put("pokedex", pokemon.getPokemonIdValue());
+                    jsonPokemon.put("s2CellId", cell.getS2CellId());
                     jsonArrayNearbyPokemon.put(jsonPokemon);
                 }
-                jsonArrayData.put("nearby", jsonArrayNearbyPokemon);
+
+                int fortsCount = cell.getFortsCount();
             }
+            jsonArrayData.put("wild", jsonArrayWildPokemon);
+            jsonArrayData.put("nearby", jsonArrayNearbyPokemon);
 
             Intent getMapObjectsIntent = new Intent()
                     .setAction("com.icecream.snorlax.BROADCAST_GETMAPOBJECTS")
                     .setType("application/json")
                     .putExtra("data", jsonArrayData.toString());
             mBroadcastNotification.send(getMapObjectsIntent);
+
+            Log.d(jsonArrayData.toString());
         }
         catch (JSONException e){
             Log.d("GetMapObjectsResponse json exception: %s" + e.getMessage());
