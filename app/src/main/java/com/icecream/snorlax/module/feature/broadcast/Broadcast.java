@@ -17,21 +17,19 @@
 package com.icecream.snorlax.module.feature.broadcast;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.util.Pair;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.icecream.snorlax.common.rx.RxFuncitons;
+import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
-import com.icecream.snorlax.module.util.Log;
-import com.icecream.snorlax.module.util.RxFuncitons;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,7 +96,6 @@ public final class Broadcast implements Feature {
     private void onGetMapObjects(ByteString bytes) {
         try {
             GetMapObjectsResponseOuterClass.GetMapObjectsResponse response = GetMapObjectsResponseOuterClass.GetMapObjectsResponse.parseFrom(bytes);
-            mBroadcastNotification.show("com.icecream.snorlax.BROADCAST_GETMAPOBJECTS");
 
             List<MapCell> mapCellsList = response.getMapCellsList();
             JSONObject jsonArrayData = new JSONObject();
@@ -143,8 +140,6 @@ public final class Broadcast implements Feature {
                     .setType("application/json")
                     .putExtra("data", jsonArrayData.toString());
             mBroadcastNotification.send(getMapObjectsIntent);
-
-            Log.d(jsonArrayData.toString());
         }
         catch (JSONException e){
             Log.d("GetMapObjectsResponse json exception: %s" + e.getMessage());
