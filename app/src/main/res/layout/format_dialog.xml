@@ -279,6 +279,162 @@
 			tools:ignore="HardcodedText"
 			/>
 
+		<!-- Move -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV1% : Shows pokemon fast attack. %MV1% -> Zen Headbutt"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV2% : Shows pokemon charge attack. %MV2% -> Zen Headbutt"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV1.#% : Trims pokemon fast attack by #. %MV1.3% -> Zen"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MV2.#% : Trims pokemon charge attack by #. %MV2.3% -> Zen"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Move type -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move type"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT1% : Shows pokemon fast attack type. %MVT1% -> Psychic"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT2% : Shows pokemon charge attack type. %MVT2% -> Psychic"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT1.#% : Trims pokemon fast attack type by #. %MVT1.3% -> Psy"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVT2.#% : Trims pokemon charge attack type by #. %MVT2.3% -> Psy"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<!-- Move power -->
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Move power"
+			android:textAppearance="?android:attr/textAppearance"
+			android:textColor="@color/red_700"
+			android:textIsSelectable="true"
+			android:textStyle="bold"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP1% : Shows pokemon fast attack power. %MVP1% -> 15"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP2% : Shows pokemon charge attack power. %MVP2% -> 15"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP1P% : Shows pokemon fast attack power with leading zero. %MVP1P% -> 015"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:text="%MVP2P% : Shows pokemon charge attack power with leading zero. %MVP2P% -> 015"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:textIsSelectable="true"
+			tools:ignore="HardcodedText"
+			/>
+
 		<!-- Note -->
 		<TextView
 			android:layout_width="wrap_content"

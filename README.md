@@ -36,15 +36,15 @@ Pokemon stats custom formats:
   - %STAP% : Shows pokemon stamina with leading zero. %STAP% -> 01
   - %STAH% : Shows pokemon stamina with hexadecimal format. %STAH% (15) -> F
 - Move:
-  - %MV1% : Shows pokemon fast attack. %MV1% -> "Zen Headbutt"
-  - %MV2% : Shows pokemon charge attack. %MV2% -> "Zen Headbutt"
+  - %MV1% : Shows pokemon fast attack. %MV1% -> Zen Headbutt
+  - %MV2% : Shows pokemon charge attack. %MV2% -> Zen Headbutt
   - %MV1.#% : Trims pokemon fast attack by #. %MV1.3% -> Zen
   - %MV2.#% : Trims pokemon charge attack by #. %MV2.3% -> Zen
 - Move type:
-  - %MVT1% : Shows pokemon fast attack type. %MVT1% -> "Psychic"
-  - %MVT2% : Shows pokemon charge attack type. %MVT2% -> "Psychic"
-  - %MVT1.#% : Trims pokemon fast attack type by #. %MVT1.3% -> "Psy"
-  - %MVT2.#% : Trims pokemon charge attack type by #. %MVT2.3% -> "Psy"
+  - %MVT1% : Shows pokemon fast attack type. %MVT1% -> Psychic
+  - %MVT2% : Shows pokemon charge attack type. %MVT2% -> Psychic
+  - %MVT1.#% : Trims pokemon fast attack type by #. %MVT1.3% -> Psy
+  - %MVT2.#% : Trims pokemon charge attack type by #. %MVT2.3% -> Psy
 - Move power:
   - %MVP1% : Shows pokemon fast attack power. %MVP1% -> 15
   - %MVP2% : Shows pokemon charge attack power. %MVP2% -> 15
