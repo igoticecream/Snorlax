@@ -92,6 +92,9 @@ public class RenameFormatTest {
 
 		Mockito.doReturn(mPokemonMoveMeta).when(mPokemon).getMoveFast();
 		Mockito.doReturn(mPokemonMoveMeta).when(mPokemon).getMoveCharge();
+
+		Mockito.doReturn(PokemonType.NORMAL).when(mPokemon).getType1();
+		Mockito.doReturn(PokemonType.NONE).when(mPokemon).getType2();
 	}
 
 	@After
@@ -545,6 +548,57 @@ public class RenameFormatTest {
 	public void testMovePowerUnknown() throws Exception {
 		mExpected = "%MVP1W%";
 		setRenameFormat("%MVP1W%");
+	}
+	//endregion
+
+	//region Type
+
+	@Test
+	public void testType1() throws Exception {
+		mExpected = "Normal";
+		setRenameFormat("%TYP1%");
+	}
+
+	@Test
+	public void testType2() throws Exception {
+		mExpected = "None";
+		setRenameFormat("%TYP2%");
+	}
+
+	@Test
+	public void testTypeUnknown() throws Exception {
+		mExpected = "%TYP3%";
+		setRenameFormat("%TYP3%");
+	}
+
+	@Test
+	public void testTypeTruncateBelowLength() throws Exception {
+		mExpected = "Normal".substring(0, 3);
+		setRenameFormat("%TYP1.3%");
+	}
+
+	@Test
+	public void testTypeTruncateExactLength() throws Exception {
+		mExpected = "Normal";
+		setRenameFormat("%TYP1.6%");
+	}
+
+	@Test
+	public void testTypeTruncateAboveLength() throws Exception {
+		mExpected = "Normal";
+		setRenameFormat("%TYP1.30%");
+	}
+
+	@Test
+	public void testTypeTruncateIncompleteFormat() throws Exception {
+		mExpected = "%TYP1.%";
+		setRenameFormat("%TYP1.%");
+	}
+
+	@Test
+	public void testTypeTruncateWrongFormat() throws Exception {
+		mExpected = "%TYP1.1a%";
+		setRenameFormat("%TYP1.1a%");
 	}
 	//endregion
 }

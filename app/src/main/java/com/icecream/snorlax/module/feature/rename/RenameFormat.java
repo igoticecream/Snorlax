@@ -48,6 +48,8 @@ final class RenameFormat {
 	private static final String BASE_MVT2 = "MVT2";
 	private static final String BASE_MVP1 = "MVP1";
 	private static final String BASE_MVP2 = "MVP2";
+	private static final String BASE_TYP1 = "TYP1";
+	private static final String BASE_TYP2 = "TYP2";
 
 	private final PokemonFactory mPokemonFactory;
 	private final RenamePreferences mRenamePreferences;
@@ -115,6 +117,15 @@ final class RenameFormat {
 		else if (target.startsWith(BASE_MVP2)) {
 			processed = processMovePower(target, pokemon.getMoveCharge().getPower());
 		}
+
+		else if (target.startsWith(BASE_TYP1)) {
+			processed = processType(target, pokemon.getType1());
+		}
+		else if (target.startsWith(BASE_TYP2)) {
+			processed = processType(target, pokemon.getType2());
+		}
+
+
 		else if (target.startsWith(BASE_LVL)) {
 			processed = processLevel(target, pokemon.getLevel());
 		}
@@ -194,6 +205,23 @@ final class RenameFormat {
 		}
 		if (target.equals(BASE_MVP1.concat("P")) || target.equals(BASE_MVP2.concat("P"))) {
 			return Decimals.format(power, 3, 3, 0, 0);
+		}
+		return null;
+	}
+
+	private String processType(String target, PokemonType type) {
+		final int length = target.length();
+		final int dot = target.indexOf('.') + 1;
+
+		if (length == BASE_MVT1.length() || length == BASE_MVT2.length()) {
+			return type.toString();
+		}
+		else if (dot > 0 && length > dot) {
+			try {
+				return Strings.truncateAt(type.toString(), parseInt(target.substring(dot)));
+			}
+			catch (NumberFormatException ignored) {
+			}
 		}
 		return null;
 	}
