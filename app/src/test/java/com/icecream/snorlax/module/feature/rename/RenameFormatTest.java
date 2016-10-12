@@ -530,6 +530,18 @@ public class RenameFormatTest {
 	}
 
 	@Test
+	public void testMovePowerCharge() throws Exception {
+		mExpected = "5";
+		setRenameFormat("%MVP2%");
+	}
+
+	@Test
+	public void testMovePowerChargeWithPadding() throws Exception {
+		mExpected = "005";
+		setRenameFormat("%MVP2P%");
+	}
+
+	@Test
 	public void testMovePowerUnknown() throws Exception {
 		mExpected = "%MVP1W%";
 		setRenameFormat("%MVP1W%");
