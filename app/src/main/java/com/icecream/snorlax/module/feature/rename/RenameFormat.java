@@ -46,6 +46,8 @@ final class RenameFormat {
 	private static final String BASE_MV2 = "MV2";
 	private static final String BASE_MVT1 = "MVT1";
 	private static final String BASE_MVT2 = "MVT2";
+	private static final String BASE_MVP1 = "MVP1";
+	private static final String BASE_MVP2 = "MVP2";
 
 	private final PokemonFactory mPokemonFactory;
 	private final RenamePreferences mRenamePreferences;
@@ -106,6 +108,12 @@ final class RenameFormat {
 		}
 		else if (target.startsWith(BASE_MVT2)) {
 			processed = processMoveType(target, pokemon.getMoveCharge().getType());
+		}
+		else if (target.startsWith(BASE_MVP1)) {
+			processed = processMovePower(target, pokemon.getMoveFast().getPower());
+		}
+		else if (target.startsWith(BASE_MVP2)) {
+			processed = processMovePower(target, pokemon.getMoveCharge().getPower());
 		}
 		else if (target.startsWith(BASE_LVL)) {
 			processed = processLevel(target, pokemon.getLevel());
@@ -176,6 +184,16 @@ final class RenameFormat {
 			}
 			catch (NumberFormatException ignored) {
 			}
+		}
+		return null;
+	}
+
+	private String processMovePower(String target, int power) {
+		if (target.equals(BASE_MVP1) || target.equals(BASE_MVP2)) {
+			return Decimals.format(power, 1, 3, 0, 0);
+		}
+		if (target.equals(BASE_MVP1.concat("P")) || target.equals(BASE_MVP2.concat("P"))) {
+			return Decimals.format(power, 3, 3, 0, 0);
 		}
 		return null;
 	}

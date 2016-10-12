@@ -78,6 +78,7 @@ public class RenameFormatTest {
 		// Given
 		Mockito.doReturn(mPokemon).when(mPokemonFactory).with(mProto);
 
+		Mockito.doReturn(5).when(mPokemonMoveMeta).getPower();
 		Mockito.doReturn(PokemonType.PSYCHIC).when(mPokemonMoveMeta).getType();
 		Mockito.doReturn(PokemonMove.ZEN_HEADBUTT_FAST).when(mPokemonMoveMeta).getMove();
 		Mockito.doCallRealMethod().when(mPokemonMoveMeta).toString();
@@ -512,6 +513,26 @@ public class RenameFormatTest {
 	public void testMoveTypeTruncateWrongFormat() throws Exception {
 		mExpected = "%MVT1.1a%";
 		setRenameFormat("%MVT1.1a%");
+	}
+	//endregion
+
+	//region Move power
+	@Test
+	public void testMovePowerFast() throws Exception {
+		mExpected = "5";
+		setRenameFormat("%MVP1%");
+	}
+
+	@Test
+	public void testMovePowerFastWithPadding() throws Exception {
+		mExpected = "005";
+		setRenameFormat("%MVP1P%");
+	}
+
+	@Test
+	public void testMovePowerUnknown() throws Exception {
+		mExpected = "%MVP1W%";
+		setRenameFormat("%MVP1W%");
 	}
 	//endregion
 }
