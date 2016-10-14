@@ -43,8 +43,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import rx.Observable;
 
-import static com.icecream.snorlax.R.xml.preferences;
-
 public class HomeActivity extends AppCompatActivity {
 
 	@BindView(R.id.coordinator)
@@ -109,7 +107,8 @@ public class HomeActivity extends AppCompatActivity {
 	}
 
 	private void setupPreferences() {
-		PreferenceManager.setDefaultValues(this, preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.preferences_advanced, false);
 	}
 
 	private void setupViewPager() {

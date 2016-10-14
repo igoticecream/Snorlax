@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+
+	<PreferenceCategory
+		android:title="@string/preference_advanced_broadcast"
+		>
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_advanced_broadcast_map_enable"
+			android:key="@string/preference_advanced_broadcast_map_enable_key"
+			android:summary="@string/preference_advanced_broadcast_map_enable_summary"
+			android:title="@string/preference_advanced_broadcast_map_enable_title"
+			/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

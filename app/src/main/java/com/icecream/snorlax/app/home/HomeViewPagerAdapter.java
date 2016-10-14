@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.icecream.snorlax.app.home.settings.AdvancedFragment;
 import com.icecream.snorlax.app.home.settings.SettingsFragment;
 import com.icecream.snorlax.common.Strings;
 
@@ -44,7 +45,7 @@ class HomeViewPagerAdapter extends FragmentStatePagerAdapter {
 			case 0:
 				return new SettingsFragment();
 			case 1:
-				return new SettingsFragment();
+				return new AdvancedFragment();
 			default:
 				throw new RuntimeException("Unknown fragment at position " + String.valueOf(position));
 		}

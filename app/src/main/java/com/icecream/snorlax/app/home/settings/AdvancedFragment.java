@@ -21,10 +21,10 @@ import android.os.Bundle;
 import com.icecream.snorlax.R;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public class SettingsFragment extends BaseFragment {
+public class AdvancedFragment extends BaseFragment {
 
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-		addPreferencesFromResource(R.xml.preferences);
+		addPreferencesFromResource(R.xml.preferences_advanced);
 	}
 }
