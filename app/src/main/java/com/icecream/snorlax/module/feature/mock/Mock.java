@@ -23,8 +23,8 @@ import android.content.ContentResolver;
 import android.os.Bundle;
 import android.provider.Settings;
 
-import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
+import com.icecream.snorlax.module.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;

@@ -112,10 +112,13 @@ protobuf {
 }
 
 dependencies {
+    provided libraries.xposed
+
     compile libraries.superuser
     compile libraries.protobufLite
     compile libraries.supportLib
     compile libraries.timber
+    compile libraries.gson
 
     compile libraries.rxJava
     compile libraries.rxAndroid
@@ -128,11 +131,12 @@ dependencies {
     compile libraries.dagger
     annotationProcessor libraries.daggerCompiler
 
-    annotationProcessor libraries.autoValue
     provided libraries.autoValueAnnotations
-
-    provided libraries.xposed
+    annotationProcessor libraries.autoValue
 
     provided libraries.lombok
     annotationProcessor libraries.lombok
+
+    provided libraries.autoValueGson
+    annotationProcessor libraries.autoValueGson
 }

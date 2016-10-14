@@ -24,8 +24,8 @@ import javax.inject.Singleton;
 
 import android.os.Build;
 
-import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
+import com.icecream.snorlax.module.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;

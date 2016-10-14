@@ -23,8 +23,13 @@ import javax.inject.Singleton;
 import android.app.Application;
 import android.util.LongSparseArray;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapterFactory;
 import com.icecream.snorlax.common.rx.RxBus;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
+import com.icecream.snorlax.module.util.GsonAdapterFactory;
 
 import dagger.Module;
 import dagger.Provides;
@@ -75,5 +80,22 @@ final class SnorlaxModule {
 	@Provides
 	RxBus provideRxBus() {
 		return RxBus.getInstance();
+	}
+
+	@Provides
+	@Singleton
+	TypeAdapterFactory provideTypeAdapterFactory() {
+		return GsonAdapterFactory.create();
+	}
+
+	@Provides
+	@Singleton
+	Gson provideGson(TypeAdapterFactory typeAdapterFactory) {
+		return new GsonBuilder()
+			.serializeNulls()
+			.setPrettyPrinting()
+			.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+			.registerTypeAdapterFactory(typeAdapterFactory)
+			.create();
 	}
 }

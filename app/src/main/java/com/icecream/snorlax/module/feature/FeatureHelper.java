@@ -16,7 +16,7 @@
 
 package com.icecream.snorlax.module.feature;
 
-import com.icecream.snorlax.module.Log;
+import com.icecream.snorlax.module.util.Log;
 
 import rx.Observable;
 

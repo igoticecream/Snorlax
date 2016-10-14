@@ -16,143 +16,133 @@
 
 package com.icecream.snorlax.module.feature.broadcast;
 
-import android.content.Intent;
-import android.support.v4.util.Pair;
-
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import android.content.Intent;
+
+import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.common.rx.RxFuncitons;
-import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
+import com.icecream.snorlax.module.feature.mitm.MitmEnvelope;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
+import com.icecream.snorlax.module.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import POGOProtos.Map.Pokemon.NearbyPokemonOuterClass;
-import POGOProtos.Map.Pokemon.WildPokemonOuterClass;
-import POGOProtos.Networking.Responses.GetMapObjectsResponseOuterClass;
-import POGOProtos.Map.MapCellOuterClass.MapCell;
 import rx.Observable;
 import rx.Subscription;
 
+import static POGOProtos.Map.MapCellOuterClass.MapCell;
 import static POGOProtos.Networking.Requests.RequestOuterClass.Request;
 import static POGOProtos.Networking.Requests.RequestTypeOuterClass.RequestType;
+import static POGOProtos.Networking.Responses.GetMapObjectsResponseOuterClass.GetMapObjectsResponse;
 
 @Singleton
 public final class Broadcast implements Feature {
 
-    private final MitmRelay mMitmRelay;
-    private final BroadcastPreferences mPreferences;
-    private final BroadcastNotification mBroadcastNotification;
-    private Subscription mSubscription;
+	private final Gson mGson;
+	private final MitmRelay mMitmRelay;
+	private final BroadcastPreferences mPreferences;
+	private final BroadcastNotification mBroadcastNotification;
 
-    @Inject
-    Broadcast(MitmRelay mitmRelay, BroadcastPreferences preferences, BroadcastNotification notification) {
-        mMitmRelay = mitmRelay;
-        mPreferences = preferences;
-        mBroadcastNotification = notification;
-    }
+	private Subscription mSubscription;
 
-    @Override
-    public void subscribe() {
-        unsubscribe();
+	@Inject
+	Broadcast(Gson gson, MitmRelay mitmRelay, BroadcastPreferences preferences, BroadcastNotification notification) {
+		mGson = gson;
+		mMitmRelay = mitmRelay;
+		mPreferences = preferences;
+		mBroadcastNotification = notification;
+	}
 
-        mSubscription = mMitmRelay
-            .getObservable()
-            .compose(mPreferences.isEnabled())
-            .flatMap(envelope -> {
-                List<Request> requests = envelope.getRequest().getRequestsList();
+	@Override
+	public void subscribe() {
+		unsubscribe();
 
-                for (int i = 0; i < requests.size(); i++) {
-                    RequestType type = requests.get(i).getRequestType();
+		mSubscription = mMitmRelay
+			.getObservable()
+			.compose(mPreferences.isEnabled())
+			.compose(getMapObjectResponse())
+			.compose(onMapObjectResponse())
+			.subscribe(intent -> {
+			}/*mBroadcastNotification::send*/, Log::e);
+	}
 
-                    switch (type) {
-                        case GET_MAP_OBJECTS:
-                            return Observable.just(new Pair<>(type, envelope.getResponse().getReturns(i)));
-                        default:
-                            break;
-                    }
-                }
-                return Observable.empty();
-            })
-            .subscribe(pair -> {
-                switch (pair.first) {
-                    case GET_MAP_OBJECTS:
-                        onGetMapObjects(pair.second);
-                        break;
-                    default:
-                        break;
-                }
-            }, Log::e);
-    }
+	private Observable.Transformer<MitmEnvelope, GetMapObjectsResponse> getMapObjectResponse() {
+		return observable -> observable
+			.flatMap(envelope -> {
+				List<Request> requests = envelope.getRequest().getRequestsList();
 
-    private void onGetMapObjects(ByteString bytes) {
-        try {
-            GetMapObjectsResponseOuterClass.GetMapObjectsResponse response = GetMapObjectsResponseOuterClass.GetMapObjectsResponse.parseFrom(bytes);
+				for (int i = 0; i < requests.size(); i++) {
+					if (requests.get(i).getRequestType() == RequestType.GET_MAP_OBJECTS) {
+						return Observable.just(envelope.getResponse().getReturns(i));
+					}
+				}
+				return Observable.empty();
+			})
+			.flatMap(bytes -> Observable.fromCallable(() -> getMapObjectResponse(bytes)))
+			.doOnError(Log::e)
+			.onErrorResumeNext(throwable -> Observable.empty());
+	}
 
-            List<MapCell> mapCellsList = response.getMapCellsList();
-            JSONObject jsonArrayData = new JSONObject();
-            JSONArray jsonArrayWildPokemon = new JSONArray();
-            JSONArray jsonArrayNearbyPokemon = new JSONArray();
-            int mapCellsCount = response.getMapCellsCount();
-            for(int i = 0; i < mapCellsCount; i++) {
-                MapCell cell = mapCellsList.get(i);
+	private Observable.Transformer<GetMapObjectsResponse, Intent> onMapObjectResponse() {
+		return observable -> observable
+			.flatMapIterable(GetMapObjectsResponse::getMapCellsList)
+			.flatMap(mapCell -> Observable
+				.zip(
+					getWildPokemons(mapCell),
+					getMapPokemons(mapCell),
+					(wildPokemons, mapPokemons) -> BroadcastPokemon.create(mapPokemons, wildPokemons)
+				)
+				.filter(BroadcastPokemon::hasData)
+				.map(mGson::toJson)
+				.doOnNext(s -> Log.d(s))
+			)
+			.map(obj -> new Intent());
+	}
 
-                int wildPokemonCount = cell.getWildPokemonsCount();
-                for (int j = 0; j < wildPokemonCount; j++) {
-                    WildPokemonOuterClass.WildPokemon pokemon = cell.getWildPokemons(j);
-                    JSONObject jsonPokemon = new JSONObject();
-                    jsonPokemon.put("encounterId", pokemon.getEncounterId());
-                    jsonPokemon.put("pokedex", pokemon.getPokemonData().getPokemonIdValue());
-                    jsonPokemon.put("timeTillHiddenMs", pokemon.getTimeTillHiddenMs());
-                    jsonPokemon.put("lastModifiedTimestampMs", pokemon.getLastModifiedTimestampMs());
-                    jsonPokemon.put("latitude", pokemon.getLatitude());
-                    jsonPokemon.put("longitude", pokemon.getLongitude());
-                    jsonPokemon.put("spawnpointId", pokemon.getSpawnPointId());
-                    jsonPokemon.put("s2CellId", cell.getS2CellId());
-                    jsonArrayWildPokemon.put(jsonPokemon);
-                }
+	private GetMapObjectsResponse getMapObjectResponse(ByteString bytes) throws InvalidProtocolBufferException {
+		return GetMapObjectsResponse.parseFrom(bytes);
+	}
 
-                int nearbyPokemonCount = cell.getNearbyPokemonsCount();
-                for (int j = 0; j < nearbyPokemonCount; j++) {
-                    NearbyPokemonOuterClass.NearbyPokemon pokemon = cell.getNearbyPokemons(j);
-                    JSONObject jsonPokemon = new JSONObject();
-                    jsonPokemon.put("encounterId", pokemon.getEncounterId());
-                    jsonPokemon.put("pokedex", pokemon.getPokemonIdValue());
-                    jsonPokemon.put("s2CellId", cell.getS2CellId());
-                    jsonArrayNearbyPokemon.put(jsonPokemon);
-                }
+	private Observable<List<BroadcastPokemonWild>> getWildPokemons(MapCell mapCell) {
+		return Observable
+			.from(mapCell.getWildPokemonsList())
+			.map(pokemon -> BroadcastPokemonWild.create(
+				pokemon.getEncounterId(),
+				pokemon.getPokemonData().getPokemonId().getNumber(),
+				pokemon.getTimeTillHiddenMs(),
+				pokemon.getLastModifiedTimestampMs(),
+				pokemon.getLatitude(),
+				pokemon.getLongitude(),
+				pokemon.getSpawnPointId(),
+				mapCell.getS2CellId()
+			))
+			.toList()
+			.switchIfEmpty(Observable.just(null));
+	}
 
-                int fortsCount = cell.getFortsCount();
-            }
-            jsonArrayData.put("wild", jsonArrayWildPokemon);
-            jsonArrayData.put("nearby", jsonArrayNearbyPokemon);
+	private Observable<List<BroadcastPokemonMap>> getMapPokemons(MapCell mapCell) {
+		return Observable
+			.from(mapCell.getCatchablePokemonsList())
+			.map(pokemon -> BroadcastPokemonMap.create(
+				pokemon.getEncounterId(),
+				pokemon.getPokemonId().getNumber(),
+				pokemon.getExpirationTimestampMs(),
+				pokemon.getLatitude(),
+				pokemon.getLongitude(),
+				pokemon.getSpawnPointId(),
+				mapCell.getS2CellId()
+			))
+			.toList()
+			.switchIfEmpty(Observable.just(null));
+	}
 
-            Intent getMapObjectsIntent = new Intent()
-                    .setAction("com.icecream.snorlax.BROADCAST_GETMAPOBJECTS")
-                    .setType("application/json")
-                    .putExtra("data", jsonArrayData.toString());
-            mBroadcastNotification.send(getMapObjectsIntent);
-        }
-        catch (JSONException e){
-            Log.d("GetMapObjectsResponse json exception: %s" + e.getMessage());
-            Log.e(e);
-        }
-        catch (InvalidProtocolBufferException | NullPointerException e) {
-            Log.d("GetMapObjectsResponse failed: %s" + e.getMessage());
-            Log.e(e);
-        }
-    }
-
-    @Override
-    public void unsubscribe() {
-        RxFuncitons.unsubscribe(mSubscription);
-    }
+	@Override
+	public void unsubscribe() {
+		RxFuncitons.unsubscribe(mSubscription);
+	}
 }

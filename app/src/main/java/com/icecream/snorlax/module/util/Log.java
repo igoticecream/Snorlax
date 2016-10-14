@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module;
+package com.icecream.snorlax.module.util;
 
 import java.util.Locale;
 

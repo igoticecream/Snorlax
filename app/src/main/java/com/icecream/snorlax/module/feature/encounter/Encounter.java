@@ -27,7 +27,6 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.icecream.snorlax.common.rx.RxBus;
 import com.icecream.snorlax.common.rx.RxFuncitons;
-import com.icecream.snorlax.module.Log;
 import com.icecream.snorlax.module.feature.Feature;
 import com.icecream.snorlax.module.feature.capture.CaptureEvent;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
@@ -35,6 +34,7 @@ import com.icecream.snorlax.module.pokemon.Pokemon;
 import com.icecream.snorlax.module.pokemon.PokemonFactory;
 import com.icecream.snorlax.module.pokemon.probability.PokemonProbability;
 import com.icecream.snorlax.module.pokemon.probability.PokemonProbabilityFactory;
+import com.icecream.snorlax.module.util.Log;
 
 import POGOProtos.Networking.Responses.CatchPokemonResponseOuterClass.CatchPokemonResponse.CatchStatus;
 import rx.Observable;
