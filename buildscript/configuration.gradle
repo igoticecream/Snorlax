@@ -10,6 +10,9 @@ ext {
             pokemonGoId               : 'com.nianticlabs.pokemongo',
             xposedId                  : 'de.robv.android.xposed.installer',
 
+            // Broadcast intents
+            intentMap                 : "com.icecream.snorlax.BROADCAST_MAP",
+
             // Project build
             package                   : 'com.icecream.snorlax',
             minSdkVersion             : 19,

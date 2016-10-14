@@ -31,6 +31,8 @@ android {
         buildConfigField 'String', 'SNORLAX_ID', "\"${config.package}\""
         buildConfigField 'String', 'POKEMON_GO_ID', "\"${config.pokemonGoId}\""
 
+        buildConfigField 'String', 'INTENT_MAP', "\"${config.intentMap}\""
+
         archivesBaseName = project.name.toLowerCase()
     }
     buildTypes {

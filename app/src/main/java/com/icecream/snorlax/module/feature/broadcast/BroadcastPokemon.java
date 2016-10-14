@@ -29,8 +29,8 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public abstract class BroadcastPokemon {
 
-	static BroadcastPokemon create(@Nullable List<BroadcastPokemonMap> mapPokemons, @Nullable List<BroadcastPokemonWild> wildPokemons) {
-		return new AutoValue_BroadcastPokemon(mapPokemons, wildPokemons);
+	static BroadcastPokemon create(@Nullable List<BroadcastPokemonMap> maps, @Nullable List<BroadcastPokemonWild> wilds, @Nullable List<BroadcastPokemonNearby> nearbies, @Nullable List<BroadcastPokemonDisk> disks) {
+		return new AutoValue_BroadcastPokemon(wilds, maps, nearbies, disks);
 	}
 
 	public static TypeAdapter<BroadcastPokemon> typeAdapter(Gson gson) {
@@ -38,7 +38,7 @@ public abstract class BroadcastPokemon {
 	}
 
 	boolean hasData() {
-		return getMapPokemons() != null && getMapPokemons().size() > 0 || getWildPokemons() != null && getWildPokemons().size() > 0;
+		return getWildPokemons() != null && getWildPokemons().size() > 0 || getMapPokemons() != null && getMapPokemons().size() > 0 || getNearbyPokemons() != null && getNearbyPokemons().size() > 0 || getDiskPokemons() != null && getDiskPokemons().size() > 0;
 	}
 
 	@SerializedName("wild")
@@ -48,4 +48,12 @@ public abstract class BroadcastPokemon {
 	@SerializedName("map")
 	@Nullable
 	abstract List<BroadcastPokemonMap> getMapPokemons();
+
+	@SerializedName("nearby")
+	@Nullable
+	abstract List<BroadcastPokemonNearby> getNearbyPokemons();
+
+	@SerializedName("disk")
+	@Nullable
+	abstract List<BroadcastPokemonDisk> getDiskPokemons();
 }

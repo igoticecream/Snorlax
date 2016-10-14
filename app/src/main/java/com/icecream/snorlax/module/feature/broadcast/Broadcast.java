@@ -21,8 +21,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import android.content.Intent;
-
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -35,6 +33,7 @@ import com.icecream.snorlax.module.util.Log;
 import rx.Observable;
 import rx.Subscription;
 
+import static POGOProtos.Map.Fort.FortDataOuterClass.FortData;
 import static POGOProtos.Map.MapCellOuterClass.MapCell;
 import static POGOProtos.Networking.Requests.RequestOuterClass.Request;
 import static POGOProtos.Networking.Requests.RequestTypeOuterClass.RequestType;
@@ -67,8 +66,7 @@ public final class Broadcast implements Feature {
 			.compose(mPreferences.isEnabled())
 			.compose(getMapObjectResponse())
 			.compose(onMapObjectResponse())
-			.subscribe(intent -> {
-			}/*mBroadcastNotification::send*/, Log::e);
+			.subscribe(mBroadcastNotification::send, Log::e);
 	}
 
 	private Observable.Transformer<MitmEnvelope, GetMapObjectsResponse> getMapObjectResponse() {
@@ -88,24 +86,40 @@ public final class Broadcast implements Feature {
 			.onErrorResumeNext(throwable -> Observable.empty());
 	}
 
-	private Observable.Transformer<GetMapObjectsResponse, Intent> onMapObjectResponse() {
+	private Observable.Transformer<GetMapObjectsResponse, String> onMapObjectResponse() {
 		return observable -> observable
 			.flatMapIterable(GetMapObjectsResponse::getMapCellsList)
 			.flatMap(mapCell -> Observable
 				.zip(
-					getWildPokemons(mapCell),
 					getMapPokemons(mapCell),
-					(wildPokemons, mapPokemons) -> BroadcastPokemon.create(mapPokemons, wildPokemons)
+					getWildPokemons(mapCell),
+					getNearbyPokemons(mapCell),
+					getDiskPokemons(mapCell),
+					BroadcastPokemon::create
 				)
 				.filter(BroadcastPokemon::hasData)
 				.map(mGson::toJson)
-				.doOnNext(s -> Log.d(s))
-			)
-			.map(obj -> new Intent());
+			);
 	}
 
 	private GetMapObjectsResponse getMapObjectResponse(ByteString bytes) throws InvalidProtocolBufferException {
 		return GetMapObjectsResponse.parseFrom(bytes);
+	}
+
+	private Observable<List<BroadcastPokemonMap>> getMapPokemons(MapCell mapCell) {
+		return Observable
+			.from(mapCell.getCatchablePokemonsList())
+			.map(pokemon -> BroadcastPokemonMap.create(
+				pokemon.getEncounterId(),
+				pokemon.getPokemonId().getNumber(),
+				pokemon.getExpirationTimestampMs(),
+				pokemon.getLatitude(),
+				pokemon.getLongitude(),
+				pokemon.getSpawnPointId(),
+				mapCell.getS2CellId()
+			))
+			.toList()
+			.switchIfEmpty(Observable.just(null));
 	}
 
 	private Observable<List<BroadcastPokemonWild>> getWildPokemons(MapCell mapCell) {
@@ -125,16 +139,31 @@ public final class Broadcast implements Feature {
 			.switchIfEmpty(Observable.just(null));
 	}
 
-	private Observable<List<BroadcastPokemonMap>> getMapPokemons(MapCell mapCell) {
+	private Observable<List<BroadcastPokemonNearby>> getNearbyPokemons(MapCell mapCell) {
 		return Observable
-			.from(mapCell.getCatchablePokemonsList())
-			.map(pokemon -> BroadcastPokemonMap.create(
+			.from(mapCell.getNearbyPokemonsList())
+			.map(pokemon -> BroadcastPokemonNearby.create(
 				pokemon.getEncounterId(),
 				pokemon.getPokemonId().getNumber(),
-				pokemon.getExpirationTimestampMs(),
-				pokemon.getLatitude(),
-				pokemon.getLongitude(),
-				pokemon.getSpawnPointId(),
+				pokemon.getDistanceInMeters(),
+				mapCell.getS2CellId()
+			))
+			.toList()
+			.switchIfEmpty(Observable.just(null));
+	}
+
+	private Observable<List<BroadcastPokemonDisk>> getDiskPokemons(MapCell mapCell) {
+		return Observable
+			.from(mapCell.getFortsList())
+			.filter(FortData::hasLureInfo)
+			.map(fortData -> BroadcastPokemonDisk.create(
+				fortData.getLureInfo().getEncounterId(),
+				fortData.getLureInfo().getActivePokemonId().getNumber(),
+				fortData.getLureInfo().getLureExpiresTimestampMs(),
+				fortData.getLastModifiedTimestampMs(),
+				fortData.getLatitude(),
+				fortData.getLongitude(),
+				fortData.getLureInfo().getFortId(),
 				mapCell.getS2CellId()
 			))
 			.toList()
