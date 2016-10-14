@@ -30,6 +30,7 @@ import com.icecream.snorlax.module.feature.mitm.MitmEnvelope;
 import com.icecream.snorlax.module.feature.mitm.MitmRelay;
 import com.icecream.snorlax.module.util.Log;
 
+import POGOProtos.Enums.PokemonIdOuterClass;
 import rx.Observable;
 import rx.Subscription;
 
@@ -127,7 +128,7 @@ public final class Broadcast implements Feature {
 			.from(mapCell.getWildPokemonsList())
 			.map(pokemon -> BroadcastPokemonWild.create(
 				pokemon.getEncounterId(),
-				pokemon.getPokemonData().getPokemonId().getNumber(),
+				pokemon.hasPokemonData() ? pokemon.getPokemonData().getPokemonId().getNumber() : PokemonIdOuterClass.PokemonId.MISSINGNO_VALUE,
 				pokemon.getTimeTillHiddenMs(),
 				pokemon.getLastModifiedTimestampMs(),
 				pokemon.getLatitude(),
