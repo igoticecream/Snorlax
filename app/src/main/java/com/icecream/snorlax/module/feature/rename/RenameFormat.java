@@ -131,7 +131,6 @@ final class RenameFormat {
 			processed = processType(target, pokemon.getType2());
 		}
 
-
 		else if (target.startsWith(BASE_LVL)) {
 			processed = processLevel(target, pokemon.getLevel());
 		}

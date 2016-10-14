@@ -23,12 +23,12 @@ import android.app.Application;
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.app.SnorlaxApp;
 import com.icecream.snorlax.module.feature.FeatureHelper;
+import com.icecream.snorlax.module.feature.broadcast.Broadcast;
 import com.icecream.snorlax.module.feature.capture.Capture;
 import com.icecream.snorlax.module.feature.encounter.Encounter;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
 import com.icecream.snorlax.module.feature.rename.Rename;
-import com.icecream.snorlax.module.feature.broadcast.Broadcast;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;

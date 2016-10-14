@@ -28,18 +28,18 @@ import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
 @Singleton
 final class BroadcastNotification {
 
-    private final Context mContext;
+	private final Context mContext;
 
-    @Inject
-    BroadcastNotification(@PokemonGo Context context) {
-        mContext = context;
-    }
+	@Inject
+	BroadcastNotification(@PokemonGo Context context) {
+		mContext = context;
+	}
 
 	void send(final String message) {
 		Intent intent = new Intent()
 			.setAction(BuildConfig.INTENT_MAP)
 			.putExtra(BuildConfig.INTENT_MAP_DATA, message);
 
-        mContext.sendBroadcast(intent);
-    }
+		mContext.sendBroadcast(intent);
+	}
 }

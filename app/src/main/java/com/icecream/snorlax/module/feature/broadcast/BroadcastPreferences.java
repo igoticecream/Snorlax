@@ -21,7 +21,6 @@ import javax.inject.Singleton;
 
 import android.content.res.Resources;
 
-import com.icecream.snorlax.R;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import de.robv.android.xposed.XSharedPreferences;
@@ -30,29 +29,29 @@ import rx.Observable;
 @Singleton
 final class BroadcastPreferences {
 
-    private final Resources mResources;
-    private final XSharedPreferences mPreferences;
+	private final Resources mResources;
+	private final XSharedPreferences mPreferences;
 
-    @Inject
-    BroadcastPreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
-        mResources = resources;
-        mPreferences = preferences;
-    }
+	@Inject
+	BroadcastPreferences(@Snorlax Resources resources, XSharedPreferences preferences) {
+		mResources = resources;
+		mPreferences = preferences;
+	}
 
-    <T> Observable.Transformer<T, T> isEnabled() {
-        return observable -> observable
-                .doOnNext(t -> mPreferences.reload())
-                .filter(t -> {
-                    final boolean expected = getPreferenceDefaultValue();
-                    return expected == getPreference(expected);
-                });
-    }
+	<T> Observable.Transformer<T, T> isEnabled() {
+		return observable -> observable
+			.doOnNext(t -> mPreferences.reload())
+			.filter(t -> {
+				final boolean expected = getPreferenceDefaultValue();
+				return expected == getPreference(expected);
+			});
+	}
 
-    private boolean getPreferenceDefaultValue() {
-        return true;
-    }
+	private boolean getPreferenceDefaultValue() {
+		return true;
+	}
 
-    private boolean getPreference(boolean defaultValue) {
-        return true;
-    }
+	private boolean getPreference(boolean defaultValue) {
+		return true;
+	}
 }
