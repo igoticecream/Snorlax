@@ -21,6 +21,7 @@ import javax.inject.Singleton;
 
 import android.content.res.Resources;
 
+import com.icecream.snorlax.R;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 
 import de.robv.android.xposed.XSharedPreferences;
@@ -48,10 +49,10 @@ final class BroadcastPreferences {
 	}
 
 	private boolean getPreferenceDefaultValue() {
-		return true;
+		return mResources.getBoolean(R.bool.preference_advanced_broadcast_map_enable);
 	}
 
 	private boolean getPreference(boolean defaultValue) {
-		return true;
+		return mPreferences.getBoolean(mResources.getString(R.string.preference_advanced_broadcast_map_enable_key), defaultValue);
 	}
 }
