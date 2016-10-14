@@ -32,6 +32,7 @@ android {
         buildConfigField 'String', 'POKEMON_GO_ID', "\"${config.pokemonGoId}\""
 
         buildConfigField 'String', 'INTENT_MAP', "\"${config.intentMap}\""
+        buildConfigField 'String', 'INTENT_MAP_DATA', "\"${config.intentMapData}\""
 
         archivesBaseName = project.name.toLowerCase()
     }

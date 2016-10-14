@@ -27,7 +27,7 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public abstract class BroadcastPokemonNearby {
 
-	static BroadcastPokemonNearby create(@Nullable Long encounterId, @Nullable Integer pokedex, @Nullable Float distanceInMeters, @Nullable long s2CellId) {
+	static BroadcastPokemonNearby create(@Nullable Long encounterId, @Nullable Integer pokedex, @Nullable Float distanceInMeters, @Nullable Long s2CellId) {
 		return new AutoValue_BroadcastPokemonNearby(encounterId, pokedex, distanceInMeters, s2CellId);
 	}
 

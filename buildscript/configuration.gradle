@@ -12,6 +12,7 @@ ext {
 
             // Broadcast intents
             intentMap                 : "com.icecream.snorlax.BROADCAST_MAP",
+            intentMapData             : "MAP_DATA",
 
             // Project build
             package                   : 'com.icecream.snorlax',
@@ -20,7 +21,7 @@ ext {
             versionName               : version.tag,
 
             // Project build
-            buildToolsVersion         : '24.0.2',
+            buildToolsVersion         : '24.0.3',
             compileSdkVersion         : 24,
             targetSdkVersion          : 24,
             sourceCompatibilityVersion: JavaVersion.VERSION_1_8,

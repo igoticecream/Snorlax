@@ -14,32 +14,17 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.broadcast;
+package com.icecream.snorlax.app.receiver;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.icecream.snorlax.BuildConfig;
-import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
+@SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
+public class MapReceiver extends BroadcastReceiver {
 
-@Singleton
-final class BroadcastNotification {
+	@Override
+	public void onReceive(Context context, Intent intent) {
 
-    private final Context mContext;
-
-    @Inject
-    BroadcastNotification(@PokemonGo Context context) {
-        mContext = context;
-    }
-
-	void send(final String message) {
-		Intent intent = new Intent()
-			.setAction(BuildConfig.INTENT_MAP)
-			.putExtra(BuildConfig.INTENT_MAP_DATA, message);
-
-        mContext.sendBroadcast(intent);
-    }
+	}
 }
