@@ -38,7 +38,7 @@ final class HomeDialog {
 	static AlertDialog showDonation(Context context) {
 		return new AlertDialog.Builder(context, R.style.Snorlax_Dialog)
 			.setTitle(R.string.donation)
-			.setView(LayoutInflater.from(context).inflate(R.layout.donation_dialog, null, false))
+			.setView(LayoutInflater.from(context).inflate(R.layout.dialog_donation, null, false))
 			.setPositiveButton("Paypal", (dialog, which) -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9PPGNDJEC33E"))))
 			.setCancelable(true)
 			.show();
@@ -46,7 +46,7 @@ final class HomeDialog {
 
 	@SuppressLint("InflateParams")
 	static AlertDialog showAbout(Context context) {
-		View view = LayoutInflater.from(context).inflate(R.layout.about_dialog, null, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.dialog_about, null, false);
 
 		TextView version = (TextView) view.findViewById(R.id.version);
 		version.setText(context.getString(R.string.about_version, BuildConfig.VERSION_NAME));
@@ -72,7 +72,7 @@ final class HomeDialog {
 	static AlertDialog showFormatInfo(Context context) {
 		return new AlertDialog.Builder(context)
 			.setTitle(R.string.format_info)
-			.setView(LayoutInflater.from(context).inflate(R.layout.format_dialog, null, false))
+			.setView(LayoutInflater.from(context).inflate(R.layout.dialog_format, null, false))
 			.setPositiveButton(android.R.string.ok, null)
 			.setCancelable(true)
 			.show();

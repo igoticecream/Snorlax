@@ -23,6 +23,9 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -33,7 +36,6 @@ import android.view.MenuItem;
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.R;
 import com.icecream.snorlax.app.SnorlaxApp;
-import com.icecream.snorlax.app.settings.SettingsFragment;
 import com.jakewharton.rxbinding.view.RxView;
 
 import butterknife.BindView;
@@ -51,6 +53,10 @@ public class HomeActivity extends AppCompatActivity {
 	Toolbar mToolbar;
 	@BindView(R.id.fab)
 	FloatingActionButton mFab;
+	@BindView(R.id.tab)
+	TabLayout mTabLayout;
+	@BindView(R.id.pager)
+	ViewPager mViewPager;
 
 	private Unbinder mUnbinder;
 	private AlertDialog mAboutDialog;
@@ -60,11 +66,12 @@ public class HomeActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home_activity);
+		setContentView(R.layout.activity_home);
 		mUnbinder = ButterKnife.bind(this);
 
 		setupToolbar();
 		setupPreferences();
+		setupViewPager();
 
 		if (savedInstanceState == null) {
 			Observable
@@ -103,11 +110,33 @@ public class HomeActivity extends AppCompatActivity {
 
 	private void setupPreferences() {
 		PreferenceManager.setDefaultValues(this, preferences, false);
+	}
 
-		getSupportFragmentManager()
-			.beginTransaction()
-			.replace(R.id.content, new SettingsFragment())
-			.commit();
+	private void setupViewPager() {
+		PagerAdapter adapter = new HomeViewPagerAdapter(getSupportFragmentManager());
+
+		mViewPager.setAdapter(adapter);
+		mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
+		mTabLayout.setupWithViewPager(mViewPager);
+		mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+			@Override
+			public void onTabSelected(TabLayout.Tab tab) {
+				if (mViewPager != null) {
+					mViewPager.setCurrentItem(tab.getPosition());
+				}
+			}
+
+			@Override
+			public void onTabUnselected(TabLayout.Tab tab) {
+
+			}
+
+			@Override
+			public void onTabReselected(TabLayout.Tab tab) {
+
+			}
+		});
 	}
 
 	private void checkIfFirstTime() {

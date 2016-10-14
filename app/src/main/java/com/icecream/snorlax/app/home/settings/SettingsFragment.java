@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.app.settings;
+package com.icecream.snorlax.app.home.settings;
+
+import java.io.File;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,18 +26,15 @@ import android.widget.Toast;
 
 import com.icecream.snorlax.R;
 
+import eu.chainfire.libsuperuser.Shell;
 import timber.log.Timber;
-
-import static com.icecream.snorlax.R.xml.preferences;
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-	private SettingsReadable mSettingsReadable;
-
 	@Override
 	public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-		addPreferencesFromResource(preferences);
+		addPreferencesFromResource(R.xml.preferences);
 	}
 
 	@Override
@@ -51,17 +50,21 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 	@Override
 	public void onPause() {
 		super.onPause();
-		SettingsReadable settingsReadable = new SettingsReadable(
-			getActivity().getApplicationInfo(),
-			getPreferenceManager()
-		);
 
-		settingsReadable
-			.setReadable()
-			.subscribe(Timber::d, throwable -> {
-				Timber.e(throwable);
-				showReadableError();
+		try {
+			File directory = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+			File file = new File(directory, getPreferenceManager().getSharedPreferencesName() + ".xml");
+
+			Shell.SH.run(new String[]{
+				String.format("chmod 755 %s", directory.getAbsolutePath()),
+				String.format("chmod 664 %s", file.getAbsolutePath())
 			});
+
+			Timber.d("World readable to preferences Ok");
+		}
+		catch (Exception e) {
+			showReadableError();
+		}
 	}
 
 	private void showReadableError() {

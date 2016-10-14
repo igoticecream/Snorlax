@@ -33,11 +33,21 @@
 				app:popupTheme="@style/Snorlax.PopupOverlay"
 				/>
 
+			<android.support.design.widget.TabLayout
+				android:id="@+id/tab"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				app:tabIndicatorColor="@color/grey_900"
+				app:tabSelectedTextColor="@color/grey_900"
+				app:tabTextColor="@color/grey_600"
+				/>
+
 		</android.support.design.widget.AppBarLayout>
 
 
-		<FrameLayout
-			android:id="@+id/content"
+		<android.support.v4.view.ViewPager
+			android:id="@+id/pager"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
