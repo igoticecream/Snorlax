@@ -16,8 +16,6 @@
 
 package com.icecream.snorlax.module.feature.selinux;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -26,8 +24,6 @@ import com.icecream.snorlax.module.util.Log;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
-import eu.chainfire.libsuperuser.Shell;
-import rx.Observable;
 
 @Singleton
 public final class SELinux implements Feature {
@@ -60,20 +56,13 @@ public final class SELinux implements Feature {
 		mUnhookAttest = XposedHelpers.findAndHookMethod(safetyNet, "attest", byte[].class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				if (mSELinuxPreferences.isEnabled()) {
-					List<String> outputs = Shell.SH.run(new String[]{"getenforce"});
+				final Boolean selinux = SELinuxHelper.isPermissive();
 
-					if (outputs != null) {
-						Observable.from(outputs).forEach(output -> {
-							if (output.equalsIgnoreCase("Permissive")) {
-								mIsPermissive = true;
-							}
-						});
+				if (mSELinuxPreferences.isEnabled() && selinux != null && selinux) {
+					mIsPermissive = true;
 
-						if (mIsPermissive) {
-							Shell.SU.run(new String[]{"setenforce 1"});
-						}
-					}
+					SELinuxHelper.setEnforce(SELinuxHelper.ENFORCING);
+					mSELinuxNotification.show(SELinuxHelper.getEnforce());
 				}
 			}
 		});
@@ -81,11 +70,11 @@ public final class SELinux implements Feature {
 		mUnhookAttestResponse = XposedHelpers.findAndHookMethod(safetyNet, "attestResponse", byte[].class, String.class, new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				mSELinuxNotification.show(param.args[1] != null);
-
-				if (mSELinuxPreferences.isEnabled() && mIsPermissive) {
-					Shell.SU.run(new String[]{"setenforce 0"});
+				if (mIsPermissive) {
 					mIsPermissive = false;
+
+					SELinuxHelper.setEnforce(SELinuxHelper.PERMISSIVE);
+					mSELinuxNotification.show(SELinuxHelper.getEnforce());
 				}
 			}
 		});
