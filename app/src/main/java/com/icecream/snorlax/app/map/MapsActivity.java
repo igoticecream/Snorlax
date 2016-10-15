@@ -64,7 +64,13 @@ public class MapsActivity extends AppCompatActivity {
 	}
 
 	private void setupMap() {
-		mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+		mMapFragment = SupportMapFragment.newInstance();
+
+		getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.container, mMapFragment)
+			.commit();
+
 		mMapFragment.getMapAsync(map -> {
 			mMap = map;
 
@@ -77,8 +83,12 @@ public class MapsActivity extends AppCompatActivity {
 				Timber.d("Cannot find map style");
 			}
 
-			LatLng ucab = new LatLng(10.465231614627145, -66.97446120465979);
-			mMap.addMarker(new MarkerOptions().position(ucab).title("Marker in Sydney"));
+			final LatLng ucab = new LatLng(10.465231614627145, -66.97446120465979);
+
+			mMap.addMarker(new MarkerOptions()
+				.position(ucab)
+				.title("UCAB")
+			);
 			mMap.moveCamera(CameraUpdateFactory.newLatLng(ucab));
 		});
 	}
