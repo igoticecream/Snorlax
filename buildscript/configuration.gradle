@@ -33,6 +33,9 @@ ext {
 
             // CI
             predex                    : true,
-            ci                        : System.getenv("CI").equals("true")
+            ci                        : System.getenv("CI").equals("true"),
+
+            // Keys
+            maps                      : 'AIzaSyCyqwKX32qgo4gPfJ_dJijncEktt-TJ39c'
     ]
 }
