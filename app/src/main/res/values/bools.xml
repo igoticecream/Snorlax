@@ -9,4 +9,5 @@
 	<bool name="preference_catch_notification_enable">true</bool>
 	<bool name="preference_hatch_notification_enable">true</bool>
 	<bool name="preference_advanced_broadcast_map_enable">true</bool>
+	<bool name="preference_advanced_miscellaneous_selinux_enable">true</bool>
 </resources>

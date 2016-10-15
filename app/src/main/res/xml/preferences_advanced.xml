@@ -16,4 +16,17 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="@string/preference_advanced_miscellaneous"
+		>
+
+		<SwitchPreference
+			android:defaultValue="@bool/preference_advanced_miscellaneous_selinux_enable"
+			android:key="@string/preference_advanced_miscellaneous_selinux_enable_key"
+			android:summary="@string/preference_advanced_miscellaneous_selinux_enable_summary"
+			android:title="@string/preference_advanced_miscellaneous_selinux_enable_title"
+			/>
+
+	</PreferenceCategory>
+
 </PreferenceScreen>

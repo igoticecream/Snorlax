@@ -9,6 +9,9 @@
 	<string name="donation">Donation</string>
 	<string name="donation_info">I hope you are liking Snorlax!\n\nIf you do, you can support this project to keep coming with new features by buying me a cup of coffee (so i can code by night) or a BigMac at McDonalds. Click the button below and thanks you!</string>
 
+	<string name="attest_ok">Root bypassed</string>
+	<string name="attest_error">Root detected</string>
+
 	<string name="about_version">Version %1$s</string>
 	<string name="about_author">By igoticecream (igoticecream@gmail.com)</string>
 	<string name="about_github">This project is open source under the Apache 2.0 license. If you like this module, an star to this repo on my Github will help me a lot.</string>
@@ -81,5 +84,10 @@
 	<string name="preference_advanced_broadcast_map_enable_key">map_enable_key</string>
 	<string name="preference_advanced_broadcast_map_enable_title">Broadcast map pokemons</string>
 	<string name="preference_advanced_broadcast_map_enable_summary">Send an intent with data about wild, map, nearby and disk pokemons around</string>
+
+	<string name="preference_advanced_miscellaneous">Miscellaneous</string>
+	<string name="preference_advanced_miscellaneous_selinux_enable_key">selinux_enable_key</string>
+	<string name="preference_advanced_miscellaneous_selinux_enable_title">SELinux to enforcing</string>
+	<string name="preference_advanced_miscellaneous_selinux_enable_summary">If permissive, change SELinux mode to enforcing during SafetyNet attestation</string>
 
 </resources>

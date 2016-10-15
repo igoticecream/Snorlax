@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.icecream.snorlax.module.feature.safetynet;
+package com.icecream.snorlax.module.feature.selinux;
 
 import java.util.List;
 
@@ -30,17 +30,21 @@ import eu.chainfire.libsuperuser.Shell;
 import rx.Observable;
 
 @Singleton
-public final class SafetyNet implements Feature {
+public final class SELinux implements Feature {
 
 	private final ClassLoader mClassLoader;
+	private final SELinuxPreferences mSELinuxPreferences;
+	private final SELinuxNotification mSELinuxNotification;
 
 	private boolean mIsPermissive;
 	private XC_MethodHook.Unhook mUnhookAttest;
 	private XC_MethodHook.Unhook mUnhookAttestResponse;
 
 	@Inject
-	SafetyNet(ClassLoader classLoader) {
+	SELinux(ClassLoader classLoader, SELinuxPreferences seLinuxPreferences, SELinuxNotification seLinuxNotification) {
 		mClassLoader = classLoader;
+		mSELinuxPreferences = seLinuxPreferences;
+		mSELinuxNotification = seLinuxNotification;
 	}
 
 	@Override
@@ -56,20 +60,19 @@ public final class SafetyNet implements Feature {
 		mUnhookAttest = XposedHelpers.findAndHookMethod(safetyNet, "attest", byte[].class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				Log.d("-Attest started");
+				if (mSELinuxPreferences.isEnabled()) {
+					List<String> outputs = Shell.SH.run(new String[]{"getenforce"});
 
-				List<String> outputs = Shell.SH.run(new String[]{"getenforce"});
+					if (outputs != null) {
+						Observable.from(outputs).forEach(output -> {
+							if (output.equalsIgnoreCase("Permissive")) {
+								mIsPermissive = true;
+							}
+						});
 
-				if (outputs != null) {
-					Observable.from(outputs).forEach(output -> {
-						if (output.equalsIgnoreCase("Permissive")) {
-							mIsPermissive = true;
+						if (mIsPermissive) {
+							Shell.SU.run(new String[]{"setenforce 1"});
 						}
-					});
-
-					if (mIsPermissive) {
-						Log.d("    -SELinux is permissive... switching to enforcing");
-						Shell.SU.run(new String[]{"setenforce 1"});
 					}
 				}
 			}
@@ -78,10 +81,9 @@ public final class SafetyNet implements Feature {
 		mUnhookAttestResponse = XposedHelpers.findAndHookMethod(safetyNet, "attestResponse", byte[].class, String.class, new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-				Log.d("-Attest ended: %b", param.args[1] != null);
+				mSELinuxNotification.show(param.args[1] != null);
 
-				if (mIsPermissive) {
-					Log.d("    -Switching back to permissive");
+				if (mSELinuxPreferences.isEnabled() && mIsPermissive) {
 					Shell.SU.run(new String[]{"setenforce 0"});
 					mIsPermissive = false;
 				}

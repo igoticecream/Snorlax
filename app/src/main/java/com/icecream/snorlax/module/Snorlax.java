@@ -29,7 +29,7 @@ import com.icecream.snorlax.module.feature.encounter.Encounter;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
 import com.icecream.snorlax.module.feature.rename.Rename;
-import com.icecream.snorlax.module.feature.safetynet.SafetyNet;
+import com.icecream.snorlax.module.feature.selinux.SELinux;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -54,7 +54,7 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	@Inject
 	Broadcast mBroadcast;
 	@Inject
-	SafetyNet mSafetyNet;
+	SELinux mSELinux;
 
 	private XSharedPreferences mXSharedPreferences;
 
@@ -84,7 +84,7 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 				getComponent((Application) param.thisObject, classLoader, mXSharedPreferences).inject(Snorlax.this);
 
 				FeatureHelper.subscribe(
-					mSafetyNet,
+					mSELinux,
 					mMitm,
 					mMock,
 					mCapture,
@@ -98,7 +98,7 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 				FeatureHelper.unsubscribe(
-					mSafetyNet,
+					mSELinux,
 					mMitm,
 					mMock,
 					mCapture,
