@@ -56,9 +56,9 @@ public final class SELinux implements Feature {
 		mUnhookAttest = XposedHelpers.findAndHookMethod(safetyNet, "attest", byte[].class, new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				final Boolean selinux = SELinuxHelper.isPermissive();
+				final Boolean permissive = SELinuxHelper.isPermissive();
 
-				if (mSELinuxPreferences.isEnabled() && selinux != null && selinux) {
+				if (mSELinuxPreferences.isEnabled() && permissive != null && permissive) {
 					mIsPermissive = true;
 
 					SELinuxHelper.setEnforce(SELinuxHelper.ENFORCING);
