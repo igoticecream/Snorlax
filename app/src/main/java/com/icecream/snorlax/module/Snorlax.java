@@ -26,10 +26,10 @@ import com.icecream.snorlax.module.feature.FeatureHelper;
 import com.icecream.snorlax.module.feature.broadcast.Broadcast;
 import com.icecream.snorlax.module.feature.capture.Capture;
 import com.icecream.snorlax.module.feature.encounter.Encounter;
-import com.icecream.snorlax.module.feature.gps.Gps;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
 import com.icecream.snorlax.module.feature.rename.Rename;
+import com.icecream.snorlax.module.feature.safetynet.SafetyNet;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -54,7 +54,7 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	@Inject
 	Broadcast mBroadcast;
 	@Inject
-	Gps mGps;
+	SafetyNet mSafetyNet;
 
 	private XSharedPreferences mXSharedPreferences;
 
@@ -83,13 +83,29 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				getComponent((Application) param.thisObject, classLoader, mXSharedPreferences).inject(Snorlax.this);
 
-				FeatureHelper.subscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast, mGps);
+				FeatureHelper.subscribe(
+					mSafetyNet,
+					mMitm,
+					mMock,
+					mCapture,
+					mEncounter,
+					mRename,
+					mBroadcast
+				);
 			}
 		});
 		XposedHelpers.findAndHookMethod(Application.class, "onTerminate", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast, mGps);
+				FeatureHelper.unsubscribe(
+					mSafetyNet,
+					mMitm,
+					mMock,
+					mCapture,
+					mEncounter,
+					mRename,
+					mBroadcast
+				);
 			}
 		});
 	}
