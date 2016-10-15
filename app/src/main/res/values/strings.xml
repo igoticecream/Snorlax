@@ -81,5 +81,6 @@
 	<string name="preference_advanced_broadcast_map_enable_key">map_enable_key</string>
 	<string name="preference_advanced_broadcast_map_enable_title">Broadcast map pokemons</string>
 	<string name="preference_advanced_broadcast_map_enable_summary">Send an intent with data about wild, map, nearby and disk pokemons around</string>
+	<string name="title_activity_maps">Map</string>
 
 </resources>

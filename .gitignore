@@ -8,6 +8,5 @@ buildscript/signing/*
 *.iml
 Thumbs.db
 local.properties
-gradle.properties
 !buildscript/signing/sign.gradle
 !buildscript/signing/debug.keystore

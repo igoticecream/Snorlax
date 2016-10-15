@@ -77,7 +77,9 @@ android {
         targetCompatibility config.targetCompatibilityVersion
     }
     packagingOptions {
+        exclude 'build-data.properties'
         exclude 'META-INF/rxjava.properties'
+        exclude 'jsr305_annotations/Jsr305_annotations.gwt.xml'
     }
     sourceSets {
         main {
@@ -117,9 +119,11 @@ protobuf {
 dependencies {
     provided libraries.xposed
 
+    compile libraries.supportLib
+    compile libraries.gms
+
     compile libraries.superuser
     compile libraries.protobufLite
-    compile libraries.supportLib
     compile libraries.timber
     compile libraries.gson
 

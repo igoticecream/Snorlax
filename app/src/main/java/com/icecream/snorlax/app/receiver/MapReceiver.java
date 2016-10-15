@@ -20,11 +20,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.icecream.snorlax.BuildConfig;
+
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public class MapReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		if (intent.getAction().equalsIgnoreCase(BuildConfig.INTENT_MAP) && intent.hasExtra(BuildConfig.INTENT_MAP_DATA)) {
+			onReceiveMap(intent.getStringExtra(BuildConfig.INTENT_MAP_DATA));
+		}
+	}
 
+	private void onReceiveMap(String json) {
 	}
 }

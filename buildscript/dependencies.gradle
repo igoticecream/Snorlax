@@ -13,6 +13,7 @@ ext {
     ]
     libraryVersions = [
             supportLib          : '24.2.1',
+            gms                 : '9.6.1',
             xposed              : '82',
             rxJava              : '1.2.1',
             rxAndroid           : '1.2.1',
@@ -29,7 +30,8 @@ ext {
             timber              : '4.3.1',
             superuser           : '1.0.0.201608240809',
             lombok              : '1.12.6',
-            gson                : '2.7'
+            gson                : '2.7',
+            maps                : '0.4.4'
     ]
 
     pluginLibraries = [
@@ -80,6 +82,10 @@ ext {
             xposed              : [
                     "de.robv.android.xposed:api:${libraryVersions.xposed}",
                     "de.robv.android.xposed:api:${libraryVersions.xposed}:sources"
+            ],
+            gms                 : [
+                    "com.google.android.gms:play-services-maps:${libraryVersions.gms}",
+                    "com.google.maps.android:android-maps-utils:${libraryVersions.maps}"
             ],
             rxJava              : "io.reactivex:rxjava:${libraryVersions.rxJava}",
             rxAndroid           : "io.reactivex:rxandroid:${libraryVersions.rxAndroid}",
