@@ -7,6 +7,13 @@
 	>
 
 	<item
+		android:id="@+id/map"
+		android:orderInCategory="100"
+		android:title="@string/map"
+		app:showAsAction="never"
+		/>
+
+	<item
 		android:id="@+id/format_info"
 		android:orderInCategory="100"
 		android:title="@string/format_info"

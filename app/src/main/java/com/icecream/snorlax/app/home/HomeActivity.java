@@ -18,6 +18,7 @@ package com.icecream.snorlax.app.home;
 
 import java.util.concurrent.TimeUnit;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -36,6 +37,7 @@ import android.view.MenuItem;
 import com.icecream.snorlax.BuildConfig;
 import com.icecream.snorlax.R;
 import com.icecream.snorlax.app.SnorlaxApp;
+import com.icecream.snorlax.app.map.MapsActivity;
 import com.jakewharton.rxbinding.view.RxView;
 
 import butterknife.BindView;
@@ -171,6 +173,9 @@ public class HomeActivity extends AppCompatActivity {
 				return true;
 			case R.id.donation:
 				mDonationDialog = HomeDialog.showDonation(this);
+				return true;
+			case R.id.map:
+				startActivity(new Intent(this, MapsActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
