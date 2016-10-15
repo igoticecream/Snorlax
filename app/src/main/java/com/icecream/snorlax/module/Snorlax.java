@@ -26,6 +26,7 @@ import com.icecream.snorlax.module.feature.FeatureHelper;
 import com.icecream.snorlax.module.feature.broadcast.Broadcast;
 import com.icecream.snorlax.module.feature.capture.Capture;
 import com.icecream.snorlax.module.feature.encounter.Encounter;
+import com.icecream.snorlax.module.feature.gps.Gps;
 import com.icecream.snorlax.module.feature.mitm.Mitm;
 import com.icecream.snorlax.module.feature.mock.Mock;
 import com.icecream.snorlax.module.feature.rename.Rename;
@@ -52,6 +53,8 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 	Rename mRename;
 	@Inject
 	Broadcast mBroadcast;
+	@Inject
+	Gps mGps;
 
 	private XSharedPreferences mXSharedPreferences;
 
@@ -80,13 +83,13 @@ public class Snorlax implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 				getComponent((Application) param.thisObject, classLoader, mXSharedPreferences).inject(Snorlax.this);
 
-				FeatureHelper.subscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast);
+				FeatureHelper.subscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast, mGps);
 			}
 		});
 		XposedHelpers.findAndHookMethod(Application.class, "onTerminate", new XC_MethodHook() {
 			@Override
 			protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast);
+				FeatureHelper.unsubscribe(mMitm, mMock, mCapture, mEncounter, mRename, mBroadcast, mGps);
 			}
 		});
 	}
