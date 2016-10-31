@@ -48,6 +48,11 @@
 	<string name="preference_encounter_dismiss_notification_enable_title">Enable dismiss notifications</string>
 	<string name="preference_encounter_dismiss_notification_enable_summary">Automatically dismiss notifications when catch status is success or flee</string>
 
+	<string name="preference_lure_category">Lure</string>
+	<string name="preference_lure_enable_key">lure_key</string>
+	<string name="preference_lure_enable_title">Show lure remaining time</string>
+	<string name="preference_lure_enable_summary">Show lure remaining time after the owner name</string>
+
 	<string name="preference_rename">Show pokemons stats</string>
 	<string name="preference_rename_enable_key">rename_key</string>
 	<string name="preference_rename_enable_title">Enable pokemons stats</string>

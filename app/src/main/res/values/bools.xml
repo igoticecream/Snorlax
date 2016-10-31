@@ -3,6 +3,7 @@
 	<bool name="preference_general_mock_enable">true</bool>
 	<bool name="preference_encounter_notification_enable">true</bool>
 	<bool name="preference_encounter_dismiss_notification_enable">true</bool>
+	<bool name="preference_lure_enable">true</bool>
 	<bool name="preference_rename_enable">true</bool>
 	<bool name="preference_rename_favorite_enable">true</bool>
 	<bool name="preference_rename_already_enable">true</bool>
