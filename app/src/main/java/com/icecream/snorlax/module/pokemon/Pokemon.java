@@ -97,4 +97,20 @@ public final class Pokemon {
 	public PokemonClass getPokemonClass() {
 		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getPokemonClass();
 	}
+
+	public double getPokemonBaseWeight() {
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getPokedexWeightKg();
+	}
+
+	public double getPokemonWeight() {
+		return mPokemonData.getWeightKg();
+	}
+
+	public double getPokemonBaseHeight() {
+		return PokemonMetaRegistry.getMeta(mPokemonData.getPokemonId()).getPokedexHeightM();
+	}
+
+	public double getPokemonHeight() {
+		return mPokemonData.getHeightM();
+	}
 }
