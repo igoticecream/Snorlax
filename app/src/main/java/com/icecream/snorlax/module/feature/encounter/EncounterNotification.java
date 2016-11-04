@@ -44,6 +44,8 @@ import com.icecream.snorlax.module.context.pokemongo.PokemonGo;
 import com.icecream.snorlax.module.context.snorlax.Snorlax;
 import com.icecream.snorlax.module.pokemon.PokemonType;
 
+import POGOProtos.Enums.PokemonIdOuterClass.PokemonId;
+
 @Singleton
 final class EncounterNotification {
 
@@ -65,15 +67,21 @@ final class EncounterNotification {
 	}
 
 	@SuppressWarnings("deprecation")
-	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate, String type1, String type2, String pokemonClass) {
-		new Handler(Looper.getMainLooper()).post(() -> {
+	void show(int pokemonNumber, String pokemonName, double iv, int attack, int defense, int stamina, int cp, double level, int hp, double baseWeight, double weight, double baseHeight, double height, String move1, String move1Type, int move1Power, String move2, String move2Type, int move2Power, double pokeRate, double greatRate, double ultraRate, String type1, String type2, String pokemonClass) {
+		final double weightFactor = weight / baseWeight;
+		final double heightFactor = height / baseHeight;
+		final MODIFIER resourceModifier = (pokemonNumber == PokemonId.PIKACHU_VALUE ? MODIFIER.FAN
+			: pokemonNumber == PokemonId.RATTATA_VALUE && heightFactor < 0.75 ? MODIFIER.YOUNGSTER
+			: pokemonNumber == PokemonId.MAGIKARP_VALUE && weightFactor > 1.25 ? MODIFIER.FISHERMAN
+			: MODIFIER.NO);
 
+		new Handler(Looper.getMainLooper()).post(() -> {
 			Notification notification = new NotificationCompat.Builder(mContext)
 				.setSmallIcon(R.drawable.ic_pokeball)
 				.setLargeIcon(Bitmap.createScaledBitmap(
 					BitmapFactory.decodeResource(
 						mResources,
-						getPokemonResourceId(pokemonNumber)
+						getPokemonResourceId(pokemonNumber, resourceModifier)
 					),
 					getLargeIconWidth(),
 					getLargeIconHeight(),
@@ -105,8 +113,8 @@ final class EncounterNotification {
 	}
 
 	@DrawableRes
-	private int getPokemonResourceId(int pokemonNumber) {
-		return mResources.getIdentifier("pokemon_" + Strings.padStart(String.valueOf(pokemonNumber), 3, '0'), "drawable", mContext.getPackageName());
+	private int getPokemonResourceId(int pokemonNumber, MODIFIER modifier) {
+		return mResources.getIdentifier("pokemon_" + Strings.padStart(String.valueOf(pokemonNumber), 3, '0') + (modifier != MODIFIER.NO ? "_" + modifier.name().toLowerCase(Locale.US) : ""), "drawable", mContext.getPackageName());
 	}
 
 	private int getLargeIconWidth() {
@@ -144,5 +152,12 @@ final class EncounterNotification {
 				notification.bigContentView.setViewVisibility(iconId, View.INVISIBLE);
 			}
 		}
+	}
+
+	private enum MODIFIER {
+		NO,
+		FISHERMAN,
+		YOUNGSTER,
+		FAN;
 	}
 }
